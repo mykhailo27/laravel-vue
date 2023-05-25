@@ -1,5 +1,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+import tw_elements from 'tw-elements/dist/plugin.cjs';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -8,8 +9,11 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
-    ],
 
+        './resources/js/**/*.js',
+        './node_modules/tw-elements/dist/js/**/*.js'
+    ],
+    darkMode: "class",
     theme: {
         extend: {
             fontFamily: {
@@ -18,5 +22,5 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [forms, tw_elements],
 };
