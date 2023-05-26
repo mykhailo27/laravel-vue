@@ -1,20 +1,23 @@
 <script setup>
 import { ref } from 'vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
 import SidenavToggler from "@/Layouts/SidenavToggler.vue";
 import Sidenav from "@/Layouts/Sidenav.vue";
+import Breadcrumb from "@/Layouts/Breadcrumb.vue";
 
 const showingNavigationDropdown = ref(false);
+
+const links = ref([
+    {name: 'dashboard', route: 'dashboard'},
+    {name: 'profile', route: 'dashboard'}
+]);
+
 </script>
 
 <template>
     <div class="max-h-screen overflow-auto">
-
         <!-- Page Sidenav -->
         <sidenav />
 
@@ -27,11 +30,9 @@ const showingNavigationDropdown = ref(false);
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
-                        <div class="flex">
-                            <!-- Navigation Links -->
-                            <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                Dashboard
-                            </NavLink>
+                        <div class="flex items-center">
+                            <!-- Breadcrumb Links -->
+                            <Breadcrumb :links="links"/>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
