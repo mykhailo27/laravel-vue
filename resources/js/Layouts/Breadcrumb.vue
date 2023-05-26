@@ -5,24 +5,23 @@ import {onMounted, ref} from "vue";
 
 const links = ref([])
 
-function getVisitedLinks() {
-    const items = localStorage.getItem("visited_links");
-    return JSON.parse(items)
-}
-
 function updateVisitedLinks() {
-    const visited_links = [
-        {name: 'dashboard', route: 'dashboard'},
-        {name: 'profile', route: 'dashboard'}
-    ];
+    let current_link = '';
 
-    localStorage.setItem("visited_links", JSON.stringify(visited_links));
+    return location.pathname.split('/')
+        .filter(crumb => crumb !== '')
+        .map(crumb => {
+            current_link += `/${crumb}`;
+
+            return {
+                name: crumb,
+                route: current_link
+            }
+        })
 }
 
 onMounted(function () {
-    updateVisitedLinks();
-
-    links.value = getVisitedLinks()
+    links.value = updateVisitedLinks();
 })
 
 </script>
