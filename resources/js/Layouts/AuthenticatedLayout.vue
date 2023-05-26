@@ -9,11 +9,6 @@ import Breadcrumb from "@/Layouts/Breadcrumb.vue";
 
 const showingNavigationDropdown = ref(false);
 
-const links = ref([
-    {name: 'dashboard', route: 'dashboard'},
-    {name: 'profile', route: 'dashboard'}
-]);
-
 </script>
 
 <template>
@@ -32,7 +27,7 @@ const links = ref([
                     <div class="flex justify-between h-16">
                         <div class="flex items-center">
                             <!-- Breadcrumb Links -->
-                            <Breadcrumb :links="links"/>
+                            <Breadcrumb/>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">

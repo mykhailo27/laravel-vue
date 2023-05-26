@@ -1,12 +1,29 @@
 <script setup>
 
 import Link from "@/Components/Link.vue";
+import {onMounted, ref} from "vue";
 
-defineProps({
-    links: {
-        type: Array,
-    },
-});
+const links = ref([])
+
+function getVisitedLinks() {
+    const items = localStorage.getItem("visited_links");
+    return JSON.parse(items)
+}
+
+function updateVisitedLinks() {
+    const visited_links = [
+        {name: 'dashboard', route: 'dashboard'},
+        {name: 'profile', route: 'dashboard'}
+    ];
+
+    localStorage.setItem("visited_links", JSON.stringify(visited_links));
+}
+
+onMounted(function () {
+    updateVisitedLinks();
+
+    links.value = getVisitedLinks()
+})
 
 </script>
 
