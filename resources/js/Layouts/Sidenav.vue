@@ -3,6 +3,7 @@
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import { Sidenav, Ripple, initTE } from "tw-elements";
 import {onMounted} from "vue";
+import Link from "@/Components/Link.vue";
 
 onMounted(function () {
     initTE({ Sidenav, Ripple });
@@ -53,12 +54,12 @@ onMounted(function () {
         data-te-sidenav-position="absolute"
         data-te-sidenav-accordion="true">
         <!-- Logo -->
-        <a href="{{ route('dashboard') }}"
+        <Link :href="route('dashboard')"
            class="flex items-center justify-start px-6 border-b-2 border-solid border-gray-100 py-3.5 outline-none"
            data-te-ripple-init data-te-ripple-color="primary">
             <ApplicationLogo class="block h-9 pr-4 w-auto fill-current text-gray-800"/>
             <span>Wardrobe</span>
-        </a>
+        </Link>
         <ul id="scroll-container"
             class="relative m-0 list-none px-[0.2rem] pb-12"
             data-te-sidenav-menu-ref>
