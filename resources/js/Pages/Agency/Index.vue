@@ -65,7 +65,7 @@ function details(id) {
                     <Td>{{ (new Date(agency.created_at)).toLocaleDateString() }}</Td>
                     <Td @click.stop>
                         <DangerButton class="ml-3" @click="deleteAgency(agency.id)">
-                            Delete Account
+                            <i class="fa-sharp fa-solid fa-trash"></i>
                         </DangerButton>
                     </Td>
                 </Tr>
