@@ -8,6 +8,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
+/**
+ * @property Agency $agency
+ */
 class UpdateAgencyRequest extends FormRequest
 {
     /**
@@ -28,11 +31,11 @@ class UpdateAgencyRequest extends FormRequest
         return [
             'name' => [
                 'string', 'max:55',
-                Rule::unique('agencies')->ignore($this->id),
+                Rule::unique('agencies')->ignore($this->agency->id),
             ],
             'email' => [
                 'email', 'max:255',
-                Rule::unique(Agency::class)->ignore($this->id),
+                Rule::unique(Agency::class)->ignore($this->agency->id),
             ],
         ];
     }
