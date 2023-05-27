@@ -22,8 +22,8 @@ class AgencyFactory extends Factory
     {
         return [
             'id' => $this->newUniqueId(),
-            'name' => $this->faker->name,
-            'email' => $this->faker->safeEmail,
+            'name' => $this->faker->company,
+            'email' => $this->faker->companyEmail,
         ];
     }
 }
