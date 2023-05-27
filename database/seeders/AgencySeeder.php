@@ -2,21 +2,21 @@
 
 namespace Database\Seeders;
 
+use App\Models\Agency;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class AgencySeeder extends Seeder
 {
     use WithoutModelEvents;
 
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      */
     public function run(): void
     {
-        $this->call([
-            AgencySeeder::class,
-            UserSeeder::class
-        ]);
+        Agency::factory()
+            ->count(5)
+            ->create();
     }
 }

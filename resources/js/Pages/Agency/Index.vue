@@ -8,12 +8,12 @@ import Tr from "@/Components/Table/Tr.vue";
 import Td from "@/Components/Table/Td.vue";
 import TextInput from "@/Components/TextInput.vue";
 
-const agencies = [
-    {id: '23RQSFDQSDF4FZ', name: 'Sunday', email: 'sunday@gmail.com', created_at: '12/23/2023'},
-    {id: '23RQSqsdfwFDQ', name: 'Awet', email: 'awet@gmail.com', created_at: '12/21/2023'},
-    {id: 'sdqdfssfqd', name: 'Other', email: 'Other@gmail.com', created_at: '12/02/2023'},
-    {id: '23RQSFDQwfzsqff', name: 'Check', email: 'check@gmail.com', created_at: '12/23/2023'}
-];
+defineProps({
+    agencies: {
+        type: Array,
+        required: true
+    },
+});
 
 const table_checkbox = 'table-checkbox'
 
@@ -43,7 +43,7 @@ const table_checkbox = 'table-checkbox'
                     </Td>
                     <Td>{{ agency.name }}</Td>
                     <Td>{{ agency.email }}</Td>
-                    <Td>{{ agency.created_at }}</Td>
+                    <Td>{{ (new Date(agency.created_at)).toLocaleDateString() }}</Td>
                 </Tr>
             </template>
         </Table>

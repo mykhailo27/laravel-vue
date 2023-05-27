@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Agency\AgencyViewController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -25,14 +26,34 @@ Route::get('/', static function () {
     ]);
 });
 
-Route::get('/dashboard', static function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
 
-Route::middleware('auth')->group(static function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/dashboard', static function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    Route::group([
+        'prefix' => 'profile',
+        'as' => 'profile.',
+    ], static function() {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group([
+        'prefix' => 'agencies',
+        'as' => 'agencies.'
+    ], static function() {
+        Route::get('/', [AgencyViewController::class, 'index'])->name('index');
+        Route::get('/create', [AgencyViewController::class, 'create'])->name('create');
+        Route::post('/', [AgencyViewController::class, 'store'])->name('store');
+        Route::get('/{agency}', [AgencyViewController::class, 'show'])->name('show');
+        Route::get('/{agency}/edit', [AgencyViewController::class, 'edit'])->name('edit');
+        Route::put('/{agency}', [AgencyViewController::class, 'update'])->name('update');
+        Route::delete('/{agency}', [AgencyViewController::class, 'destroy'])->name('destroy');
+    });
+
 });
 
 require __DIR__.'/auth.php';
