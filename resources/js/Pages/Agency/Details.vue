@@ -6,17 +6,33 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 
+const props = defineProps({
+    agency: {
+        type: Object,
+    }
+});
+
 const form = useForm({
-    name: '',
-    email: '',
+    name: props.agency?.name,
+    email: props.agency?.email,
 });
 
 const submit = () => {
-    form.post(route('agencies.store'), {
-        onFinish: () => {
-            console.log('submitted')
-        }
-    });
+    const agency_id = props.agency?.id;
+
+    if (agency_id !== '') {
+        form.put(route('agencies.update', {agency: agency_id}), {
+            onFinish: () => {
+                console.log('Agency updated')
+            }
+        });
+    } else {
+        form.post(route('agencies.store'), {
+            onFinish: () => {
+                console.log('Agency created')
+            }
+        });
+    }
 };
 
 const clickSubmitBtn = () => {
