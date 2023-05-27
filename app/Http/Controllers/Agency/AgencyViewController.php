@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Agency;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAgencyRequest;
 use App\Http\Requests\UpdateAgencyRequest;
-use App\Http\Resources\Agency\AgencyResource;
 use App\Models\Agency;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -34,7 +33,7 @@ class AgencyViewController extends Controller
             'email' => $request->email,
         ]);
 
-        return Redirect::route('agencies.edit', [
+        return Redirect::route('agencies.details', [
             'agency' => $agency->id
         ])->with('message', 'agency-created');
     }
@@ -44,26 +43,18 @@ class AgencyViewController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Agency/Details');
+        return Inertia::render('Agency/Details', [
+            'agency' => null
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Agency $agency): Response
+    public function details(Agency $agency): Response
     {
-        return Inertia::render('Agency/Show', [
-            'agency' => new AgencyResource($agency)
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Agency $agency): Response
-    {
-        return Inertia::render('Agency/Edit', [
-            'agency' => new AgencyResource($agency)
+        return Inertia::render('Agency/Details', [
+            'agency' => $agency
         ]);
     }
 
@@ -74,8 +65,9 @@ class AgencyViewController extends Controller
     {
         $agency->update($request->validated());
 
-        return Redirect::route('agencies.edit')
-            ->with('message', 'agency-updated');
+        return Redirect::route('agencies.details', [
+            'agency' => $agency->id
+        ])->with('message', 'agency-updated');
     }
 
     /**
