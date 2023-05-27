@@ -45,7 +45,7 @@ const clickSubmitBtn = () => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center justify-start mt-4">
-                <PrimaryButton v-on:click="clickSubmitBtn" class="ml-4" :class="{ 'opacity-25': form.processing }"
+                <PrimaryButton @click="clickSubmitBtn" class="ml-4" :class="{ 'opacity-25': form.processing }"
                                :disabled="form.processing">
                     {{ (props.agency === null ? 'Save': 'Update') }}
                 </PrimaryButton>
