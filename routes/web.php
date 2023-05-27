@@ -35,7 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::group([
         'prefix' => 'profile',
         'as' => 'profile.',
-    ], static function() {
+    ], static function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
@@ -44,16 +44,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::group([
         'prefix' => 'agencies',
         'as' => 'agencies.'
-    ], static function() {
+    ], static function () {
         Route::get('/', [AgencyViewController::class, 'index'])->name('index');
         Route::get('/create', [AgencyViewController::class, 'create'])->name('create');
         Route::post('/', [AgencyViewController::class, 'store'])->name('store');
-        Route::get('/{agency}', [AgencyViewController::class, 'show'])->name('show');
-        Route::get('/{agency}/edit', [AgencyViewController::class, 'edit'])->name('edit');
+        Route::get('/{agency?}', [AgencyViewController::class, 'details'])->name('details');
         Route::put('/{agency}', [AgencyViewController::class, 'update'])->name('update');
         Route::delete('/{agency}', [AgencyViewController::class, 'destroy'])->name('destroy');
     });
 
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
