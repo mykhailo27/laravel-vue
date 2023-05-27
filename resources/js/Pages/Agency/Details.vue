@@ -13,15 +13,13 @@ const props = defineProps({
 });
 
 const form = useForm({
-    name: props.agency?.name,
-    email: props.agency?.email,
+    name: props.agency?.name ?? '',
+    email: props.agency?.email ?? '',
 });
 
 const submit = () => {
-    const agency_id = props.agency?.id;
-
-    if (agency_id !== '') {
-        form.put(route('agencies.update', {agency: agency_id}), {
+    if (props.agency !== null) {
+        form.put(route('agencies.update', {agency: props.agency.id}), {
             onFinish: () => {
                 console.log('Agency updated')
             }
@@ -49,7 +47,7 @@ const clickSubmitBtn = () => {
             <div class="flex items-center justify-start mt-4">
                 <PrimaryButton v-on:click="clickSubmitBtn" class="ml-4" :class="{ 'opacity-25': form.processing }"
                                :disabled="form.processing">
-                    Save
+                    {{ (props.agency === null ? 'Save': 'Update') }}
                 </PrimaryButton>
             </div>
         </template>
