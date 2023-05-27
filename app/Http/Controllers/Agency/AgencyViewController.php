@@ -34,7 +34,7 @@ class AgencyViewController extends Controller
             'email' => $request->email,
         ]);
 
-        return Redirect::route('agency.edit', [
+        return Redirect::route('agencies.edit', [
             'agency' => $agency->id
         ])->with('message', 'agency-created');
     }
@@ -74,7 +74,7 @@ class AgencyViewController extends Controller
     {
         $agency->update($request->validated());
 
-        return Redirect::route('agency.edit')
+        return Redirect::route('agencies.edit')
             ->with('message', 'agency-updated');
     }
 
@@ -85,7 +85,7 @@ class AgencyViewController extends Controller
     {
         $agency->delete();
 
-        return Redirect::route('agency.index')
+        return Redirect::route('agencies.index')
             ->with('message', "$agency->name is deleted");
     }
 }
