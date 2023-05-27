@@ -7,6 +7,7 @@ import Th from "@/Components/Table/Th.vue";
 import Tr from "@/Components/Table/Tr.vue";
 import Td from "@/Components/Table/Td.vue";
 import TextInput from "@/Components/TextInput.vue";
+import Link from "@/Components/Link.vue";
 
 defineProps({
     agencies: {
@@ -24,7 +25,8 @@ const table_checkbox = 'table-checkbox'
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Agency</h2>
+                <Link :href="route('agencies.create')"
+                      class="font-semibold border rounded leading-none w-fit hover:bg-gray-200 hover:shadow-lg active:bg-gray-200 active:shadow-lg">Create</Link>
         </template>
 
         <Table>
