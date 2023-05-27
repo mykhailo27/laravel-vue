@@ -61,7 +61,7 @@ onMounted(function () {
             <span>Wardrobe</span>
         </Link>
         <ul id="scroll-container"
-            class="relative m-0 list-none px-[0.2rem] pb-12"
+            class="relative m-0 list-none px-[0.2rem] pb-4"
             data-te-sidenav-menu-ref>
             <li class="relative mt-3">
                 <a
