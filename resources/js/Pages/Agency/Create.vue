@@ -1,17 +1,77 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import {Head, useForm} from '@inertiajs/vue3';
+import TextInput from "@/Components/TextInput.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import InputError from "@/Components/InputError.vue";
+
+const form = useForm({
+    name: '',
+    email: '',
+});
+
+const submit = () => {
+    form.post(route('agencies.store'), {
+        onFinish: () => {
+            console.log('submitted')
+        }
+    });
+};
+
+const clickSubmitBtn = () => {
+    document.getElementById('submit-btn').click();
+}
+
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Create Agency"/>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+            <div class="flex items-center justify-start mt-4">
+                <PrimaryButton v-on:click="clickSubmitBtn" class="ml-4" :class="{ 'opacity-25': form.processing }"
+                               :disabled="form.processing">
+                    Save
+                </PrimaryButton>
+            </div>
         </template>
 
-        You're in agency create page!
+        <form @submit.prevent="submit">
+
+            <div class="mt-4">
+                <InputLabel for="name" value="Name"/>
+
+                <TextInput
+                    id="name"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.name"
+                    required
+                    autocomplete="name"
+                />
+
+                <InputError class="mt-2" :message="form.errors.name"/>
+            </div>
+
+            <div>
+                <InputLabel for="email" value="Email"/>
+
+                <TextInput
+                    id="email"
+                    type="email"
+                    class="mt-1 block w-full"
+                    v-model="form.email"
+                    required
+                    autofocus
+                    autocomplete="email"
+                />
+
+                <InputError class="mt-2" :message="form.errors.email"/>
+            </div>
+            <button type="submit" id="submit-btn" hidden>Submit</button>
+        </form>
     </AuthenticatedLayout>
 </template>
 
