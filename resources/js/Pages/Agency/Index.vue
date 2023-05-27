@@ -18,6 +18,10 @@ defineProps({
 
 const table_checkbox = 'table-checkbox'
 
+function details(id) {
+    window.location.href = route('agencies.details', {agency: id})
+}
+
 </script>
 
 <template>
@@ -39,9 +43,9 @@ const table_checkbox = 'table-checkbox'
                 <Th>Create At</Th>
             </template>
             <template #rows>
-                <Tr v-for="agency in agencies">
+                <Tr v-for="agency in agencies" v-on:click="details(agency.id)">
                     <Td>
-                        <TextInput type="checkbox" :model-value="agency.id"/>
+                        <TextInput type="checkbox" :model-value="agency.id" v-on:click.stop/>
                     </Td>
                     <Td>{{ agency.name }}</Td>
                     <Td>{{ agency.email }}</Td>
