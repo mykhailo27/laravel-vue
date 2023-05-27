@@ -44,7 +44,7 @@ class AgencyViewController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Agency/Detail');
+        return Inertia::render('Agency/Details');
     }
 
     /**
