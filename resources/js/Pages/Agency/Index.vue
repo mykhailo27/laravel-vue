@@ -19,9 +19,7 @@ defineProps({
 });
 
 const table_checkbox = 'table-checkbox'
-const form = useForm({
-
-});
+const form = useForm({});
 
 const deleteAgency = (id) => {
     form.delete(route('agencies.destroy', {agency: id}), {
@@ -34,6 +32,14 @@ const deleteAgency = (id) => {
 
 function details(id) {
     window.location.href = route('agencies.details', {agency: id})
+}
+
+function selectAll(event) {
+    const target = event.target;
+
+    target.closest('table')
+        .querySelectorAll('tbody tr input')
+        .forEach(input => input.checked = target.checked)
 }
 
 </script>
@@ -55,7 +61,7 @@ function details(id) {
         <Table>
             <template #columns>
                 <Th>
-                    <TextInput type="checkbox" id="table-checkbox" :model-value="table_checkbox"/>
+                    <TextInput type="checkbox" @click="selectAll" id="table-checkbox" :model-value="table_checkbox"/>
                 </Th>
                 <Th>Name</Th>
                 <Th>Email</Th>
