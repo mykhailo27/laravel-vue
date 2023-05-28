@@ -10,6 +10,7 @@ import TextInput from "@/Components/TextInput.vue";
 import Link from "@/Components/Link.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import Pagination from "@/Components/Pagination.vue";
+import {ref} from "vue";
 
 defineProps({
     agencies: {
@@ -17,6 +18,8 @@ defineProps({
         required: true
     },
 });
+
+const selected_id = ref([]);
 
 const table_checkbox = 'table-checkbox'
 const form = useForm({});
@@ -36,10 +39,20 @@ function details(id) {
 
 function selectAll(event) {
     const target = event.target;
+    const checked = target.checked;
+
+    if (!checked) {
+        selected_id.value = [];
+    }
 
     target.closest('table')
         .querySelectorAll('tbody tr input')
-        .forEach(input => input.checked = target.checked)
+        .forEach(input => {
+            input.checked = checked
+            if (checked) {
+                selected_id.value.push(input.value)
+            }
+        })
 }
 
 </script>
