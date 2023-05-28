@@ -105,8 +105,7 @@ const handleRowCheckboxClick = (event => {
             <template #rows>
                 <Tr v-for="agency in agencies.data" @click="details(agency.id)">
                     <Td>
-                        <TextInput type="checkbox" :model-value="agency.id" @click.stop
-                                   @click="handleRowCheckboxClick"/>
+                        <TextInput type="checkbox" :model-value="agency.id" @click.stop @click="handleRowCheckboxClick"/>
                     </Td>
                     <Td>{{ agency.name }}</Td>
                     <Td>{{ agency.email }}</Td>
