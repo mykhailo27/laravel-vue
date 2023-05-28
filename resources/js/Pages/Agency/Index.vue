@@ -9,18 +9,22 @@ import Td from "@/Components/Table/Td.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Link from "@/Components/Link.vue";
 import DangerButton from "@/Components/DangerButton.vue";
+import Pagination from "@/Components/Pagination.vue";
 
 defineProps({
     agencies: {
-        type: Array,
+        type: Object,
         required: true
     },
 });
 
 const table_checkbox = 'table-checkbox'
+const form = useForm({
+
+});
 
 const deleteAgency = (id) => {
-    useForm().delete(route('agencies.destroy', {agency: id}), {
+    form.delete(route('agencies.destroy', {agency: id}), {
         preserveScroll: true,
         // onSuccess: () => closeModal(),
         // onError: () => passwordInput.value.focus(),
@@ -36,7 +40,6 @@ function details(id) {
 
 <template>
     <Head title="Agency"/>
-
     <AuthenticatedLayout>
         <template #header>
             <Link :href="route('agencies.create')"
@@ -44,6 +47,10 @@ function details(id) {
                 Create
             </Link>
         </template>
+
+        <div class="">
+            <Pagination :links="agencies.links" />
+        </div>
 
         <Table>
             <template #columns>
@@ -56,7 +63,7 @@ function details(id) {
                 <Th>Actions</Th>
             </template>
             <template #rows>
-                <Tr v-for="agency in agencies" @click="details(agency.id)">
+                <Tr v-for="agency in agencies.data" @click="details(agency.id)">
                     <Td>
                         <TextInput type="checkbox" :model-value="agency.id" @click.stop/>
                     </Td>
