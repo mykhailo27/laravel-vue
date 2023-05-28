@@ -18,8 +18,17 @@ class AgencyViewController extends Controller
      */
     public function index(): Response
     {
+        $agencies = Agency::paginate(5)->through(static function ($agency) {
+            return [
+                'id' => $agency->id,
+                'name' => $agency->name,
+                'email' => $agency->email,
+                'created_at' => $agency->created_at,
+            ];
+        });
+
         return Inertia::render('Agency/Index', [
-            'agencies' => Agency::all()
+            'agencies' => $agencies
         ]);
     }
 
