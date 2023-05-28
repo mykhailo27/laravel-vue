@@ -18,7 +18,7 @@ class AgencyViewController extends Controller
      */
     public function index(): Response
     {
-        $agencies = Agency::paginate(5)->through(static function ($agency) {
+        $agencies = Agency::paginate(10)->through(static function ($agency) {
             return [
                 'id' => $agency->id,
                 'name' => $agency->name,
