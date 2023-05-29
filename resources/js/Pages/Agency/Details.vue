@@ -69,7 +69,7 @@ const clickSubmitBtn = () => {
                 <Content :content="{id: 'agency-form', tab_id: 'agency-form-tab'}" data-te-tab-active>
                     <form @submit.prevent="submit">
 
-                        <div class="mt-4">
+                        <div>
                             <InputLabel for="name" value="Name"/>
 
                             <TextInput

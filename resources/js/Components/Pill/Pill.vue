@@ -20,7 +20,7 @@ onMounted(function () {
         </ul>
 
         <!--Pills content-->
-        <div class="my-2">
+        <div class="my-2 w-full">
             <slot name="pill-contents" />
         </div>
     </div>
