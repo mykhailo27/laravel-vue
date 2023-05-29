@@ -99,29 +99,6 @@ const handleRemoveUser = (event) => {
             </div>
         </template>
 
-        <CenteredModal id="usersModalCenteredScrollable" aria-labelledby="usersModalCenteredScrollable">
-            <template #modelTitle>
-                <TextInput model-value="" type="search" name="search-user" id="search-user"  class="w-full mr-4" placeholder="Search User"/>
-            </template>
-
-            <Table>
-                <template #columns>
-                    <Th>Name</Th>
-                    <Th>Email</Th>
-                    <Th>Action</Th>
-                </template>
-                <template #rows>
-                    <Tr v-if="non_agency_users !== null" v-for="user in non_agency_users">
-                        <Td>{{ user.name }}</Td>
-                        <Td>{{ user.email }}</Td>
-                        <Td>
-                            <PrimaryButton @click="handleAddUser" :data-user-id="user.id">Add</PrimaryButton>
-                        </Td>
-                    </Tr>
-                </template>
-            </Table>
-        </CenteredModal>
-
         <Pill>
             <template #pill-tabs>
                 <li role="presentation" class="flex-grow text-center">
@@ -195,6 +172,30 @@ const handleRemoveUser = (event) => {
                 </Content>
             </template>
         </Pill>
+
+        <!--  Add users modal  -->
+        <CenteredModal id="usersModalCenteredScrollable" aria-labelledby="usersModalCenteredScrollable">
+            <template #modelTitle>
+                <TextInput model-value="" type="search" name="search-user" id="search-user"  class="w-full mr-4" placeholder="Search User"/>
+            </template>
+
+            <Table>
+                <template #columns>
+                    <Th>Name</Th>
+                    <Th>Email</Th>
+                    <Th>Action</Th>
+                </template>
+                <template #rows>
+                    <Tr v-if="non_agency_users !== null" v-for="user in non_agency_users">
+                        <Td>{{ user.name }}</Td>
+                        <Td>{{ user.email }}</Td>
+                        <Td>
+                            <PrimaryButton @click="handleAddUser" :data-user-id="user.id">Add</PrimaryButton>
+                        </Td>
+                    </Tr>
+                </template>
+            </Table>
+        </CenteredModal>
 
     </AuthenticatedLayout>
 </template>
