@@ -20,4 +20,16 @@ class AgencyApiController extends Controller
             'success' => $added
         ]);
     }
+
+    public function removeUser(Agency $agency, User $user)
+    {
+        $removed = $agency->removeUser($user);
+
+        return response([
+            'message' => $removed
+                ? 'User has been removed successful'
+                : 'Fail to remove user from an agency',
+            'success' => $removed
+        ]);
+    }
 }

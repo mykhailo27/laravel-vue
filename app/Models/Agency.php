@@ -50,4 +50,10 @@ class Agency extends Model
 
         return User::whereNotIn('id', $users_id)->get();
     }
+
+    public function removeUser(User $user): bool
+    {
+        return $this->users()
+            ->detach($user->id);
+    }
 }
