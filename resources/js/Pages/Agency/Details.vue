@@ -12,7 +12,6 @@ import {computed, ref} from "vue";
 import Tr from "@/Components/Table/Tr.vue";
 import Th from "@/Components/Table/Th.vue";
 import Td from "@/Components/Table/Td.vue";
-import Pagination from "@/Components/Pagination.vue";
 import Table from "@/Components/Table/Table.vue";
 import ShowModalButton from "@/Components/Modal/ShowModalButton.vue";
 import CenteredModal from "@/Components/Modal/CenteredModal.vue";
@@ -175,8 +174,6 @@ const handleRemoveUser = (event) => {
                 </Content>
                 <Content :content="{id: 'agency-users', tab_id: 'agency-users-tab'}">
 
-                    <Pagination v-if="agency_users !== null" :links="agency_users.links"/>
-
                     <Table>
                         <template #columns>
                             <Th>Name</Th>
@@ -185,7 +182,7 @@ const handleRemoveUser = (event) => {
                             <Th>Action</Th>
                         </template>
                         <template #rows>
-                            <Tr v-if="agency_users !== null" v-for="user in agency_users.data">
+                            <Tr v-if="agency_users !== null" v-for="user in agency_users">
                                 <Td>{{ user.name }}</Td>
                                 <Td>{{ user.email }}</Td>
                                 <Td>{{ (new Date(user.created_at)).toLocaleDateString() }}</Td>

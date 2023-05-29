@@ -66,14 +66,7 @@ class AgencyViewController extends Controller
     {
         return Inertia::render('Agency/Details', [
             'agency' => $agency,
-            'agency_users' => $agency->users()->paginate(5)->through(static function ($user) {
-                return [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'created_at' => $user->created_at,
-                ];
-            }),
+            'agency_users' => $agency->users,
             'non_agency_users' => $agency->nonAgencyUser()
         ]);
     }
