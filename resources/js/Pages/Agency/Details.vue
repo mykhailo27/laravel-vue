@@ -16,6 +16,7 @@ import Pagination from "@/Components/Pagination.vue";
 import Table from "@/Components/Table/Table.vue";
 import ShowModalButton from "@/Components/Modal/ShowModalButton.vue";
 import CenteredModal from "@/Components/Modal/CenteredModal.vue";
+import DangerButton from "@/Components/DangerButton.vue";
 
 const props = defineProps({
     agency: {
@@ -60,8 +61,6 @@ const agency_exist = computed(() => {
     return props.agency === null;
 });
 
-const user_table_checkbox = 'user-table-checkbox';
-
 const clickSubmitBtn = () => {
     document.getElementById('submit-btn').click();
 }
@@ -71,6 +70,15 @@ const handleAddUser = (event) => {
     const user_id = target.dataset.userId
 
     axios.post(route('agencies.add-user', {agency: props.agency.id, user: user_id}))
+        .then(response => console.log(response))
+        .catch(error => console.error(error))
+}
+
+const handleRemoveUser = (event) => {
+    const target = event.target;
+    const user_id = target.dataset.userId
+
+    axios.delete(route('agencies.remove-user', {agency: props.agency.id, user: user_id}))
         .then(response => console.log(response))
         .catch(error => console.error(error))
 }
@@ -104,7 +112,7 @@ const handleAddUser = (event) => {
                     <Th>Action</Th>
                 </template>
                 <template #rows>
-                    <Tr v-for="user in non_agency_users">
+                    <Tr v-if="non_agency_users !== null" v-for="user in non_agency_users">
                         <Td>{{ user.name }}</Td>
                         <Td>{{ user.email }}</Td>
                         <Td>
@@ -167,26 +175,23 @@ const handleAddUser = (event) => {
                 </Content>
                 <Content :content="{id: 'agency-users', tab_id: 'agency-users-tab'}">
 
-                    <Pagination :links="agency_users.links"/>
+                    <Pagination v-if="agency_users !== null" :links="agency_users.links"/>
 
                     <Table>
                         <template #columns>
-                            <Th>
-                                <TextInput type="checkbox" v-bind:id="user_table_checkbox"
-                                           :model-value="user_table_checkbox"/>
-                            </Th>
                             <Th>Name</Th>
                             <Th>Email</Th>
                             <Th>Create At</Th>
+                            <Th>Action</Th>
                         </template>
                         <template #rows>
-                            <Tr v-for="user in agency_users.data">
-                                <Td>
-                                    <TextInput type="checkbox" :model-value="user.id.toString()"/>
-                                </Td>
+                            <Tr v-if="agency_users !== null" v-for="user in agency_users.data">
                                 <Td>{{ user.name }}</Td>
                                 <Td>{{ user.email }}</Td>
                                 <Td>{{ (new Date(user.created_at)).toLocaleDateString() }}</Td>
+                                <Td>
+                                    <DangerButton :data-user-id="user.id" @click="handleRemoveUser">Remove</DangerButton>
+                                </Td>
                             </Tr>
                         </template>
                     </Table>
