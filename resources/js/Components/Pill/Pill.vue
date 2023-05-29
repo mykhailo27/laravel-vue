@@ -11,19 +11,16 @@ onMounted(function () {
 
 <template>
     <!--Pills navigation-->
-    <div class="flex items-start">
-        <ul
-            class="mr-4 flex list-none flex-col flex-wrap pl-0"
-            role="tablist"
-            data-te-nav-ref>
-            <slot name="pill-tabs"/>
-        </ul>
+    <ul
+        class="mb-4 flex list-none flex-col flex-wrap gap-0 md:gap-2 md:flex-row"
+        id="pills-tab"
+        role="tablist"
+        data-te-nav-ref>
+        <slot name="pill-tabs"/>
+    </ul>
 
-        <!--Pills content-->
-        <div class="my-2 w-full">
-            <slot name="pill-contents" />
-        </div>
-    </div>
+    <!--Pills content-->
+    <slot name="pill-contents" />
 </template>
 
 <style scoped>
