@@ -125,12 +125,12 @@ const handleRemoveUser = (event) => {
 
         <Pill>
             <template #pill-tabs>
-                <li role="presentation">
+                <li role="presentation" class="flex-grow text-center">
                     <Tab @click="show_add_user_btn = false"
                         :tab="{id: 'agency-form-tab', content_href: '#agency-form', content_id: 'agency-form', name: 'Agency'}"
                         data-te-nav-active/>
                 </li>
-                <li role="presentation">
+                <li role="presentation" class="flex-grow text-center">
                     <Tab @click="show_add_user_btn = true"
                         :tab="{id: 'agency-users-tab', content_href: '#agency-users', content_id: 'agency-users', name: 'Users'}"
                         :disabled="agency_exist"/>
