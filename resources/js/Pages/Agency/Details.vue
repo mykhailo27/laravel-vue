@@ -8,6 +8,7 @@ import InputError from "@/Components/InputError.vue";
 import Pill from "@/Components/Pill/Pill.vue";
 import Tab from "@/Components/Pill/Tab.vue";
 import Content from "@/Components/Pill/Content.vue";
+import {computed} from "vue";
 
 const props = defineProps({
     agency: {
@@ -36,6 +37,10 @@ const submit = () => {
     }
 };
 
+const agency_exist = computed(() => {
+    return props.agency === null;
+});
+
 const clickSubmitBtn = () => {
     document.getElementById('submit-btn').click();
 }
@@ -62,9 +67,10 @@ const clickSubmitBtn = () => {
                          data-te-nav-active/>
                 </li>
                 <li role="presentation" class="flex-grow text-center">
-                    <Tab :tab="{id: 'agency-user-tab', content_href: '#agency-user', content_id: 'agency-user', name: 'User'}"/>
+                    <Tab :tab="{id: 'agency-user-tab', content_href: '#agency-user', content_id: 'agency-user', name: 'User'}" :disabled="agency_exist"/>
                 </li>
             </template>
+
             <template #pill-contents>
                 <Content :content="{id: 'agency-form', tab_id: 'agency-form-tab'}" data-te-tab-active>
                     <form @submit.prevent="submit">
