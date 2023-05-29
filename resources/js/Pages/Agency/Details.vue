@@ -55,7 +55,7 @@ const clickSubmitBtn = () => {
             <div class="flex items-center justify-start mt-4">
                 <PrimaryButton @click="clickSubmitBtn" class="ml-4" :class="{ 'opacity-25': form.processing }"
                                :disabled="form.processing">
-                    {{ (props.agency === null ? 'Save': 'Update') }}
+                    {{ (props.agency === null ? 'Save' : 'Update') }}
                 </PrimaryButton>
             </div>
         </template>
@@ -63,11 +63,14 @@ const clickSubmitBtn = () => {
         <Pill>
             <template #pill-tabs>
                 <li role="presentation" class="flex-grow text-center">
-                    <Tab :tab="{id: 'agency-form-tab', content_href: '#agency-form', content_id: 'agency-form', name: 'Agency', active:'true'}"
-                         data-te-nav-active/>
+                    <Tab
+                        :tab="{id: 'agency-form-tab', content_href: '#agency-form', content_id: 'agency-form', name: 'Agency'}"
+                        data-te-nav-active/>
                 </li>
                 <li role="presentation" class="flex-grow text-center">
-                    <Tab :tab="{id: 'agency-user-tab', content_href: '#agency-user', content_id: 'agency-user', name: 'User'}" :disabled="agency_exist"/>
+                    <Tab
+                        :tab="{id: 'agency-user-tab', content_href: '#agency-user', content_id: 'agency-user', name: 'User'}"
+                        :disabled="agency_exist"/>
                 </li>
             </template>
 
