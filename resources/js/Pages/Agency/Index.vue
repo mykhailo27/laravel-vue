@@ -87,14 +87,12 @@ const handleRowCheckboxClick = (event => {
             </Link>
         </template>
 
-        <div class="">
-            <Pagination :links="agencies.links"/>
-        </div>
+        <Pagination :links="agencies.links"/>
 
         <Table>
             <template #columns>
                 <Th>
-                    <TextInput type="checkbox" @click="handleTableCheckboxClick" id="table-checkbox"
+                    <TextInput type="checkbox" @click="handleTableCheckboxClick" v-bind:id="table_checkbox"
                                :model-value="table_checkbox"/>
                 </Th>
                 <Th>Name</Th>
