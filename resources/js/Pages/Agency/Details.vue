@@ -164,7 +164,9 @@ const handleRemoveUser = (event) => {
                                 <Td>{{ user.email }}</Td>
                                 <Td>{{ (new Date(user.created_at)).toLocaleDateString() }}</Td>
                                 <Td>
-                                    <DangerButton :data-user-id="user.id" @click="handleRemoveUser">Remove</DangerButton>
+                                    <DangerButton title="Remove User" :data-user-id="user.id" @click="handleRemoveUser">
+                                        <i class="fa-sharp fa-solid fa-trash"></i>
+                                    </DangerButton>
                                 </Td>
                             </Tr>
                         </template>
