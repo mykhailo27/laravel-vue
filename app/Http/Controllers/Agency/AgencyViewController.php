@@ -53,7 +53,9 @@ class AgencyViewController extends Controller
     public function create(): Response
     {
         return Inertia::render('Agency/Details', [
-            'agency' => null
+            'agency' => null,
+            'agency_users' => null,
+            'non_agency_users' => null,
         ]);
     }
 
