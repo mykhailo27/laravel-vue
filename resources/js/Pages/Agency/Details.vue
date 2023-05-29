@@ -16,20 +16,24 @@ const props = defineProps({
     }
 });
 
-const form = useForm({
+const agency_form = useForm({
     name: props.agency?.name ?? '',
     email: props.agency?.email ?? '',
 });
 
 const submit = () => {
     if (props.agency !== null) {
-        form.put(route('agencies.update', {agency: props.agency.id}), {
-            onFinish: () => {
-                console.log('Agency updated')
-            }
-        });
+        if (agency_form.name !== props.agency.name || agency_form.email !== props.agency.email) {
+            agency_form.put(route('agencies.update', {agency: props.agency.id}), {
+                onFinish: () => {
+                    console.log('Agency updated')
+                }
+            });
+        } else {
+            console.log('no change to update')
+        }
     } else {
-        form.post(route('agencies.store'), {
+        agency_form.post(route('agencies.store'), {
             onFinish: () => {
                 console.log('Agency created')
             }
@@ -53,8 +57,8 @@ const clickSubmitBtn = () => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center justify-start mt-4">
-                <PrimaryButton @click="clickSubmitBtn" class="ml-4" :class="{ 'opacity-25': form.processing }"
-                               :disabled="form.processing">
+                <PrimaryButton @click="clickSubmitBtn" class="ml-4" :class="{ 'opacity-25': agency_form.processing }"
+                               :disabled="agency_form.processing">
                     {{ (props.agency === null ? 'Save' : 'Update') }}
                 </PrimaryButton>
             </div>
@@ -85,12 +89,12 @@ const clickSubmitBtn = () => {
                                 id="name"
                                 type="text"
                                 class="mt-1 block w-full"
-                                v-model="form.name"
+                                v-model="agency_form.name"
                                 required
                                 autocomplete="name"
                             />
 
-                            <InputError class="mt-2" :message="form.errors.name"/>
+                            <InputError class="mt-2" :message="agency_form.errors.name"/>
                         </div>
 
                         <div>
@@ -100,12 +104,12 @@ const clickSubmitBtn = () => {
                                 id="email"
                                 type="email"
                                 class="mt-1 block w-full"
-                                v-model="form.email"
+                                v-model="agency_form.email"
                                 required
                                 autocomplete="email"
                             />
 
-                            <InputError class="mt-2" :message="form.errors.email"/>
+                            <InputError class="mt-2" :message="agency_form.errors.email"/>
                         </div>
                         <button type="submit" id="submit-btn" hidden>Submit</button>
                     </form>
