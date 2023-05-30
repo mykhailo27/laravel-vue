@@ -13,8 +13,8 @@
 
         <!-- Scripts -->
         @routes
+        <script src="https://kit.fontawesome.com/b3478a18b6.js" crossorigin="anonymous" type="module"></script>
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
-        <script src="https://kit.fontawesome.com/b3478a18b6.js" crossorigin="anonymous"></script>
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
