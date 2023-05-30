@@ -13,9 +13,9 @@ import Tr from "@/Components/Table/Tr.vue";
 import Th from "@/Components/Table/Th.vue";
 import Td from "@/Components/Table/Td.vue";
 import Table from "@/Components/Table/Table.vue";
-import ShowModalButton from "@/Components/Modal/ShowModalButton.vue";
-import CenteredModal from "@/Components/Modal/CenteredModal.vue";
 import DangerButton from "@/Components/DangerButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import Modal from "@/Components/Modal.vue";
 
 const props = defineProps({
     agency: {
@@ -55,6 +55,7 @@ const submit = () => {
 };
 
 const show_add_user_btn = ref(false)
+const show_add_user_modal = ref(false)
 
 const agency_exist = computed(() => {
     return props.agency === null;
@@ -72,7 +73,7 @@ const handleAddUser = (event) => {
         .then(res => {
             const user = res.data.user;
 
-            if(!props.agency_users.includes(user)) {
+            if (!props.agency_users.includes(user)) {
                 props.agency_users.push(user)
             }
 
@@ -90,7 +91,7 @@ const handleRemoveUser = (event) => {
         .then(res => {
             const user = res.data.user;
 
-            if(!props.non_agency_users.includes(user)) {
+            if (!props.non_agency_users.includes(user)) {
                 props.non_agency_users.push(user)
             }
 
@@ -113,7 +114,7 @@ const handleRemoveUser = (event) => {
                     {{ (props.agency === null ? 'Save' : 'Update') }}
                 </PrimaryButton>
 
-                <ShowModalButton v-show="show_add_user_btn" data-te-target="#usersModalCenteredScrollable">Add Users</ShowModalButton>
+                <PrimaryButton v-show="show_add_user_btn" @click="show_add_user_modal = true">Add Users</PrimaryButton>
             </div>
         </template>
 
@@ -121,13 +122,13 @@ const handleRemoveUser = (event) => {
             <template #pill-tabs>
                 <li role="presentation" class="flex-grow text-center">
                     <Tab @click="show_add_user_btn = false"
-                        :tab="{id: 'agency-form-tab', content_href: '#agency-form', content_id: 'agency-form', name: 'Agency'}"
-                        data-te-nav-active/>
+                         :tab="{id: 'agency-form-tab', content_href: '#agency-form', content_id: 'agency-form', name: 'Agency'}"
+                         data-te-nav-active/>
                 </li>
                 <li role="presentation" class="flex-grow text-center">
                     <Tab @click="show_add_user_btn = true"
-                        :tab="{id: 'agency-users-tab', content_href: '#agency-users', content_id: 'agency-users', name: 'Users'}"
-                        :disabled="agency_exist"/>
+                         :tab="{id: 'agency-users-tab', content_href: '#agency-users', content_id: 'agency-users', name: 'Users'}"
+                         :disabled="agency_exist"/>
                 </li>
             </template>
 
@@ -182,7 +183,8 @@ const handleRemoveUser = (event) => {
                                 <Td>{{ user.email }}</Td>
                                 <Td>{{ (new Date(user.created_at)).toLocaleDateString() }}</Td>
                                 <Td>
-                                    <DangerButton title="Remove User" class="fa-sharp fa-solid fa-trash" :data-user-id="user.id" @click="handleRemoveUser"/>
+                                    <DangerButton title="Remove User" class="fa-sharp fa-solid fa-trash"
+                                                  :data-user-id="user.id" @click="handleRemoveUser"/>
                                 </Td>
                             </Tr>
                         </template>
@@ -191,29 +193,34 @@ const handleRemoveUser = (event) => {
             </template>
         </Pill>
 
-        <!--  Add users modal  -->
-        <CenteredModal id="usersModalCenteredScrollable" aria-labelledby="usersModalCenteredScrollable">
-            <template #modelTitle>
-                <TextInput model-value="" type="search" name="search-user" id="search-user"  class="w-full mr-4" placeholder="Search User"/>
-            </template>
+        <Modal :show="show_add_user_modal" max-width="fit">
+            <div class="p-6">
+                <div class="flex">
+                    <TextInput model-value="" type="search" name="search-user" id="search-user" class="w-full mr-4"
+                               placeholder="Search User"/>
+                    <SecondaryButton class="fa-sharp fa-solid fa-xmark"
+                                     @click="show_add_user_modal = false"></SecondaryButton>
+                </div>
 
-            <Table>
-                <template #columns>
-                    <Th>Name</Th>
-                    <Th>Email</Th>
-                    <Th>Action</Th>
-                </template>
-                <template #rows>
-                    <Tr v-if="non_agency_users !== null" v-for="user in non_agency_users">
-                        <Td>{{ user.name }}</Td>
-                        <Td>{{ user.email }}</Td>
-                        <Td>
-                            <PrimaryButton title="Add User" class="fa-solid fa-plus" :data-user-id="user.id" @click="handleAddUser"/>
-                        </Td>
-                    </Tr>
-                </template>
-            </Table>
-        </CenteredModal>
+                <Table>
+                    <template #columns>
+                        <Th>Name</Th>
+                        <Th>Email</Th>
+                        <Th>Action</Th>
+                    </template>
+                    <template #rows>
+                        <Tr v-if="non_agency_users !== null" v-for="user in non_agency_users">
+                            <Td>{{ user.name }}</Td>
+                            <Td>{{ user.email }}</Td>
+                            <Td>
+                                <PrimaryButton title="Add User" class="fa-solid fa-plus" :data-user-id="user.id"
+                                               @click="handleAddUser"/>
+                            </Td>
+                        </Tr>
+                    </template>
+                </Table>
+            </div>
+        </Modal>
 
     </AuthenticatedLayout>
 </template>
