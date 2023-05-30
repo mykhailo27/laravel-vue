@@ -193,7 +193,7 @@ const handleRemoveUser = (event) => {
             </template>
         </Pill>
 
-        <Modal :show="show_add_user_modal" max-width="fit" @close="show_add_user_modal = false">
+        <Modal :show="show_add_user_modal" @close="show_add_user_modal = false">
             <div class="p-6">
                 <div class="flex">
                     <TextInput model-value="" type="search" name="search-user" id="search-user" class="w-full mr-4"
