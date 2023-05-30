@@ -12,9 +12,9 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        <script src="https://kit.fontawesome.com/b3478a18b6.js" crossorigin="anonymous"></script>
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
+        <script src="https://kit.fontawesome.com/b3478a18b6.js" crossorigin="anonymous"></script>
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
