@@ -15,7 +15,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $id
  * @property string $name
  * @property string $email
- * @method static whereNotIn(string $column, array $users_id)
  */
 class User extends Authenticatable
 {
