@@ -17,11 +17,12 @@ class AgencyApiController extends Controller
             'message' => $added
                 ? 'User has been added successful'
                 : 'Fail to add user to an agency',
-            'success' => $added
+            'success' => $added,
+            'user' => $user
         ]);
     }
 
-    public function removeUser(Agency $agency, User $user)
+    public function removeUser(Agency $agency, User $user): Response
     {
         $removed = $agency->removeUser($user);
 
@@ -29,7 +30,8 @@ class AgencyApiController extends Controller
             'message' => $removed
                 ? 'User has been removed successful'
                 : 'Fail to remove user from an agency',
-            'success' => $removed
+            'success' => $removed,
+            'user' => $user
         ]);
     }
 }
