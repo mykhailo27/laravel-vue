@@ -69,7 +69,16 @@ const handleAddUser = (event) => {
     const user_id = target.dataset.userId
 
     axios.post(route('agencies.add-user', {agency: props.agency.id, user: user_id}))
-        .then(response => console.log(response))
+        .then(res => {
+            const user = res.data.user;
+
+            if(!props.agency_users.includes(user)) {
+                props.agency_users.push(user)
+            }
+
+            const index = props.non_agency_users.indexOf(user)
+            props.non_agency_users.splice(index, 1);
+        })
         .catch(error => console.error(error))
 }
 
@@ -78,7 +87,16 @@ const handleRemoveUser = (event) => {
     const user_id = target.dataset.userId
 
     axios.delete(route('agencies.remove-user', {agency: props.agency.id, user: user_id}))
-        .then(response => console.log(response))
+        .then(res => {
+            const user = res.data.user;
+
+            if(!props.non_agency_users.includes(user)) {
+                props.non_agency_users.push(user)
+            }
+
+            const index = props.agency_users.indexOf(user)
+            props.agency_users.splice(index, 1);
+        })
         .catch(error => console.error(error))
 }
 
@@ -164,9 +182,7 @@ const handleRemoveUser = (event) => {
                                 <Td>{{ user.email }}</Td>
                                 <Td>{{ (new Date(user.created_at)).toLocaleDateString() }}</Td>
                                 <Td>
-                                    <DangerButton title="Remove User" :data-user-id="user.id" @click="handleRemoveUser">
-                                        <i class="fa-sharp fa-solid fa-trash"></i>
-                                    </DangerButton>
+                                    <DangerButton title="Remove User" class="fa-sharp fa-solid fa-trash" :data-user-id="user.id" @click="handleRemoveUser"/>
                                 </Td>
                             </Tr>
                         </template>
@@ -192,7 +208,7 @@ const handleRemoveUser = (event) => {
                         <Td>{{ user.name }}</Td>
                         <Td>{{ user.email }}</Td>
                         <Td>
-                            <PrimaryButton @click="handleAddUser" :data-user-id="user.id">Add</PrimaryButton>
+                            <PrimaryButton title="Add User" class="fa-solid fa-plus" :data-user-id="user.id" @click="handleAddUser"/>
                         </Td>
                     </Tr>
                 </template>
