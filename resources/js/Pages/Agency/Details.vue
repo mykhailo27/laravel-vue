@@ -56,6 +56,14 @@ const submit = () => {
 
 const show_add_user_btn = ref(false)
 const show_add_user_modal = ref(false)
+const search_user_input = ref('')
+
+const filtered_non_agency_users = computed(() => {
+    return props.non_agency_users.filter(user => {
+        return user.name.toLowerCase().indexOf(search_user_input.value.toLowerCase()) > -1
+            || user.email.toLowerCase().indexOf(search_user_input.value.toLowerCase()) > -1
+    })
+})
 
 const agency_exist = computed(() => {
     return props.agency === null;
@@ -194,7 +202,7 @@ const handleRemoveUser = (event) => {
         <Modal :show="show_add_user_modal" @close="show_add_user_modal = false">
             <div class="p-6">
                 <div class="flex">
-                    <TextInput model-value="" type="search" class="w-full mr-4"
+                    <TextInput model-value="" type="search" v-model="search_user_input" class="w-full mr-4"
                                placeholder="Search User"/>
                     <SecondaryButton class="fa-sharp fa-solid fa-xmark"
                                      @click="show_add_user_modal = false"></SecondaryButton>
@@ -207,7 +215,7 @@ const handleRemoveUser = (event) => {
                         <Th>Action</Th>
                     </template>
                     <template #rows>
-                        <Tr v-if="non_agency_users !== null" v-for="user in non_agency_users">
+                        <Tr v-if="non_agency_users !== null" v-for="user in filtered_non_agency_users">
                             <Td>{{ user.name }}</Td>
                             <Td>{{ user.email }}</Td>
                             <Td>
