@@ -41,7 +41,7 @@ class Agency extends Model
 
     public function addUser(User $user): bool
     {
-        $this->users()->attach($user->id);
+        $this->users()->syncWithoutDetaching($user);
 
         return $this->hasUser($user);
     }
