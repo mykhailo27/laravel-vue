@@ -92,8 +92,7 @@ const handleRowCheckboxClick = (event => {
         <Table>
             <template #columns>
                 <Th>
-                    <TextInput type="checkbox" @click="handleTableCheckboxClick" v-bind:id="table_checkbox"
-                               :model-value="table_checkbox"/>
+                    <TextInput type="checkbox" @click="handleTableCheckboxClick" :id="table_checkbox"/>
                 </Th>
                 <Th>Name</Th>
                 <Th>Email</Th>
