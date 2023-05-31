@@ -69,6 +69,11 @@ const agency_exist = computed(() => {
     return props.agency === null;
 });
 
+const closetUserModal = () => {
+    show_add_user_modal.value = false
+    search_user_input.value = '';
+}
+
 const clickSubmitBtn = () => {
     document.getElementById('submit-btn').click();
 }
@@ -199,13 +204,13 @@ const handleRemoveUser = (event) => {
             </template>
         </Pill>
 
-        <Modal :show="show_add_user_modal" @close="show_add_user_modal = false">
+        <Modal :show="show_add_user_modal" @close="closetUserModal">
             <div class="p-6">
                 <div class="flex">
                     <TextInput model-value="" type="search" v-model="search_user_input" class="w-full mr-4"
                                placeholder="Search User"/>
                     <SecondaryButton class="fa-sharp fa-solid fa-xmark"
-                                     @click="show_add_user_modal = false"></SecondaryButton>
+                                     @click="closetUserModal"></SecondaryButton>
                 </div>
 
                 <Table>
