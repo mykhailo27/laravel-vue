@@ -56,15 +56,6 @@ const submit = () => {
 
 const show_add_user_btn = ref(false)
 const show_add_user_modal = ref(false)
-const search_users_value = ref('')
-
-
-const non_agency_users = computed(() => {
-    return props.non_agency_users.filter(user => {
-        return user.name.toLowerCase().indexOf(search_users_value.value.toLowerCase()) > -1
-            || user.email.toLowerCase().indexOf(search_users_value.value.toLowerCase()) > -1
-    })
-})
 
 const agency_exist = computed(() => {
     return props.agency === null;
@@ -82,12 +73,11 @@ const handleAddUser = (event) => {
         .then(res => {
             const user = res.data.user;
 
-            if (!props.agency_users.includes(user)) {
+            if (props.agency_users.findIndex(ob => ob.name === user.name) === -1) {
                 props.agency_users.push(user)
             }
 
-            const index = props.non_agency_users.indexOf(user)
-            props.non_agency_users.splice(index, 1);
+            props.non_agency_users.splice(props.non_agency_users.findIndex(ob => ob.name === user.name), 1);
         })
         .catch(error => console.error(error))
 }
@@ -100,12 +90,11 @@ const handleRemoveUser = (event) => {
         .then(res => {
             const user = res.data.user;
 
-            if (!props.non_agency_users.includes(user)) {
+            if (props.non_agency_users.findIndex(ob => ob.name === user.name) === -1) {
                 props.non_agency_users.push(user)
             }
 
-            const index = props.agency_users.indexOf(user)
-            props.agency_users.splice(index, 1);
+            props.agency_users.splice(props.agency_users.findIndex(ob => ob.name === user.name), 1);
         })
         .catch(error => console.error(error))
 }
@@ -205,7 +194,7 @@ const handleRemoveUser = (event) => {
         <Modal :show="show_add_user_modal" @close="show_add_user_modal = false">
             <div class="p-6">
                 <div class="flex">
-                    <TextInput model-value="" type="search" v-model="search_users_value" class="w-full mr-4"
+                    <TextInput model-value="" type="search" class="w-full mr-4"
                                placeholder="Search User"/>
                     <SecondaryButton class="fa-sharp fa-solid fa-xmark"
                                      @click="show_add_user_modal = false"></SecondaryButton>
