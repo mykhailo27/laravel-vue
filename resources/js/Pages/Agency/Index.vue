@@ -92,7 +92,7 @@ const handleRowCheckboxClick = (event => {
         <Table>
             <template #columns>
                 <Th>
-                    <TextInput type="checkbox" @click="handleTableCheckboxClick" :id="table_checkbox"/>
+                    <TextInput type="checkbox" model-value="" @click="handleTableCheckboxClick" :id="table_checkbox"/>
                 </Th>
                 <Th>Name</Th>
                 <Th>Email</Th>
