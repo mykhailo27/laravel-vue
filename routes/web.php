@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Agency\AgencyViewController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\UserViewController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,15 +34,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::group([
-        'prefix' => 'profile',
-        'as' => 'profile.',
-    ], static function () {
-        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
-        Route::patch('/', [ProfileController::class, 'update'])->name('update');
-        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
-    });
-
-    Route::group([
         'prefix' => 'agencies',
         'as' => 'agencies.'
     ], static function () {
@@ -51,6 +43,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{agency?}', [AgencyViewController::class, 'details'])->name('details');
         Route::put('/{agency}', [AgencyViewController::class, 'update'])->name('update');
         Route::delete('/{agency}', [AgencyViewController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group([
+        'prefix' => 'profile',
+        'as' => 'profile.',
+    ], static function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group([
+        'prefix' => 'users',
+        'as' => 'users.',
+    ], static function () {
+        Route::get('/', [UserViewController::class, 'index'])->name('index');
     });
 
 });
