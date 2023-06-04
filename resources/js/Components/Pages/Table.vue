@@ -141,7 +141,8 @@ const handleRowClick = (row_id) => {
                 <Td v-for="column in columns">
                     <TextInput v-if="column === 'id'" type="checkbox" :model-value="row[column].toString()"
                                @click.stop @click="handleRowCheckboxClick"/>
-                    <DangerButton v-else-if="column === 'actions'" class="ml-3">
+                    <DangerButton v-else-if="column === 'actions'" class="ml-3" @click.stop
+                                  @click="console.log('delete row')">
                         <i class="fa-sharp fa-solid fa-trash"></i>
                     </DangerButton>
                     <template v-else-if="date_columns.includes(column)">{{
