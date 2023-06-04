@@ -1,7 +1,7 @@
 <script setup>
 
 defineProps({
-    content: {
+    tab: {
         type: Object,
         required: true
     }
@@ -12,9 +12,9 @@ defineProps({
 <template>
     <div
         class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-        :id="content.id"
+        :id="tab.content_id"
         role="tabpanel"
-        :aria-labelledby="content.tab_id">
+        :aria-labelledby="tab.id">
         <slot />
     </div>
 </template>
