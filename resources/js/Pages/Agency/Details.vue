@@ -34,6 +34,11 @@ const agency_form = useForm({
     email: props.agency?.email ?? '',
 });
 
+const tab_attributes = {
+    agency: {id: 'agency-form-tab', content_href: '#agency-form', content_id: 'agency-form', name: 'Agency'},
+    users: {id: 'agency-users-tab', content_href: '#agency-users', content_id: 'agency-users', name: 'Users'},
+}
+
 const submit = () => {
     if (props.agency !== null) {
         if (agency_form.name !== props.agency.name || agency_form.email !== props.agency.email) {
@@ -54,7 +59,25 @@ const submit = () => {
     }
 };
 
+
+const show_add_or_update_agency_btn = ref(true)
 const show_add_user_btn = ref(false)
+
+const activateTab = (event) => {
+    const tab_id = event.target.id;
+
+    switch (tab_id) {
+        case tab_attributes.users.id:
+            show_add_user_btn.value = true;
+            show_add_or_update_agency_btn.value = false;
+            break;
+        case tab_attributes.agency.id:
+            show_add_or_update_agency_btn.value = true;
+            show_add_user_btn.value = false;
+            break;
+    }
+}
+
 const show_add_user_modal = ref(false)
 const search_user_input = ref('')
 
@@ -120,31 +143,35 @@ const handleRemoveUser = (event) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center justify-between mt-4">
-                <PrimaryButton @click="clickSubmitBtn" class="ml-4" :class="{ 'opacity-25': agency_form.processing }"
-                               :disabled="agency_form.processing">
-                    {{ (props.agency === null ? 'Save' : 'Update') }}
-                </PrimaryButton>
+                <div id="primary-actions">
+                    <PrimaryButton v-show="show_add_or_update_agency_btn" @click="clickSubmitBtn" class="ml-4" :class="{ 'opacity-25': agency_form.processing }"
+                                   :disabled="agency_form.processing">
+                        {{ (props.agency === null ? 'Save' : 'Update') }}
+                    </PrimaryButton>
+                </div>
 
-                <PrimaryButton v-show="show_add_user_btn" @click="show_add_user_modal = true">Add Users</PrimaryButton>
+                <div id="secondary-actions">
+                    <PrimaryButton v-show="show_add_user_btn" @click="show_add_user_modal = true">Add Users</PrimaryButton>
+                </div>
             </div>
         </template>
 
         <Pill>
             <template #pill-tabs>
                 <li role="presentation" class="flex-grow text-center">
-                    <Tab @click="show_add_user_btn = false"
-                         :tab="{id: 'agency-form-tab', content_href: '#agency-form', content_id: 'agency-form', name: 'Agency'}"
+                    <Tab @click="activateTab"
+                         :tab="tab_attributes.agency"
                          data-te-nav-active/>
                 </li>
                 <li role="presentation" class="flex-grow text-center">
-                    <Tab @click="show_add_user_btn = true"
-                         :tab="{id: 'agency-users-tab', content_href: '#agency-users', content_id: 'agency-users', name: 'Users'}"
+                    <Tab @click="activateTab"
+                         :tab="tab_attributes.users"
                          :disabled="agency_exist"/>
                 </li>
             </template>
 
             <template #pill-contents>
-                <Content :content="{id: 'agency-form', tab_id: 'agency-form-tab'}" data-te-tab-active>
+                <Content :tab="tab_attributes.agency" data-te-tab-active>
                     <form @submit.prevent="submit">
 
                         <div>
@@ -179,7 +206,7 @@ const handleRemoveUser = (event) => {
                         <button type="submit" id="submit-btn" hidden>Submit</button>
                     </form>
                 </Content>
-                <Content :content="{id: 'agency-users', tab_id: 'agency-users-tab'}">
+                <Content :tab="tab_attributes.users">
 
                     <Table>
                         <template #columns>
