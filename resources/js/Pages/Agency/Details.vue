@@ -82,7 +82,7 @@ const handleAddUser = (event) => {
     const target = event.target;
     const user_id = target.dataset.userId
 
-    axios.post(route('agencies.add-user', {agency: props.agency.id, user: user_id}))
+    axios.post(route('api.agencies.add-user', {agency: props.agency.id, user: user_id}))
         .then(res => {
             const user = res.data.user;
 
@@ -99,7 +99,7 @@ const handleRemoveUser = (event) => {
     const target = event.target;
     const user_id = target.dataset.userId
 
-    axios.delete(route('agencies.remove-user', {agency: props.agency.id, user: user_id}))
+    axios.delete(route('api.agencies.remove-user', {agency: props.agency.id, user: user_id}))
         .then(res => {
             const user = res.data.user;
 
