@@ -20,7 +20,6 @@ defineProps({
 });
 
 const selected_id = ref([]);
-const table_checkbox = 'table-checkbox'
 const form = useForm({});
 
 const deleteAgency = (id => {
@@ -92,7 +91,7 @@ const handleRowCheckboxClick = (event => {
         <Table>
             <template #columns>
                 <Th>
-                    <TextInput type="checkbox" model-value="" @click="handleTableCheckboxClick" :id="table_checkbox"/>
+                    <TextInput type="checkbox" model-value="" @click="handleTableCheckboxClick"/>
                 </Th>
                 <Th>Name</Th>
                 <Th>Email</Th>
