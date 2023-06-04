@@ -59,7 +59,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'as' => 'users.',
     ], static function () {
         Route::get('/', [UserViewController::class, 'index'])->name('index');
+        Route::get('/create', [UserViewController::class, 'create'])->name('create');
+        Route::post('/', [UserViewController::class, 'store'])->name('store');
         Route::get('/{user?}', [UserViewController::class, 'details'])->name('details');
+        Route::put('/{user}', [UserViewController::class, 'update'])->name('update');
     });
 
 });
