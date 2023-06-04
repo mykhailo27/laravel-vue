@@ -59,6 +59,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'as' => 'users.',
     ], static function () {
         Route::get('/', [UserViewController::class, 'index'])->name('index');
+        Route::get('/{user?}', [UserViewController::class, 'details'])->name('details');
     });
 
 });
