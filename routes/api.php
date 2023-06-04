@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Agency\AgencyApiController;
+use App\Http\Controllers\User\UserApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(static function () {
 
     Route::get('/user', static function (Request $request) {
-       return $request->user();
-   });
+        return $request->user();
+    });
 
 
     Route::group([
@@ -30,5 +31,13 @@ Route::middleware('auth:sanctum')->group(static function () {
         Route::get('{agency}/users', [AgencyApiController::class, 'users'])->name('users');
         Route::post('{agency}/add-user/{user}', [AgencyApiController::class, 'addUser'])->name('add-user');
         Route::delete('{agency}/remove-user/{user}', [AgencyApiController::class, 'removeUser'])->name('remove-user');
+    });
+
+    Route::group([
+        'prefix' => 'users',
+        'as' => 'users.'
+    ], static function () {
+
+        Route::get('', [UserApiController::class, 'index'])->name('index');
     });
 });
