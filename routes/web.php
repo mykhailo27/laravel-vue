@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Agency\AgencyViewController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\User\UserViewController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
