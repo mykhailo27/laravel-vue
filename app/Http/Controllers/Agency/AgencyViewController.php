@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Agency;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreAgencyRequest;
-use App\Http\Requests\UpdateAgencyRequest;
+use App\Http\Requests\Agency\StoreAgencyRequest;
+use App\Http\Requests\Agency\UpdateAgencyRequest;
 use App\Models\Agency;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -30,10 +30,7 @@ class AgencyViewController extends Controller
      */
     public function store(StoreAgencyRequest $request): RedirectResponse
     {
-        $agency = Agency::create([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+        $agency = Agency::create($request->validated());
 
         return Redirect::route('agencies.details', [
             'agency' => $agency->id
