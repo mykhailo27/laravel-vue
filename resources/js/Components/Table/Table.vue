@@ -9,7 +9,7 @@
                 <div class="overflow-hidden">
                     <table class="min-w-full text-left text-sm font-light">
                         <thead class="border-b font-medium dark:border-neutral-500">
-                        <tr>
+                        <tr class="capitalize">
                             <slot name="columns" />
                         </tr>
                         </thead>

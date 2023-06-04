@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(static function () {
         'as' => 'agencies.'
     ], static function () {
 
+        Route::get('{agency}/users', [AgencyApiController::class, 'users'])->name('users');
         Route::post('{agency}/add-user/{user}', [AgencyApiController::class, 'addUser'])->name('add-user');
         Route::delete('{agency}/remove-user/{user}', [AgencyApiController::class, 'removeUser'])->name('remove-user');
     });

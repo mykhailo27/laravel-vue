@@ -22,6 +22,15 @@ class AgencyApiController extends Controller
         ]);
     }
 
+    public function users(Agency $agency): Response
+    {
+        return response([
+            'success' => true,
+            'message' => 'Load agency users',
+            'users' => $agency->users
+        ]);
+    }
+
     public function removeUser(Agency $agency, User $user): Response
     {
         $removed = $agency->removeUser($user);
