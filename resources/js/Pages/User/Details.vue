@@ -10,10 +10,26 @@ import InputError from "@/Components/InputError.vue";
 import Tab from "@/Components/Pill/Tab.vue";
 import Content from "@/Components/Pill/Content.vue";
 import Pill from "@/Components/Pill/Pill.vue";
+import Th from "@/Components/Table/Th.vue";
+import Tr from "@/Components/Table/Tr.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import Table from "@/Components/Table/Table.vue";
+import Td from "@/Components/Table/Td.vue";
+import Modal from "@/Components/Modal.vue";
+import DangerButton from "@/Components/DangerButton.vue";
 
 const props = defineProps({
     user: {
         type: Object,
+    },
+    user_roles: {
+        type: Array,
+    },
+    roles: {
+        type: Array,
+    },
+    permissions: {
+        type: Array,
     }
 });
 
@@ -61,6 +77,55 @@ const show_add_or_update_user_btn = ref(true)
 const show_add_role_btn = ref(false)
 const show_add_permission_btn = ref(false)
 
+const show_add_role_modal = ref(false)
+const search_role_input = ref('')
+
+const closetRoleModal = () => {
+    show_add_role_modal.value = false
+    search_role_input.value = '';
+}
+
+const filtered_roles = computed(() => {
+    return props.roles.filter(role => {
+        return role.name.toLowerCase().indexOf(search_role_input.value.toLowerCase()) > -1
+            || role.guard_name.toLowerCase().indexOf(search_role_input.value.toLowerCase()) > -1
+    })
+})
+
+const handleAddRole = (event) => {
+    const target = event.target;
+    const role_id = target.dataset.roleId
+
+    axios.post(route('api.users.add-role', {user: props.user.id, role: role_id}))
+        .then(res => {
+            const role = res.data.role;
+
+            if (props.user_roles.findIndex(ob => ob.id === role.id) === -1) {
+                props.user_roles.push(role)
+            }
+
+            props.roles.splice(props.roles.findIndex(ob => ob.id === role.id), 1);
+        })
+        .catch(error => console.error(error))
+}
+
+const handleRemoveRole = (event) => {
+    const target = event.target;
+    const role_id = target.dataset.roleId
+
+    axios.delete(route('api.users.remove-role', {user: props.user.id, role: role_id}))
+        .then(res => {
+            const role = res.data.role;
+
+            if (props.roles.findIndex(ob => ob.id === role.id) === -1) {
+                props.roles.push(role)
+            }
+
+            props.user_roles.splice(props.user_roles.findIndex(ob => ob.id === role.id), 1);
+        })
+        .catch(error => console.error(error))
+}
+
 const activateTab = (event) => {
     const tab_id = event.target.id;
 
@@ -104,7 +169,7 @@ const clickSubmitBtn = () => {
                 </div>
 
                 <div>
-                    <PrimaryButton v-show="show_add_role_btn" @click="console.log('show add role modal')">
+                    <PrimaryButton v-show="show_add_role_btn" @click="show_add_role_modal = true">
                         Add Role
                     </PrimaryButton>
                     <PrimaryButton v-show="show_add_permission_btn" @click="console.log('show add permission modal')">
@@ -165,7 +230,25 @@ const clickSubmitBtn = () => {
                     </form>
                 </Content>
                 <Content :tab="tab_attributes.roles">
-                    roles
+                    <Table>
+                        <template #columns>
+                            <Th>Name</Th>
+                            <Th>Guard Name</Th>
+                            <Th>Create At</Th>
+                            <Th>Action</Th>
+                        </template>
+                        <template #rows>
+                            <Tr v-if="user_roles !== null" v-for="role in user_roles">
+                                <Td>{{ role.name }}</Td>
+                                <Td>{{ role.guard_name }}</Td>
+                                <Td>{{ (new Date(role.created_at)).toLocaleDateString() }}</Td>
+                                <Td>
+                                    <DangerButton title="Remove Role" class="fa-sharp fa-solid fa-trash"
+                                                  :data-role-id="role.id" @click="handleRemoveRole"/>
+                                </Td>
+                            </Tr>
+                        </template>
+                    </Table>
                 </Content>
 
                 <Content :tab="tab_attributes.permissions">
@@ -173,6 +256,35 @@ const clickSubmitBtn = () => {
                 </Content>
             </template>
         </Pill>
+
+        <Modal :show="show_add_role_modal" @close="closetRoleModal">
+            <div class="p-6">
+                <div class="flex">
+                    <TextInput model-value="" type="search" v-model="search_role_input" class="w-full mr-4"
+                               placeholder="Search User"/>
+                    <SecondaryButton class="fa-sharp fa-solid fa-xmark"
+                                     @click="closetRoleModal"></SecondaryButton>
+                </div>
+
+                <Table>
+                    <template #columns>
+                        <Th>Name</Th>
+                        <Th>Guard</Th>
+                        <Th>Action</Th>
+                    </template>
+                    <template #rows>
+                        <Tr v-if="roles !== null" v-for="role in filtered_roles">
+                            <Td>{{ role.name }}</Td>
+                            <Td>{{ role.guard_name }}</Td>
+                            <Td>
+                                <PrimaryButton title="Add Role" class="fa-solid fa-plus" :data-role-id="role.id"
+                                               @click="handleAddRole"/>
+                            </Td>
+                        </Tr>
+                    </template>
+                </Table>
+            </div>
+        </Modal>
 
     </AuthenticatedLayout>
 </template>

@@ -10,6 +10,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserViewController extends Controller
 {
@@ -29,7 +31,11 @@ class UserViewController extends Controller
     public function details(User $user): Response
     {
         return Inertia::render('User/Details', [
-            'user' => $user
+            'user' => $user,
+            'user_roles' => $user->roles,
+            'user_permissions' => $user->permissions,
+            'permissions' => Permission::all(['id', 'name', 'guard_name']),
+            'roles' => Role::all(['id', 'name', 'guard_name'])
         ]);
     }
 

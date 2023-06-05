@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
@@ -57,5 +58,12 @@ class User extends Authenticatable
             ->using(AgencyUser::class)
             ->withPivot('selected')
             ->withTimestamps();
+    }
+
+    public function getGuardNames(): Collection
+    {
+        $guard_names = array_keys(config('auth.guards'));
+
+        return collect($guard_names);
     }
 }

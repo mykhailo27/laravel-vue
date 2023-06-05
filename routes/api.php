@@ -38,6 +38,8 @@ Route::middleware('auth:sanctum')->group(static function () {
         'as' => 'users.'
     ], static function () {
 
-        Route::get('', [UserApiController::class, 'index'])->name('index');
+        Route::get('{user}/roles', [UserApiController::class, 'roles'])->name('roles');
+        Route::post('{user}/add-role/{role}', [UserApiController::class, 'addRole'])->name('add-role');
+        Route::delete('{user}/remove-role/{role}', [UserApiController::class, 'removeRole'])->name('remove-role');
     });
 });
