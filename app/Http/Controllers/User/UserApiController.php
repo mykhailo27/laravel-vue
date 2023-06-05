@@ -20,22 +20,24 @@ class UserApiController extends Controller
 
     public function addRole(User $user, Role $role): Response
     {
-        $has_role = $user->assignRole($role);
+        $user->assignRole($role);
+
+        $assigned = $user->hasRole($role);
 
         return response([
-            'message' => $has_role->exists
+            'message' => $assigned
                 ? 'Role has been added successful'
                 : 'Fail to add role to a user',
-            'success' => $has_role->exists,
+            'success' => $assigned,
             'role' => $role
         ]);
     }
 
     public function removeRole(User $user, Role $role): Response
     {
-        $has_role = $user->removeRole($role);
+        $user->removeRole($role);
 
-        $removed = !$has_role->exists;
+        $removed = !$user->hasRole($role);
 
         return response([
             'message' => $removed
