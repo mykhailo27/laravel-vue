@@ -80,7 +80,7 @@ const handleRowClick = (row_id) => {
 </script>
 
 <template>
-    <div class="flex justify-between">
+    <div class="flex justify-between flex-wrap gap-2">
         <!-- table search  -->
         <TextInput type="search" name="search" model-value="" class="focus:border-0" placeholder="Search . . ."/>
 
