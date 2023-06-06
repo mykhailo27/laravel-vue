@@ -10,7 +10,8 @@ import TextInput from "@/Components/TextInput.vue";
 import Link from "@/Components/Link.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import Pagination from "@/Components/Pagination.vue";
-import {ref} from "vue";
+import {handleRowClick, handleRowCheckboxClick, handleTableCheckboxClick} from "@/Modules/TableClickHandler.js";
+
 
 defineProps({
     agencies: {
@@ -19,7 +20,6 @@ defineProps({
     },
 });
 
-const selected_id = ref([]);
 const form = useForm({});
 
 const deleteAgency = (id => {
@@ -30,49 +30,6 @@ const deleteAgency = (id => {
         // onFinish: () => form.reset(),
     });
 });
-
-const details = (id => {
-    window.location.href = route('agencies.details', {agency: id})
-})
-
-const updateSelectedId = (row_checkbox => {
-    const value = row_checkbox.value;
-    const index = selected_id.value.indexOf(value)
-
-    if (row_checkbox.checked && index === -1) {
-        selected_id.value.push(value)
-    } else if (index !== -1) {
-        selected_id.value.splice(index, 1);
-    }
-})
-
-const handleTableCheckboxClick = (event => {
-    const target = event.target;
-    const checked = target.checked;
-
-    target.closest('table')
-        .querySelectorAll('tbody tr input')
-        .forEach(input => {
-            input.checked = checked
-            updateSelectedId(input)
-        })
-})
-
-const handleRowCheckboxClick = (event => {
-    const target = event.target;
-
-    updateSelectedId(target);
-
-    const all_row_checkbox = target.closest('table')
-        .querySelectorAll('tbody tr input[type="checkbox"]');
-
-    const checked_rows_checkbox = [...all_row_checkbox]
-        .filter(row_checkbox => row_checkbox.checked);
-
-    target.closest('table')
-        .querySelector('thead th input')
-        .checked = all_row_checkbox.length === checked_rows_checkbox.length
-})
 
 </script>
 
@@ -99,7 +56,7 @@ const handleRowCheckboxClick = (event => {
                 <Th>Actions</Th>
             </template>
             <template #rows>
-                <Tr v-for="agency in agencies.data" @click="details(agency.id)">
+                <Tr v-for="agency in agencies.data" @click="handleRowClick(agency.id, route('agencies.details', {agency: '__ROW_ID__'}))">
                     <Td>
                         <TextInput type="checkbox" :model-value="agency.id" @click.stop @click="handleRowCheckboxClick"/>
                     </Td>
