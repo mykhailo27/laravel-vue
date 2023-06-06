@@ -16,7 +16,7 @@ class AgencySeeder extends Seeder
     public function run(): void
     {
         Agency::factory()
-            ->count(5)
+            ->count(50)
             ->create();
     }
 }
