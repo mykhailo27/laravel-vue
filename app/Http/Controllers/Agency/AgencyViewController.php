@@ -18,7 +18,7 @@ class AgencyViewController extends Controller
      */
     public function index(): Response
     {
-        $agencies = Agency::paginate(10);
+        $agencies = Agency::paginate(10)->onEachSide(0);
 
         return Inertia::render('Agency/Index', [
             'agencies' => $agencies
