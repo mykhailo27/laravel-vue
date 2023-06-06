@@ -9,6 +9,8 @@ import DangerButton from "@/Components/DangerButton.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Select from "@/Components/Select.vue";
 import {handleRowClick, handleRowCheckboxClick, handleTableCheckboxClick} from "@/Modules/TableClickHandler.js";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import Dropdown from "@/Components/Dropdown.vue";
 
 const props = defineProps({
     data: {
@@ -35,12 +37,48 @@ const date_columns = [
 </script>
 
 <template>
+
     <div class="flex justify-between flex-wrap gap-2">
-        <!-- table search  -->
-        <TextInput type="search" name="search" model-value="" class="focus:border-0" placeholder="Search . . ."/>
+        <!-- table actions -->
+        <Dropdown align="left" width="48">
+            <template #trigger>
+                <span class="inline-flex rounded-md">
+                    <button
+                        type="button"
+                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                    >
+                        Actions
+
+                        <svg
+                            class="ml-2 -mr-0.5 h-4 w-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                </span>
+            </template>
+
+            <template #content>
+                <DropdownLink href="#" :class="'flex justify-between'">
+                    <span>Delete</span>
+                    <span>10</span>
+                </DropdownLink>
+                <DropdownLink href="#" method="post" as="button" :class="'flex justify-between'">
+                    <span>Refresh</span>
+                    <span>10</span>
+                </DropdownLink>
+            </template>
+        </Dropdown>
 
         <!-- table pagination -->
-        <Pagination :links="data.links"/>
+        <Pagination :links="data.links" :from="data.from" :to="data.to" :total="data.total"/>
 
         <!-- table per page -->
         <Select :options="[{name: data.per_page, value: data.per_page}, {name: 30, value: 30}, {name: 50, value: 50}]"
