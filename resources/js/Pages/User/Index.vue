@@ -19,7 +19,7 @@ const props = defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <Header :link="{url: route('users.create'), name: 'Create'}" search_url="#"/>
+            <Header :link="{url: route('users.create'), name: 'Create'}" :search_url="route('api.users.index')"/>
         </template>
 
         <Table :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="users"

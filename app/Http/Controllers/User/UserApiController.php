@@ -9,6 +9,14 @@ use Spatie\Permission\Models\Role;
 
 class UserApiController extends Controller
 {
+    public function index(): Response
+    {
+        return response([
+            'success' => true,
+            'message' => 'Load agency users',
+            'users' => User::paginate(10)->onEachSide(0)
+        ]);
+    }
     public function roles(User $user): Response
     {
         return response([
