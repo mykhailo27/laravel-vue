@@ -2,7 +2,7 @@
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head} from '@inertiajs/vue3';
-import Index from "@/Components/Pages/Index.vue";
+import Table from "@/Components/Pages/Index/Table.vue";
 import Link from "@/Components/Link.vue";
 import TextInput from "@/Components/TextInput.vue";
 
@@ -32,7 +32,7 @@ const props = defineProps({
             </div>
         </template>
 
-        <Index :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="users"
+        <Table :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="users"
                    :details_route="route('users.details', {user: '__ROW_ID__'})"/>
 
     </AuthenticatedLayout>
