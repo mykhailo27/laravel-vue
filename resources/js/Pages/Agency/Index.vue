@@ -3,7 +3,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head, useForm} from '@inertiajs/vue3';
 import Link from "@/Components/Link.vue";
-import PageTable from "@/Components/Pages/Table.vue";
+import Index from "@/Components/Pages/Index.vue";
 
 defineProps({
     agencies: {
@@ -27,7 +27,7 @@ const form = useForm({});
             </Link>
         </template>
 
-        <PageTable :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="agencies"
+        <Index :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="agencies"
                    :details_route="route('agencies.details', {agency: '__ROW_ID__'})"/>
 
     </AuthenticatedLayout>

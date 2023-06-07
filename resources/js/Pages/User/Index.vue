@@ -2,7 +2,7 @@
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head} from '@inertiajs/vue3';
-import PageTable from "@/Components/Pages/Table.vue";
+import Index from "@/Components/Pages/Index.vue";
 import Link from "@/Components/Link.vue";
 import TextInput from "@/Components/TextInput.vue";
 
@@ -32,7 +32,7 @@ const props = defineProps({
             </div>
         </template>
 
-        <PageTable :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="users"
+        <Index :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="users"
                    :details_route="route('users.details', {user: '__ROW_ID__'})"/>
 
     </AuthenticatedLayout>
