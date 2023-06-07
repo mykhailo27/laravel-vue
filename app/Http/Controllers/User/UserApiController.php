@@ -3,25 +3,24 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User\UserCollection;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
 
 class UserApiController extends Controller
 {
-    public function index(): Response
+    public function index(): UserCollection
     {
-        return response([
-            'success' => true,
-            'message' => 'Load agency users',
-            'users' => User::paginate(10)->onEachSide(0)
-        ]);
+        $users = User::paginate(5)->onEachSide(0);
+
+        return new UserCollection($users);
     }
     public function roles(User $user): Response
     {
         return response([
             'success' => true,
-            'message' => 'Load agency users',
+            'message' => 'Load user roles',
             'roles' => $user->roles
         ]);
     }
