@@ -19,7 +19,7 @@ class UserApiController extends Controller
             $query->where('name', 'LIKE', '%' . $search . '%')
                 ->orWhere('email', 'LIKE', '%' . $search . '%');
         })
-            ->paginate(15)
+            ->paginate(10)
             ->onEachSide(0);
 
         return new UserCollection($users);
