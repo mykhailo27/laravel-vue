@@ -2,8 +2,8 @@
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head, useForm} from '@inertiajs/vue3';
-import Link from "@/Components/Link.vue";
 import Table from "@/Components/Pages/Index/Table.vue";
+import Header from "@/Components/Pages/Index/Header.vue";
 
 defineProps({
     agencies: {
@@ -21,14 +21,11 @@ const form = useForm({});
     <AuthenticatedLayout>
 
         <template #header>
-            <Link :href="route('agencies.create')"
-                  class="font-semibold border rounded leading-none w-fit hover:bg-gray-200 hover:shadow-lg active:bg-gray-200 active:shadow-lg">
-                Create
-            </Link>
+            <Header :link="{url: route('agencies.create'), name: 'Create'}" search_url="#"/>
         </template>
 
         <Table :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="agencies"
-                   :details_route="route('agencies.details', {agency: '__ROW_ID__'})"/>
+               :details_route="route('agencies.details', {agency: '__ROW_ID__'})"/>
 
     </AuthenticatedLayout>
 </template>

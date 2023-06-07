@@ -3,8 +3,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head} from '@inertiajs/vue3';
 import Table from "@/Components/Pages/Index/Table.vue";
-import Link from "@/Components/Link.vue";
-import TextInput from "@/Components/TextInput.vue";
+import Header from "@/Components/Pages/Index/Header.vue";
 
 const props = defineProps({
     users: {
@@ -20,20 +19,11 @@ const props = defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex justify-between">
-                <!-- table search  -->
-                <TextInput type="search" name="search" model-value="" class="focus:border-0"
-                           placeholder="Search . . ."/>
-
-                <Link :href="route('users.create')"
-                      class="font-semibold border rounded leading-none w-fit hover:bg-gray-200 hover:shadow-lg active:bg-gray-200 active:shadow-lg">
-                    Create
-                </Link>
-            </div>
+            <Header :link="{url: route('users.create'), name: 'Create'}" search_url="#"/>
         </template>
 
         <Table :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="users"
-                   :details_route="route('users.details', {user: '__ROW_ID__'})"/>
+               :details_route="route('users.details', {user: '__ROW_ID__'})"/>
 
     </AuthenticatedLayout>
 </template>
