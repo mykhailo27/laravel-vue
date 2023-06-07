@@ -15,12 +15,14 @@ const props = defineProps({
     }
 })
 
+const emit = defineEmits(['filteredUsers']);
+
 const submitSearch = (event) => {
     StartSearchTimer(function (value) {
 
         axios.get(props.search_url + '?search=' + value)
             .then(res => {
-                console.log(res)
+                emit('filteredUsers', res.data);
             })
 
     }, event.target.value)
