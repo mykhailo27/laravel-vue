@@ -22,6 +22,7 @@ const submitSearch = (event) => {
 
         axios.get(props.search_url + '?search=' + value)
             .then(res => {
+                // todo return only if success full
                 emit('filteredUsers', res.data);
             })
 
