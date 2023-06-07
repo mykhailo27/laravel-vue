@@ -8,9 +8,11 @@ import TextInput from "@/Components/TextInput.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Select from "@/Components/Select.vue";
-import {handleRowClick, handleRowCheckboxClick, handleTableCheckboxClick} from "@/Modules/TableClickHandler.js";
+import {handleRowCheckboxClick, handleRowClick, handleTableCheckboxClick}
+    from "@/Modules/TableClickHandler.js";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import Dropdown from "@/Components/Dropdown.vue";
+import {ref, watch} from "vue";
 
 const props = defineProps({
     data: {
@@ -26,6 +28,15 @@ const props = defineProps({
         required: true
     }
 })
+
+const data = ref(props.data);
+
+watch(props, () => {
+    data.value = {
+        data: props.data.data,
+        ...props.data.meta, ...props.data.links
+    };
+});
 
 const date_columns = [
     'created_at',
@@ -78,13 +89,14 @@ const date_columns = [
         </Dropdown>
 
         <!-- table pagination -->
-        <Pagination :links="data.links" :from="data.from" :to="data.to" :total="data.total"/>
+        <Pagination v-if="data" :links="data.links" :from="data.from" :to="data.to" :total="data.total"/>
 
         <!-- table per page -->
-        <Select :options="[{name: data.per_page, value: data.per_page}, {name: 30, value: 30}, {name: 50, value: 50}]"
+        <Select v-if="data"
+                :options="[{name: data.per_page, value: data.per_page}, {name: 30, value: 30}, {name: 50, value: 50}]"
                 :default_option="{name: data.per_page, value: data.per_page}" label="per page"/>
     </div>
-    <Table>
+    <Table v-if="data">
         <template #columns>
             <Th v-for="column in columns">
                 <TextInput v-if="column === 'id'" type="checkbox" model-value=""
