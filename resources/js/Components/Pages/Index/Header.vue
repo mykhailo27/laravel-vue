@@ -10,7 +10,7 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    search_url: {
+    index_url: {
         type: String,
         required: true
     },
@@ -19,7 +19,7 @@ const props = defineProps({
 const submitSearch = (value) => {
     startSearchTimer(function (value) {
 
-        router.get(props.search_url, {
+        router.get(props.index_url, {
             search: value
         }, {
             onFinish: () => {

@@ -12,7 +12,6 @@ import {handleRowCheckboxClick, handleRowClick, handleTableCheckboxClick}
     from "@/Modules/TableClickHandler.js";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import Dropdown from "@/Components/Dropdown.vue";
-import {ref, watch} from "vue";
 
 const props = defineProps({
     data: {
@@ -23,17 +22,15 @@ const props = defineProps({
         type: Array,
         required: true
     },
-    details_route: {
+    details_url: {
+        type: String,
+        required: true
+    },
+    index_url: {
         type: String,
         required: true
     }
 })
-
-const data = ref(props.data);
-
-watch(props, () => {
-    data.value = props.data;
-});
 
 const date_columns = [
     'created_at',
@@ -102,7 +99,7 @@ const date_columns = [
             </Th>
         </template>
         <template #rows>
-            <Tr v-for="row in data.data" @click="handleRowClick(row.id, props.details_route)">
+            <Tr v-for="row in data.data" @click="handleRowClick(row.id, props.details_url)">
                 <Td v-for="column in columns">
                     <TextInput v-if="column === 'id'" type="checkbox" :model-value="row[column].toString()"
                                @click.stop @click="handleRowCheckboxClick"/>
