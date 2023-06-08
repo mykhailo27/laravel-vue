@@ -3,28 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\User\UserCollection;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
 
 class UserApiController extends Controller
 {
-    public function index(Request $request): UserCollection
-    {
-        $search = $request->get('search');
-
-        $users = User::where(static function ($query) use ($search) {
-            $query->where('name', 'LIKE', '%' . $search . '%')
-                ->orWhere('email', 'LIKE', '%' . $search . '%');
-        })
-            ->paginate(10)
-            ->onEachSide(0);
-
-        return new UserCollection($users);
-    }
-
     public function roles(User $user): Response
     {
         return response([
