@@ -1,6 +1,6 @@
 let search_timer;
 
-const StartSearchTimer = (searchTypingDone, data) => {
+const startSearchTimer = (searchTypingDone, data) => {
     clearTimeout(search_timer);
 
     search_timer = setTimeout(function () {
@@ -12,4 +12,4 @@ const clearSearchTimer = () => {
     clearTimeout(search_timer)
 }
 
-export {StartSearchTimer, clearSearchTimer}
+export {startSearchTimer, clearSearchTimer}
