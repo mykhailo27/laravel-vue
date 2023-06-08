@@ -2,7 +2,8 @@
 
 import TextInput from "@/Components/TextInput.vue";
 import Link from "@/Components/Link.vue";
-import {clearSearchTimer, StartSearchTimer} from "@/Modules/TimeOutAction.js";
+import {clearSearchTimer, startSearchTimer} from "@/Modules/TimeOutAction.js";
+import {router} from "@inertiajs/vue3";
 
 const props = defineProps({
     link: {
@@ -12,21 +13,23 @@ const props = defineProps({
     search_url: {
         type: String,
         required: true
-    }
+    },
 })
 
-const emit = defineEmits(['filteredUsers']);
+const submitSearch = (value) => {
+    startSearchTimer(function (value) {
 
-const submitSearch = (event) => {
-    StartSearchTimer(function (value) {
+        router.get(props.search_url, {
+            search: value
+        }, {
+            onFinish: () => {
+                // todo set to the element here through vue
+                document.querySelector('#search-input').value = value
+            },
+            onError: (error => console.log(error)),
+        })
 
-        axios.get(props.search_url + '?search=' + value)
-            .then(res => {
-                // todo return only if success full
-                emit('filteredUsers', res.data);
-            })
-
-    }, event.target.value)
+    }, value)
 }
 
 </script>
@@ -34,8 +37,9 @@ const submitSearch = (event) => {
 <template>
     <div class="flex justify-between">
         <!-- table search  -->
-        <TextInput type="search" name="search" model-value="" class="focus:border-0"
-                   placeholder="Search . . ." @keydown="clearSearchTimer" @keyup="submitSearch"/>
+        <TextInput type="search" model-value="" id="search-input" class="focus:border-0" placeholder="Search . . ."
+                   @update:modelValue="submitSearch"
+                   @keydown="clearSearchTimer"/>
 
         <Link :href="link.url"
               class="font-semibold border rounded leading-none w-fit hover:bg-gray-200 hover:shadow-lg active:bg-gray-200 active:shadow-lg">
