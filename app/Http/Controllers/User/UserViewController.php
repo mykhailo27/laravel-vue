@@ -28,6 +28,7 @@ class UserViewController extends Controller
                 ->orWhere('email', 'LIKE', '%' . $search . '%');
         })
             ->paginate(10)
+            ->withQueryString()
             ->onEachSide(0);
 
         return Inertia::render('User/Index', [
