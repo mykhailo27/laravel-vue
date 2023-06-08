@@ -7,6 +7,7 @@ use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -18,10 +19,19 @@ class UserViewController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $search = $request->get('search');
+
+        $users = User::where(static function ($query) use ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%')
+                ->orWhere('email', 'LIKE', '%' . $search . '%');
+        })
+            ->paginate(10)
+            ->onEachSide(0);
+
         return Inertia::render('User/Index', [
-            'users' => User::paginate(10)->onEachSide(0)
+            'users' => $users
         ]);
     }
 
