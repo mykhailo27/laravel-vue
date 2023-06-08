@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Agency\StoreAgencyRequest;
 use App\Http\Requests\Agency\UpdateAgencyRequest;
 use App\Models\Agency;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,9 +18,18 @@ class AgencyViewController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $agencies = Agency::paginate(10)->onEachSide(0);
+        $search = $request->get('search');
+
+        $agencies = Agency::where(static function ($query) use ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%')
+                ->orWhere('email', 'LIKE', '%' . $search . '%');
+        })
+            ->paginate(10)
+            ->withQueryString()
+            ->onEachSide(0);
+
 
         return Inertia::render('Agency/Index', [
             'agencies' => $agencies

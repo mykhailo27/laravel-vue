@@ -21,7 +21,7 @@ const form = useForm({});
     <AuthenticatedLayout>
 
         <template #header>
-            <Header :link="{url: route('agencies.create'), name: 'Create'}" search_url="#"/>
+            <Header :link="{url: route('agencies.create'), name: 'Create'}" :search_url="route('agencies.index')"/>
         </template>
 
         <Table :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="agencies"
