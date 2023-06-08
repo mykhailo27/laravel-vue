@@ -27,7 +27,7 @@ const getUsers = (data) => {
     <AuthenticatedLayout>
         <template #header>
             <Header @filteredUsers="getUsers" :link="{url: route('users.create'), name: 'Create'}"
-                    :search_url="route('api.users.index')"/>
+                    :search_url="route('users.index')"/>
         </template>
 
         <Table :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="filtered_user"
