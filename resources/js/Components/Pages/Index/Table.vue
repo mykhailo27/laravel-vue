@@ -32,10 +32,7 @@ const props = defineProps({
 const data = ref(props.data);
 
 watch(props, () => {
-    data.value = {
-        data: props.data.data,
-        ...props.data.meta, ...props.data.links
-    };
+    data.value = props.data;
 });
 
 const date_columns = [
