@@ -81,6 +81,14 @@ class UserViewController extends Controller
 
         return Redirect::route('users.details', [
             'user' => $user->id
-        ])->with('message', 'agency-updated');
+        ])->with('message', 'role-updated');
+    }
+
+    public function destroy(User $user): RedirectResponse
+    {
+        $user->delete();
+
+        return Redirect::route('roles.index')
+            ->with('message', "$user->name is deleted");
     }
 }
