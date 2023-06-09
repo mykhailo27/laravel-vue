@@ -16,12 +16,10 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         foreach (config('right.roles') as $role) {
-            foreach (config('auth.guards') as  $name => $guard_name) {
-                Role::create([
-                    'name' => $role,
-                    'guard_name' => $name
-                ]);
-            }
+            Role::create([
+                'name' => $role,
+                'guard_name' => 'web'
+            ]);
         }
     }
 }

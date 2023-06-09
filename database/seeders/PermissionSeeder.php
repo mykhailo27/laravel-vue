@@ -16,14 +16,10 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         foreach (config('right.permissions') as $permission) {
-
-            foreach (config('auth.guards') as $name => $guard_name) {
-
-                Permission::create([
-                    'name' => $permission,
-                    'guard_name' => $name
-                ]);
-            }
+            Permission::create([
+                'name' => $permission,
+                'guard_name' => 'web'
+            ]);
         }
     }
 }
