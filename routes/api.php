@@ -39,5 +39,7 @@ Route::middleware('auth:sanctum')->group(static function () {
         Route::get('{user}/roles', [UserApiController::class, 'roles'])->name('roles');
         Route::post('{user}/add-role/{role}', [UserApiController::class, 'addRole'])->name('add-role');
         Route::delete('{user}/remove-role/{role}', [UserApiController::class, 'removeRole'])->name('remove-role');
+        Route::post('{user}/add-permission/{permission}', [UserApiController::class, 'addPermission'])->name('add-permission');
+        Route::delete('{user}/remove-permission/{permission}', [UserApiController::class, 'removePermission'])->name('remove-permission');
     });
 });

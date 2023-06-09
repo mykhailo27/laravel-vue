@@ -25,6 +25,9 @@ const props = defineProps({
     user_roles: {
         type: Array,
     },
+    user_permissions: {
+        type: Array,
+    },
     roles: {
         type: Array,
     },
@@ -80,15 +83,30 @@ const show_add_permission_btn = ref(false)
 const show_add_role_modal = ref(false)
 const search_role_input = ref('')
 
+const show_add_permission_modal = ref(false)
+const search_permission_input = ref('')
+
 const closetRoleModal = () => {
     show_add_role_modal.value = false
     search_role_input.value = '';
+}
+
+const closetPermissionModal = () => {
+    show_add_permission_modal.value = false
+    search_permission_input.value = '';
 }
 
 const filtered_roles = computed(() => {
     return props.roles.filter(role => {
         return role.name.toLowerCase().indexOf(search_role_input.value.toLowerCase()) > -1
             || role.guard_name.toLowerCase().indexOf(search_role_input.value.toLowerCase()) > -1
+    })
+})
+
+const filtered_permissions = computed(() => {
+    return props.permissions.filter(permission => {
+        return permission.name.toLowerCase().indexOf(search_permission_input.value.toLowerCase()) > -1
+            || permission.guard_name.toLowerCase().indexOf(search_permission_input.value.toLowerCase()) > -1
     })
 })
 
@@ -122,6 +140,40 @@ const handleRemoveRole = (event) => {
             }
 
             props.user_roles.splice(props.user_roles.findIndex(ob => ob.id === role.id), 1);
+        })
+        .catch(error => console.error(error))
+}
+
+const handleRemovePermission = (event) => {
+    const target = event.target;
+    const permission_id = target.dataset.permissionId
+
+    axios.delete(route('api.users.remove-permission', {user: props.user.id, permission: permission_id}))
+        .then(res => {
+            const permission = res.data.permission;
+
+            if (props.permissions.findIndex(ob => ob.id === permission.id) === -1) {
+                props.permissions.push(permission)
+            }
+
+            props.user_permissions.splice(props.user_permissions.findIndex(ob => ob.id === permission.id), 1);
+        })
+        .catch(error => console.error(error))
+}
+
+const handleAddPermission = (event) => {
+    const target = event.target;
+    const permission_id = target.dataset.permissionId
+
+    axios.post(route('api.users.add-permission', {user: props.user.id, permission: permission_id}))
+        .then(res => {
+            const permission = res.data.permission;
+
+            if (props.user_permissions.findIndex(ob => ob.id === permission.id) === -1) {
+                props.user_permissions.push(permission)
+            }
+
+            props.permissions.splice(props.permissions.findIndex(ob => ob.id === permission.id), 1);
         })
         .catch(error => console.error(error))
 }
@@ -172,7 +224,7 @@ const clickSubmitBtn = () => {
                     <PrimaryButton v-show="show_add_role_btn" @click="show_add_role_modal = true">
                         Add Role
                     </PrimaryButton>
-                    <PrimaryButton v-show="show_add_permission_btn" @click="console.log('show add permission modal')">
+                    <PrimaryButton v-show="show_add_permission_btn" @click="show_add_permission_modal = true">
                         Add Permission
                     </PrimaryButton>
                 </div>
@@ -252,7 +304,25 @@ const clickSubmitBtn = () => {
                 </Content>
 
                 <Content :tab="tab_attributes.permissions">
-                    permissions
+                    <Table>
+                        <template #columns>
+                            <Th>Name</Th>
+                            <Th>Guard Name</Th>
+                            <Th>Create At</Th>
+                            <Th>Action</Th>
+                        </template>
+                        <template #rows>
+                            <Tr v-if="user_permissions !== null" v-for="permission in user_permissions">
+                                <Td>{{ permission.name }}</Td>
+                                <Td>{{ permission.guard_name }}</Td>
+                                <Td>{{ (new Date(permission.created_at)).toLocaleDateString() }}</Td>
+                                <Td>
+                                    <DangerButton title="Remove Permission" class="fa-sharp fa-solid fa-trash"
+                                                  :data-permission-id="permission.id" @click="handleRemovePermission"/>
+                                </Td>
+                            </Tr>
+                        </template>
+                    </Table>
                 </Content>
             </template>
         </Pill>
@@ -261,7 +331,7 @@ const clickSubmitBtn = () => {
             <div class="p-6">
                 <div class="flex">
                     <TextInput model-value="" type="search" v-model="search_role_input" class="w-full mr-4"
-                               placeholder="Search User"/>
+                               placeholder="Search Roles"/>
                     <SecondaryButton class="fa-sharp fa-solid fa-xmark"
                                      @click="closetRoleModal"></SecondaryButton>
                 </div>
@@ -279,6 +349,35 @@ const clickSubmitBtn = () => {
                             <Td>
                                 <PrimaryButton title="Add Role" class="fa-solid fa-plus" :data-role-id="role.id"
                                                @click="handleAddRole"/>
+                            </Td>
+                        </Tr>
+                    </template>
+                </Table>
+            </div>
+        </Modal>
+
+        <Modal :show="show_add_permission_modal" @close="closetPermissionModal">
+            <div class="p-6">
+                <div class="flex">
+                    <TextInput model-value="" type="search" v-model="search_permission_input" class="w-full mr-4"
+                               placeholder="Search Permission"/>
+                    <SecondaryButton class="fa-sharp fa-solid fa-xmark"
+                                     @click="closetPermissionModal"></SecondaryButton>
+                </div>
+
+                <Table>
+                    <template #columns>
+                        <Th>Name</Th>
+                        <Th>Guard</Th>
+                        <Th>Action</Th>
+                    </template>
+                    <template #rows>
+                        <Tr v-if="permissions !== null" v-for="permission in filtered_permissions">
+                            <Td>{{ permission.name }}</Td>
+                            <Td>{{ permission.guard_name }}</Td>
+                            <Td>
+                                <PrimaryButton title="Add Permission" class="fa-solid fa-plus" :data-permission-id="permission.id"
+                                               @click="handleAddPermission"/>
                             </Td>
                         </Tr>
                     </template>
