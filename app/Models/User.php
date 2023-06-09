@@ -59,11 +59,4 @@ class User extends Authenticatable
             ->withPivot('selected')
             ->withTimestamps();
     }
-
-    public function getGuardNames(): Collection
-    {
-        $guard_names = array_keys(config('auth.guards'));
-
-        return collect($guard_names);
-    }
 }
