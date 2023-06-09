@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Agency\AgencyApiController;
+use App\Http\Controllers\Role\RoleApiController;
 use App\Http\Controllers\User\UserApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,5 +42,14 @@ Route::middleware('auth:sanctum')->group(static function () {
         Route::delete('{user}/remove-role/{role}', [UserApiController::class, 'removeRole'])->name('remove-role');
         Route::post('{user}/add-permission/{permission}', [UserApiController::class, 'addPermission'])->name('add-permission');
         Route::delete('{user}/remove-permission/{permission}', [UserApiController::class, 'removePermission'])->name('remove-permission');
+    });
+
+    Route::group([
+        'prefix' => 'roles',
+        'as' => 'roles.'
+    ], static function () {
+        Route::get('{role}/permissions', [RoleApiController::class, 'permissions'])->name('permissions');
+        Route::post('{role}/add-permission/{permission}', [RoleApiController::class, 'addPermission'])->name('add-permission');
+        Route::delete('{role}/remove-permission/{permission}', [RoleApiController::class, 'removePermission'])->name('remove-permission');
     });
 });

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Agency\AgencyViewController;
 use App\Http\Controllers\Auth\ProfileController;
+use App\Http\Controllers\Role\RoleViewController;
 use App\Http\Controllers\User\UserViewController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +64,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [UserViewController::class, 'store'])->name('store');
         Route::get('/{user?}', [UserViewController::class, 'details'])->name('details');
         Route::put('/{user}', [UserViewController::class, 'update'])->name('update');
+        Route::delete('/{user}', [UserViewController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group([
+        'prefix' => 'roles',
+        'as' => 'roles.',
+    ], static function () {
+        Route::get('/', [RoleViewController::class, 'index'])->name('index');
+        Route::get('/create', [RoleViewController::class, 'create'])->name('create');
+        Route::post('/', [RoleViewController::class, 'store'])->name('store');
+        Route::get('/{role?}', [RoleViewController::class, 'details'])->name('details');
+        Route::put('/{role}', [RoleViewController::class, 'update'])->name('update');
+        Route::delete('/{role}', [RoleViewController::class, 'destroy'])->name('destroy');
     });
 
 });
