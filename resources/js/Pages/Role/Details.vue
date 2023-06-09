@@ -198,7 +198,7 @@ const clickSubmitBtn = () => {
                             <InputLabel for="guard_name" value="Guard name"/>
 
                             <select name="guard_name" id="guard_name"
-                                    autocomplete="guard_name" class="mt-1 block w-full"
+                                    autocomplete="guard_name" class="rounded border-1 mt-1 block w-full"
                                     required v-model="role_form.guard_name">
 
                                 <option value="web">Web</option>

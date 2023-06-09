@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Role;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Role\StoreRoleRequest;
+use App\Http\Requests\Role\UpdateRoleRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -36,13 +38,23 @@ class RoleViewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreRoleRequest $request): RedirectResponse
     {
         $role = Role::create($request->validated());
 
         return Redirect::route('roles.details', [
             'role' => $role->id
         ])->with('message', 'role-created');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function create(): Response
+    {
+        return Inertia::render('Role/Details', [
+            'role' => null,
+        ]);
     }
 
     /**
@@ -58,19 +70,9 @@ class RoleViewController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function create(): Response
-    {
-        return Inertia::render('Role/Details', [
-            'role' => null,
-        ]);
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Role $role): RedirectResponse
+    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
         $role->update($request->validated());
 
