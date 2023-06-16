@@ -31,14 +31,19 @@ defineProps({
               <span class="font-semibold text-gray-900 dark:text-white">{{ total }}</span>
               Entries
           </span>
-        <div v-if="links.length > 3" class="flex flex-wrap -mb-1">
-            <template v-for="(link, key) in links" :key="key">
-                <div v-if="link.url === null" class="mb-1 mr-1 px-4 py-3 text-gray-400 text-sm leading-4 border rounded"
-                     v-html="link.label"/>
-                <Link v-else
-                      class="mb-1 mr-1 px-4 py-3 focus:text-indigo-500 text-sm leading-4 hover:bg-red border focus:border-indigo-500 rounded"
-                      :class="{ 'bg-white': link.active }" :href="link.url" v-html="link.label"/>
-            </template>
-        </div>
+        <nav aria-label="page navigation" v-if="links.length > 3">
+            <ul class="list-style-none mb-6 flex gap-1">
+                <li v-for="(link, key) in links" :key="key" :aria-current="{'page': link.active}">
+                    <a v-if="link.url === null" v-html="link.label"
+                       class="pointer-events-none relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-500 transition-all duration-300 dark:text-neutral-400"
+                    />
+
+                    <Link v-else :href="link.url" v-html="link.label"
+                          class="relative block rounded-full bg-transparent text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                          :class="{'bg-primary-100 font-medium text-primary-700': link.active}"
+                          content-classes="px-3 py-1.5"/>
+                </li>
+            </ul>
+        </nav>
     </div>
 </template>
