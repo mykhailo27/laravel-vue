@@ -38,7 +38,7 @@ const submitSearch = (value) => {
     <div class="flex justify-between">
         <!-- table search  -->
         <TextInput type="search" model-value="" id="search-input" class="focus:border-0" placeholder="Search . . ."
-                   @update:modelValue="submitSearch"
+                   @update:modelValue="submitSearch" autofocus
                    @keydown="clearSearchTimer"/>
 
         <Link :href="link.url"

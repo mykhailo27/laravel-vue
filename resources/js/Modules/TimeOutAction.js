@@ -5,7 +5,7 @@ const startSearchTimer = (searchTypingDone, data) => {
 
     search_timer = setTimeout(function () {
         searchTypingDone(data)
-    }, 1000);
+    }, 500);
 };
 
 const clearSearchTimer = () => {
