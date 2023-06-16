@@ -43,7 +43,7 @@ const date_columns = [
 
 <template>
 
-    <div class="flex justify-between flex-wrap gap-2">
+    <div class="flex justify-between flex-wrap gap-2 items-center">
         <!-- table actions -->
         <Dropdown align="left" width="48">
             <template #trigger>
