@@ -16,6 +16,8 @@ import Table from "@/Components/Table/Table.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import Modal from "@/Components/Modal.vue";
+import {handleRowClick} from "@/Modules/TableClickHandler.js";
+import {filter} from "@/Modules/DataProcessing.js";
 
 const props = defineProps({
     agency: {
@@ -82,10 +84,10 @@ const show_add_user_modal = ref(false)
 const search_user_input = ref('')
 
 const filtered_non_agency_users = computed(() => {
-    return props.non_agency_users.filter(user => {
-        return user.name.toLowerCase().indexOf(search_user_input.value.toLowerCase()) > -1
-            || user.email.toLowerCase().indexOf(search_user_input.value.toLowerCase()) > -1
-    })
+    return filter(
+        props.non_agency_users,
+        ['name', 'email'],
+        search_user_input.value);
 })
 
 const agency_exist = computed(() => {
@@ -213,16 +215,17 @@ const handleRemoveUser = (event) => {
                             <Th>Name</Th>
                             <Th>Email</Th>
                             <Th>Create At</Th>
-                            <Th>Action</Th>
+                            <Th>Actions</Th>
                         </template>
                         <template #rows>
-                            <Tr v-if="agency_users !== null" v-for="user in agency_users">
+                            <Tr v-if="agency_users !== null" v-for="user in agency_users"
+                                @click="handleRowClick(user.id, route('users.details', {user: '__ROW_ID__'}))">
                                 <Td>{{ user.name }}</Td>
                                 <Td>{{ user.email }}</Td>
                                 <Td>{{ (new Date(user.created_at)).toLocaleDateString() }}</Td>
                                 <Td>
                                     <DangerButton title="Remove User" class="fa-sharp fa-solid fa-trash"
-                                                  :data-user-id="user.id" @click="handleRemoveUser"/>
+                                                  :data-user-id="user.id" @click.stop @click="handleRemoveUser"/>
                                 </Td>
                             </Tr>
                         </template>
@@ -244,7 +247,7 @@ const handleRemoveUser = (event) => {
                     <template #columns>
                         <Th>Name</Th>
                         <Th>Email</Th>
-                        <Th>Action</Th>
+                        <Th>Actions</Th>
                     </template>
                     <template #rows>
                         <Tr v-if="non_agency_users !== null" v-for="user in filtered_non_agency_users">

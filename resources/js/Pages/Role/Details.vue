@@ -17,6 +17,7 @@ import Table from "@/Components/Table/Table.vue";
 import Td from "@/Components/Table/Td.vue";
 import Modal from "@/Components/Modal.vue";
 import DangerButton from "@/Components/DangerButton.vue";
+import {filter} from "@/Modules/DataProcessing.js";
 
 const props = defineProps({
     role: {
@@ -81,10 +82,11 @@ const closetPermissionModal = () => {
 }
 
 const filtered_permissions = computed(() => {
-    return props.permissions.filter(permission => {
-        return permission.name.toLowerCase().indexOf(search_permission_input.value.toLowerCase()) > -1
-            || permission.guard_name.toLowerCase().indexOf(search_permission_input.value.toLowerCase()) > -1
-    })
+    return filter(
+        props.permissions,
+        ['name', 'guard_name'],
+        search_permission_input.value
+    )
 })
 
 const handleRemovePermission = (event) => {
@@ -215,13 +217,13 @@ const clickSubmitBtn = () => {
                     <Table>
                         <template #columns>
                             <Th>Name</Th>
-                            <Th>Guard Name</Th>
+                            <Th>Guard</Th>
                             <Th>Create At</Th>
-                            <Th>Action</Th>
+                            <Th>Actions</Th>
                         </template>
                         <template #rows>
-                            <Tr v-if="role_permissions !== null" v-for="permission in role_permissions">
-                                <Td>{{ permission.name }}</Td>
+                            <Tr v-if="role_permissions !== null" v-for="permission in role_permissions"  class="capitalize">
+                                <Td>{{ permission.name?.replace('.', ' ') }}</Td>
                                 <Td>{{ permission.guard_name }}</Td>
                                 <Td>{{ (new Date(permission.created_at)).toLocaleDateString() }}</Td>
                                 <Td>
@@ -251,8 +253,8 @@ const clickSubmitBtn = () => {
                         <Th>Action</Th>
                     </template>
                     <template #rows>
-                        <Tr v-if="permissions !== null" v-for="permission in filtered_permissions">
-                            <Td>{{ permission.name }}</Td>
+                        <Tr v-if="permissions !== null" v-for="permission in filtered_permissions" class="capitalize">
+                            <Td>{{ permission.name?.replace('.', ' ') }}</Td>
                             <Td>{{ permission.guard_name }}</Td>
                             <Td>
                                 <PrimaryButton title="Add Permission" class="fa-solid fa-plus"

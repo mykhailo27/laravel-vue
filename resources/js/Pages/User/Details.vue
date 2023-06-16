@@ -17,6 +17,8 @@ import Table from "@/Components/Table/Table.vue";
 import Td from "@/Components/Table/Td.vue";
 import Modal from "@/Components/Modal.vue";
 import DangerButton from "@/Components/DangerButton.vue";
+import {handleRowClick} from "@/Modules/TableClickHandler.js";
+import {filter} from "@/Modules/DataProcessing.js";
 
 const props = defineProps({
     user: {
@@ -97,17 +99,17 @@ const closetPermissionModal = () => {
 }
 
 const filtered_roles = computed(() => {
-    return props.roles.filter(role => {
-        return role.name.toLowerCase().indexOf(search_role_input.value.toLowerCase()) > -1
-            || role.guard_name.toLowerCase().indexOf(search_role_input.value.toLowerCase()) > -1
-    })
+    return filter(
+        props.roles,
+        ['name', 'guard_name'],
+        search_role_input.value)
 })
 
 const filtered_permissions = computed(() => {
-    return props.permissions.filter(permission => {
-        return permission.name.toLowerCase().indexOf(search_permission_input.value.toLowerCase()) > -1
-            || permission.guard_name.toLowerCase().indexOf(search_permission_input.value.toLowerCase()) > -1
-    })
+    return filter(
+        props.permissions,
+        ['name', 'guard_name'],
+        search_permission_input.value)
 })
 
 const handleAddRole = (event) => {
@@ -285,18 +287,19 @@ const clickSubmitBtn = () => {
                     <Table>
                         <template #columns>
                             <Th>Name</Th>
-                            <Th>Guard Name</Th>
+                            <Th>Guard</Th>
                             <Th>Create At</Th>
-                            <Th>Action</Th>
+                            <Th>Actions</Th>
                         </template>
                         <template #rows>
-                            <Tr v-if="user_roles !== null" v-for="role in user_roles">
+                            <Tr v-if="user_roles !== null" v-for="role in user_roles" class="capitalize"
+                                @click="handleRowClick(role.id, route('roles.details', {role: '__ROW_ID__'}))">
                                 <Td>{{ role.name }}</Td>
                                 <Td>{{ role.guard_name }}</Td>
                                 <Td>{{ (new Date(role.created_at)).toLocaleDateString() }}</Td>
                                 <Td>
                                     <DangerButton title="Remove Role" class="fa-sharp fa-solid fa-trash"
-                                                  :data-role-id="role.id" @click="handleRemoveRole"/>
+                                                  :data-role-id="role.id" @click.stop @click="handleRemoveRole"/>
                                 </Td>
                             </Tr>
                         </template>
@@ -307,13 +310,13 @@ const clickSubmitBtn = () => {
                     <Table>
                         <template #columns>
                             <Th>Name</Th>
-                            <Th>Guard Name</Th>
+                            <Th>Guard</Th>
                             <Th>Create At</Th>
-                            <Th>Action</Th>
+                            <Th>Actions</Th>
                         </template>
                         <template #rows>
-                            <Tr v-if="user_permissions !== null" v-for="permission in user_permissions">
-                                <Td>{{ permission.name }}</Td>
+                            <Tr v-if="user_permissions !== null" v-for="permission in user_permissions" class="capitalize">
+                                <Td>{{ permission.name?.replace('.', ' ') }}</Td>
                                 <Td>{{ permission.guard_name }}</Td>
                                 <Td>{{ (new Date(permission.created_at)).toLocaleDateString() }}</Td>
                                 <Td>
@@ -343,7 +346,7 @@ const clickSubmitBtn = () => {
                         <Th>Action</Th>
                     </template>
                     <template #rows>
-                        <Tr v-if="roles !== null" v-for="role in filtered_roles">
+                        <Tr v-if="roles !== null" v-for="role in filtered_roles" class="capitalize">
                             <Td>{{ role.name }}</Td>
                             <Td>{{ role.guard_name }}</Td>
                             <Td>
@@ -372,8 +375,8 @@ const clickSubmitBtn = () => {
                         <Th>Action</Th>
                     </template>
                     <template #rows>
-                        <Tr v-if="permissions !== null" v-for="permission in filtered_permissions">
-                            <Td>{{ permission.name }}</Td>
+                        <Tr v-if="permissions !== null" v-for="permission in filtered_permissions" class="capitalize">
+                            <Td>{{ permission.name?.replace('.', ' ') }}</Td>
                             <Td>{{ permission.guard_name }}</Td>
                             <Td>
                                 <PrimaryButton title="Add Permission" class="fa-solid fa-plus" :data-permission-id="permission.id"
