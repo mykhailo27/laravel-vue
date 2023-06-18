@@ -310,13 +310,17 @@ onMounted(function () {
                 </li>
             </ul>
         </div>
-        <div class="absolute bottom-0 w-full bg-inherit text-center">
-            <hr class="border-gray-300"/>
-            <a class="flex cursor-pointer items-center truncate rounded-[5px] px-6 py-2 text-[0.85rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-               data-te-sidenav-link-ref
-               href="https://teamsunday.com/" target="_blank">
-                <ApplicationLogo class="block h-9 pr-4 w-auto fill-current text-gray-800"/>
-                <span>Team Sunday</span>
+
+        <hr>
+        <div class="absolute bottom-0 px-6">
+            <a href="https://teamsunday.com/" target="_blank"
+                  class="pl-0 flex items-center justify-center py-4 outline-none"
+                  data-te-ripple-init data-te-ripple-color="primary">
+                <ApplicationLogo class="block h-8 pr-4 w-auto fill-current text-gray-800"/>
+                <span
+                    class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
+                    data-te-sidenav-slim="false"
+                >Team Sunday</span>
             </a>
         </div>
     </nav>
