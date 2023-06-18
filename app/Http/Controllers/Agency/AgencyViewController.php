@@ -20,12 +20,13 @@ class AgencyViewController extends Controller
     public function index(Request $request): Response
     {
         $search = $request->get('search');
+        $per_page = $request->get('per_page', 10);
 
         $agencies = Agency::where(static function ($query) use ($search) {
             $query->where('name', 'LIKE', '%' . $search . '%')
                 ->orWhere('email', 'LIKE', '%' . $search . '%');
         })
-            ->paginate(10)
+            ->paginate($per_page)
             ->withQueryString()
             ->onEachSide(0);
 

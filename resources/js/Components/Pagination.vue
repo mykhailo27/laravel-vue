@@ -32,7 +32,7 @@ defineProps({
               Entries
           </span>
         <nav aria-label="page navigation" v-if="links.length > 3">
-            <ul class="list-style-none mb-6 flex gap-1">
+            <ul class="list-style-none flex gap-1">
                 <li v-for="(link, key) in links" :key="key" :aria-current="{'page': link.active}">
                     <a v-if="link.url === null" v-html="link.label"
                        class="pointer-events-none relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-500 transition-all duration-300 dark:text-neutral-400"

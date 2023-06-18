@@ -88,7 +88,7 @@ const date_columns = [
         <!-- table per page -->
         <Select v-if="data"
                 :options="[{name: data.per_page, value: data.per_page}, {name: 30, value: 30}, {name: 50, value: 50}]"
-                :default_option="{name: data.per_page, value: data.per_page}" label="per page"/>
+                :modelValue="data.per_page" label="per page"/>
     </div>
     <Table v-if="data">
         <template #columns>
