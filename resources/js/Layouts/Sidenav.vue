@@ -2,8 +2,11 @@
 
 import {initTE, Ripple, Sidenav} from "tw-elements";
 import {onMounted} from "vue";
-import Link from "@/Components/Link.vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import SideNaveLink from "@/Components/SideNaveLink.vue";
+import {Link} from "@inertiajs/vue3";
+import SidenavDropdown from "@/Components/SidenavDropdown.vue";
+import SidenavDropDownItem from "@/Components/SidenavDropDownItem.vue";
 
 const props = defineProps({
     content: {
@@ -63,19 +66,18 @@ onMounted(function () {
         data-te-sidenav-mode-breakpoint-side="sm"
         data-te-sidenav-position="absolute">
 
-        <div class="flex justify-between px-6">
+        <div class="flex justify-between">
             <Link :href="route('dashboard')"
-                  class="pl-0 flex items-center justify-center py-4 outline-none"
-                  data-te-ripple-init data-te-ripple-color="primary">
-                <ApplicationLogo class="block h-8 pr-4 w-auto fill-current text-gray-800"/>
+                  class="flex w-full h-16 cursor-pointer items-center truncate rounded-[5px] px-6 py-6 gap-2 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                  data-te-sidenav-link-ref data-te-ripple-init data-te-ripple-color="primary">
+                <ApplicationLogo class="block h-8 w-auto fill-current text-gray-800"/>
                 <span
                     class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                    data-te-sidenav-slim="false"
-                >Wardrobe</span>
+                    data-te-sidenav-slim="false">Wardrobe</span>
             </Link>
 
             <i @click="sidenavInstance.toggleSlim()"
-               class="fa-solid fa-angles-left self-center group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
+               class="absolute right-0 px-4 py-6 fa-solid fa-angles-left self-center group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
                data-te-sidenav-slim="false"
             ></i>
         </div>
@@ -85,204 +87,159 @@ onMounted(function () {
         <div id="scroll-container">
             <ul class="relative m-0 list-none px-[0.2rem]" data-te-sidenav-menu-ref>
                 <li class="relative">
-                    <Link :href="route('dashboard')"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-chart-line"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Dashboard</span>
-                    </Link>
+                    <SideNaveLink :href="route('dashboard')" name="Dashboard">
+                        <template #icon>
+                            <i class="fa-solid fa-chart-line"></i>
+                        </template>
+                    </SideNaveLink>
                 </li>
+
                 <li class="relative pt-4">
                     <span class="px-6 py-4 text-[0.6rem] font-bold uppercase text-gray-600 dark:text-gray-400">
                         General
                     </span>
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-shirt"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Products</span>
-                    </Link>
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-box"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Packages</span>
-                    </Link>
 
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-truck-arrow-right"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Shipments</span>
-                    </Link>
+                    <SideNaveLink href="#" name="Products">
+                        <template #icon>
+                            <i class="fa-solid fa-shirt"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
 
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-people-group"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Campaigns</span>
-                    </Link>
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-shop"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Web-shops</span>
-                    </Link>
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-notdef"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Closets</span>
-                    </Link>
+                <li class="relative">
+                    <SideNaveLink href="#" name="Packages">
+                        <template #icon>
+                            <i class="fa-solid fa-box"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
 
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-building"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Companies</span>
-                    </Link>
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-file-contract"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Subscriptions</span>
-                    </Link>
+                <li class="relative">
+                    <SideNaveLink href="#" name="Shipment">
+                        <template #icon>
+                            <i class="fa-solid fa-truck-arrow-right"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
+
+                <li class="relative">
+                    <SideNaveLink href="#" name="Campaigns">
+                        <template #icon>
+                            <i class="fa-solid fa-people-group"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
+
+                <li class="relative">
+                    <SideNaveLink href="#" name="Web-shops">
+                        <template #icon>
+                            <i class="fa-solid fa-shop"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
+
+                <li class="relative">
+                    <SideNaveLink href="#" name="Closets">
+                        <template #icon>
+                            <i class="fa-solid fa-notdef"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
+                `
+                <li class="relative">
+                    <SideNaveLink href="#" name="Companies">
+                        <template #icon>
+                            <i class="fa-solid fa-building"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
+
+                <li class="relative">
+                    <SideNaveLink href="#" name="Subscriptions">
+                        <template #icon>
+                            <i class="fa-solid fa-file-contract"></i>
+                        </template>
+                    </SideNaveLink>
                 </li>
                 <li class="relative pt-4">
                     <span class="px-6 py-4 text-[0.6rem] font-bold uppercase text-gray-600 dark:text-gray-400">
                         Internal
                     </span>
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-brands fa-app-store-ios"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Shop Apps</span>
-                    </Link>
 
-                    <Link :href="route('agencies.index')"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-brands fa-app-store-ios"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Agencies</span>
-                    </Link>
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-flag"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Countries</span>
-                    </Link>
+                    <SideNaveLink href="#" name="Shop Apps">
+                        <template #icon>
+                            <i class="fa-brands fa-app-store-ios"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
 
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-envelope"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Messages</span>
-                    </Link>
+                <li class="relative">
+                    <SideNaveLink :href="route('agencies.index')" name="Agencies">
+                        <template #icon>
+                            <i class="fa-brands fa-app-store-ios"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
 
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-socks"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Product Types</span>
-                    </Link>
+                <li class="relative">
+                    <SideNaveLink href="#" name="Countries">
+                        <template #icon>
+                            <i class="mr-2 fa-solid fa-flag"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
 
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-cubes"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Stock Moves</span>
-                    </Link>
+                <li class="relative">
+                    <SideNaveLink href="#" name="Messages">
+                        <template #icon>
+                            <i class="fa-solid fa-envelope"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
 
-                    <div>
-                        <a
-                            class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                            data-te-sidenav-link-ref>
-                            <i class="mr-2 fa-solid fa-file-invoice-dollar"></i>
-                            <span
-                                class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                                data-te-sidenav-slim="false">Invoicing</span>
-                            <span
-                                class="absolute right-0 ml-auto mr-[0.5rem] transition-transform duration-300 ease-linear motion-reduce:transition-none [&>svg]:text-gray-600 dark:[&>svg]:text-gray-300"
-                                data-te-sidenav-rotate-icon-ref>
-                              <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                  class="h-5 w-5">
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                                    clip-rule="evenodd"/>
-                              </svg>
-                        </span>
-                        </a>
-                        <ul
-                            class="!visible relative m-0 hidden list-none p-0 data-[te-collapse-show]:block "
-                            data-te-sidenav-collapse-ref>
+                <li class="relative">
+                    <SideNaveLink href="#" name="Product Types">
+                        <template #icon>
+                            <i class="mr-2 fa-solid fa-socks"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
+
+                <li class="relative">
+                    <SideNaveLink href="#" name="Stock Moves">
+                        <template #icon>
+                            <i class="mr-2 fa-solid fa-cubes"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
+
+                <li class="relative">
+                    <SidenavDropdown name="Invoicing">
+                        <template #items>
                             <li class="relative">
-                                <a
-                                    class="flex h-6 cursor-pointer items-center truncate rounded-[5px] py-4 pl-[3.4rem] pr-6 text-[0.78rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                                    data-te-sidenav-link-ref
-                                >Charges</a
-                                >
+                                <SidenavDropDownItem href="#" name="Charges"/>
                             </li>
                             <li class="relative">
-                                <a
-                                    class="flex h-6 cursor-pointer items-center truncate rounded-[5px] py-4 pl-[3.4rem] pr-6 text-[0.78rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                                    data-te-sidenav-link-ref
-                                >Invoices</a
-                                >
+                                <SidenavDropDownItem href="#" name="Invoices"/>
                             </li>
-                        </ul>
-                    </div>
+                        </template>
+                    </SidenavDropdown>
+                </li>
 
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fas fa-bolt"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Variation Types</span>
-                    </Link>
+                <li class="relative">
+                    <SideNaveLink href="#" name="Variation Types">
+                        <template #icon>
+                            <i class="mr-2 fas fa-bolt"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
 
-                    <Link href="#"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-warehouse"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Warehouses</span>
-                    </Link>
+                <li class="relative">
+                    <SideNaveLink href="#" name="Warehouses">
+                        <template #icon>
+                            <i class="fa-solid fa-warehouse"></i>
+                        </template>
+                    </SideNaveLink>
                 </li>
 
                 <li class="relative pt-4">
@@ -290,32 +247,28 @@ onMounted(function () {
                         Settings
                     </span>
 
-                    <Link :href="route('users.index')"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-circle-user"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Users</span>
-                    </Link>
+                    <SideNaveLink :href="route('users.index')" name="Users">
+                        <template #icon>
+                            <i class="fa-solid fa-circle-user"></i>
+                        </template>
+                    </SideNaveLink>
+                </li>
 
-                    <Link :href="route('roles.index')"
-                          class="flex h-12 cursor-pointer items-center truncate rounded-[5px] px-6 py-4 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                          data-te-sidenav-link-ref>
-                        <i class="mr-2 fa-solid fa-user-tag"></i>
-                        <span
-                            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-                            data-te-sidenav-slim="false">Roles</span>
-                    </Link>
+                <li class="relative">
+                    <SideNaveLink :href="route('roles.index')" name="Roles">
+                        <template #icon>
+                            <i class="fa-solid fa-user-tag"></i>
+                        </template>
+                    </SideNaveLink>
                 </li>
             </ul>
         </div>
 
         <hr>
-        <div class="absolute bottom-0 px-6">
+        <div class="absolute bottom-0 w-full">
             <a href="https://teamsunday.com/" target="_blank"
-                  class="pl-0 flex items-center justify-center py-4 outline-none"
-                  data-te-ripple-init data-te-ripple-color="primary">
+               class="flex items-center justify-start py-4 px-4 outline-none"
+               data-te-ripple-init data-te-ripple-color="primary">
                 <ApplicationLogo class="block h-8 pr-4 w-auto fill-current text-gray-800"/>
                 <span
                     class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
@@ -327,6 +280,3 @@ onMounted(function () {
     <!-- Sidenav -->
 </template>
 
-<style scoped>
-
-</style>
