@@ -3,10 +3,10 @@
 import {initTE, Ripple, Sidenav} from "tw-elements";
 import {onMounted} from "vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
-import SideNaveLink from "@/Components/SideNaveLink.vue";
+import SidenavLink from "@/Components/SidenavLink.vue";
 import {Link} from "@inertiajs/vue3";
 import SidenavDropdown from "@/Components/SidenavDropdown.vue";
-import SidenavDropDownItem from "@/Components/SidenavDropDownItem.vue";
+import SidenavDropdownItem from "@/Components/SidenavDropdownItem.vue";
 
 const props = defineProps({
     content: {
@@ -87,11 +87,11 @@ onMounted(function () {
         <div id="scroll-container">
             <ul class="relative m-0 list-none px-[0.2rem]" data-te-sidenav-menu-ref>
                 <li class="relative">
-                    <SideNaveLink :href="route('dashboard')" name="Dashboard">
+                    <SidenavLink :href="route('dashboard')" name="Dashboard">
                         <template #icon>
                             <i class="fa-solid fa-chart-line"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative pt-4">
@@ -99,147 +99,147 @@ onMounted(function () {
                         General
                     </span>
 
-                    <SideNaveLink href="#" name="Products">
+                    <SidenavLink href="#" name="Products">
                         <template #icon>
                             <i class="fa-solid fa-shirt"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Packages">
+                    <SidenavLink href="#" name="Packages">
                         <template #icon>
                             <i class="fa-solid fa-box"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Shipment">
+                    <SidenavLink href="#" name="Shipment">
                         <template #icon>
                             <i class="fa-solid fa-truck-arrow-right"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Campaigns">
+                    <SidenavLink href="#" name="Campaigns">
                         <template #icon>
                             <i class="fa-solid fa-people-group"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Web-shops">
+                    <SidenavLink href="#" name="Web-shops">
                         <template #icon>
                             <i class="fa-solid fa-shop"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Closets">
+                    <SidenavLink href="#" name="Closets">
                         <template #icon>
                             <i class="fa-solid fa-notdef"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
                 `
                 <li class="relative">
-                    <SideNaveLink href="#" name="Companies">
+                    <SidenavLink href="#" name="Companies">
                         <template #icon>
                             <i class="fa-solid fa-building"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Subscriptions">
+                    <SidenavLink href="#" name="Subscriptions">
                         <template #icon>
                             <i class="fa-solid fa-file-contract"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
                 <li class="relative pt-4">
                     <span class="px-6 py-4 text-[0.6rem] font-bold uppercase text-gray-600 dark:text-gray-400">
                         Internal
                     </span>
 
-                    <SideNaveLink href="#" name="Shop Apps">
+                    <SidenavLink href="#" name="Shop Apps">
                         <template #icon>
                             <i class="fa-brands fa-app-store-ios"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink :href="route('agencies.index')" name="Agencies">
+                    <SidenavLink :href="route('agencies.index')" name="Agencies">
                         <template #icon>
                             <i class="fa-brands fa-app-store-ios"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Countries">
+                    <SidenavLink href="#" name="Countries">
                         <template #icon>
                             <i class="mr-2 fa-solid fa-flag"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Messages">
+                    <SidenavLink href="#" name="Messages">
                         <template #icon>
                             <i class="fa-solid fa-envelope"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Product Types">
+                    <SidenavLink href="#" name="Product Types">
                         <template #icon>
                             <i class="mr-2 fa-solid fa-socks"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Stock Moves">
+                    <SidenavLink href="#" name="Stock Moves">
                         <template #icon>
                             <i class="mr-2 fa-solid fa-cubes"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
                     <SidenavDropdown name="Invoicing">
                         <template #items>
                             <li class="relative">
-                                <SidenavDropDownItem href="#" name="Charges"/>
+                                <SidenavDropdownItem href="#" name="Charges"/>
                             </li>
                             <li class="relative">
-                                <SidenavDropDownItem href="#" name="Invoices"/>
+                                <SidenavDropdownItem href="#" name="Invoices"/>
                             </li>
                         </template>
                     </SidenavDropdown>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Variation Types">
+                    <SidenavLink href="#" name="Variation Types">
                         <template #icon>
                             <i class="mr-2 fas fa-bolt"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink href="#" name="Warehouses">
+                    <SidenavLink href="#" name="Warehouses">
                         <template #icon>
                             <i class="fa-solid fa-warehouse"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative pt-4">
@@ -247,19 +247,19 @@ onMounted(function () {
                         Settings
                     </span>
 
-                    <SideNaveLink :href="route('users.index')" name="Users">
+                    <SidenavLink :href="route('users.index')" name="Users">
                         <template #icon>
                             <i class="fa-solid fa-circle-user"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
 
                 <li class="relative">
-                    <SideNaveLink :href="route('roles.index')" name="Roles">
+                    <SidenavLink :href="route('roles.index')" name="Roles">
                         <template #icon>
                             <i class="fa-solid fa-user-tag"></i>
                         </template>
-                    </SideNaveLink>
+                    </SidenavLink>
                 </li>
             </ul>
         </div>
