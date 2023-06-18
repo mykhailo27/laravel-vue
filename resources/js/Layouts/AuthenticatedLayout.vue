@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import {ref} from 'vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
@@ -14,11 +14,9 @@ const showingNavigationDropdown = ref(false);
 <template>
     <div class="max-h-screen overflow-auto">
         <!-- Page Sidenav -->
-        <sidenav />
+        <sidenav content="page-content"/>
 
         <div class="page-content sticky top-0">
-            <!-- Sidenav Toggler -->
-            <sidenav-toggler/>
 
             <!-- Page Navigation -->
             <nav class="bg-white border-b border-gray-100">
@@ -26,6 +24,9 @@ const showingNavigationDropdown = ref(false);
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex items-center">
+                            <!-- Sidenav Toggler -->
+                            <sidenav-toggler/>
+
                             <!-- Breadcrumb Links -->
                             <Breadcrumb/>
                         </div>
@@ -59,7 +60,7 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                        <DropdownLink :href="route('profile.edit')"> Profile</DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </DropdownLink>
@@ -122,7 +123,7 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('profile.edit')"> Profile</ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 Log Out
                             </ResponsiveNavLink>
@@ -134,7 +135,7 @@ const showingNavigationDropdown = ref(false);
             <!-- Page Heading -->
             <header class="bg-white shadow" v-if="$slots.header">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <slot name="header" />
+                    <slot name="header"/>
                 </div>
             </header>
         </div>
@@ -145,7 +146,7 @@ const showingNavigationDropdown = ref(false);
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg sm:rounded-lg">
                         <div class="p-6 text-gray-900 dark:text-gray-100">
-                            <slot />
+                            <slot/>
                         </div>
                     </div>
                 </div>
