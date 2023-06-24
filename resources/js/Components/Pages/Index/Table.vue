@@ -8,10 +8,11 @@ import TextInput from "@/Components/TextInput.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Select from "@/Components/Select.vue";
-import {handleRowCheckboxClick, handleRowClick, handleTableCheckboxClick}
-    from "@/Modules/TableClickHandler.js";
+import {handleRowCheckboxClick, handleRowClick, handleTableCheckboxClick} from "@/Modules/TableClickHandler.js";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import Dropdown from "@/Components/Dropdown.vue";
+import {router} from "@inertiajs/vue3";
+import {computed} from "vue";
 
 const props = defineProps({
     data: {
@@ -32,12 +33,38 @@ const props = defineProps({
     }
 })
 
+const per_pages = [
+    {name: 10, value: 10},
+    {name: 30, value: 30},
+    {name: 50, value: 50}
+];
+
+const getPerPages = computed(() => {
+    const item = props.data.per_page;
+
+    if (per_pages.findIndex(per_page => per_page.name
+        === item && per_page.value === item) === -1) {
+        per_pages.push({name: item, value: item});
+    }
+    return per_pages;
+})
+
 const date_columns = [
     'created_at',
     'updated_at',
     'deleted_at',
     'email_verified_at'
 ];
+
+const updatePerPage = (per_page) => {
+    router.visit(location.href, {
+        method: 'get',
+        preserveState: true,
+        data: {
+            per_page: per_page,
+        },
+    })
+}
 
 </script>
 
@@ -86,8 +113,8 @@ const date_columns = [
         <Pagination v-if="data" :links="data.links" :from="data.from" :to="data.to" :total="data.total"/>
 
         <!-- table per page -->
-        <Select v-if="data"
-                :options="[{name: data.per_page, value: data.per_page}, {name: 30, value: 30}, {name: 50, value: 50}]"
+        <Select v-if="data" @update:modelValue="updatePerPage"
+                :options="getPerPages"
                 :modelValue="data.per_page" label="per page"/>
     </div>
     <Table v-if="data">
