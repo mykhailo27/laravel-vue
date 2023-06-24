@@ -19,12 +19,11 @@ const props = defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <Header :link="{url: route('roles.create'), name: 'Create'}"
-                    :index_url="route('roles.index')"/>
+            <Header :link="{url: route('roles.create'), name: 'Create'}"/>
         </template>
 
         <Table :columns="['id', 'name', 'guard_name', 'created_at', 'actions']" :data="roles"
-               :details_url="route('roles.details', {role: '__ROW_ID__'})" :index_url="route('roles.index')"/>
+               :details_url="route('roles.details', {role: '__ROW_ID__'})"/>
 
     </AuthenticatedLayout>
 </template>

@@ -9,17 +9,13 @@ const props = defineProps({
     link: {
         type: Object,
         required: true,
-    },
-    index_url: {
-        type: String,
-        required: true
-    },
+    }
 })
 
 const submitSearch = (value) => {
     startSearchTimer(function (value) {
 
-        router.get(props.index_url, {
+        router.get(location.href, {
             search: value
         }, {
             onFinish: () => {

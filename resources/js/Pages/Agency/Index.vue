@@ -21,11 +21,11 @@ const form = useForm({});
     <AuthenticatedLayout>
 
         <template #header>
-            <Header :link="{url: route('agencies.create'), name: 'Create'}" :index_url="route('agencies.index')"/>
+            <Header :link="{url: route('agencies.create'), name: 'Create'}"/>
         </template>
 
         <Table :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="agencies"
-               :details_url="route('agencies.details', {agency: '__ROW_ID__'})" :index_url="route('agencies.index')"/>
+               :details_url="route('agencies.details', {agency: '__ROW_ID__'})"/>
 
     </AuthenticatedLayout>
 </template>

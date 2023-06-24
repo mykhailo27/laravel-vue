@@ -26,10 +26,6 @@ const props = defineProps({
     details_url: {
         type: String,
         required: true
-    },
-    index_url: {
-        type: String,
-        required: true
     }
 })
 
