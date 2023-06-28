@@ -15,7 +15,7 @@ defineProps({
         data-te-sidenav-link-ref data-te-ripple-init data-te-ripple-color="primary">
         <i class="mr-2 fa-solid fa-file-invoice-dollar"></i>
         <span
-            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
+            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden capitalize"
             data-te-sidenav-slim="false">{{ name}}</span>
         <span
             class="absolute right-0 ml-auto mr-[0.5rem] transition-transform duration-300 ease-linear motion-reduce:transition-none [&>svg]:text-gray-600 dark:[&>svg]:text-gray-300"

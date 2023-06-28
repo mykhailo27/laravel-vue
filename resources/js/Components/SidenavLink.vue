@@ -21,7 +21,7 @@ defineProps({
           data-te-sidenav-link-ref data-te-ripple-init data-te-ripple-color="primary">
         <slot name="icon"/>
         <span
-            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
+            class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden capitalize"
             data-te-sidenav-slim="false">{{ name }}</span>
     </Link>
 </template>
