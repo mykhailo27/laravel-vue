@@ -14,6 +14,10 @@ defineProps({
 
 const form = useForm({});
 
+const table_actions = [
+    {name: 'Delete', route_name: 'api.agencies.delete-multiple', method: 'delete'}
+];
+
 </script>
 
 <template>
@@ -25,7 +29,7 @@ const form = useForm({});
         </template>
 
         <Table :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="agencies"
-               :details_url="route('agencies.details', {agency: '__ROW_ID__'})"/>
+               :details_url="route('agencies.details', {agency: '__ROW_ID__'})" :table_actions="table_actions"/>
 
     </AuthenticatedLayout>
 </template>
