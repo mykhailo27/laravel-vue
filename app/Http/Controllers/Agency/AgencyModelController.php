@@ -7,7 +7,12 @@ use App\Models\Agency;
 
 class AgencyModelController extends Controller
 {
-    public static function deleteByIds(array $ids): int
+    /**
+     * @param mixed $ids
+     * @note param could be single id or ids
+     * @return int
+     */
+    public static function delete(mixed $ids): int
     {
         return Agency::destroy($ids);
     }

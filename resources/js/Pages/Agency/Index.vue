@@ -18,6 +18,10 @@ const table_actions = [
     {name: 'Delete', route_name: 'api.agencies.delete-multiple', method: 'delete'}
 ];
 
+const row_actions = [
+    {name: 'Delete', route_name: 'api.agencies.delete', method: 'delete', icon_class:'text-danger hover:border-danger fa-sharp fa-solid fa-trash'},
+];
+
 </script>
 
 <template>
@@ -29,7 +33,10 @@ const table_actions = [
         </template>
 
         <Table table_id="agency-table" :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="agencies"
-               :details_url="route('agencies.details', {agency: '__ROW_ID__'})" :table_actions="table_actions"/>
+               :details_url="route('agencies.details', {agency: '__ROW_ID__'})"
+               :table_actions="table_actions"
+               :row_actions="row_actions"
+        />
 
     </AuthenticatedLayout>
 </template>

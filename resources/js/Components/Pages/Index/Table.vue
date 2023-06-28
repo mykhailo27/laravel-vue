@@ -5,7 +5,6 @@ import Th from "@/Components/Table/Th.vue";
 import Td from "@/Components/Table/Td.vue";
 import Table from "@/Components/Table/Table.vue";
 import TextInput from "@/Components/TextInput.vue";
-import DangerButton from "@/Components/DangerButton.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Select from "@/Components/Select.vue";
 import Dropdown from "@/Components/Dropdown.vue";
@@ -40,6 +39,9 @@ const props = defineProps({
     table_id: {
         type: String,
         required: true
+    },
+    row_actions: {
+        type: Array
     }
 })
 
@@ -76,7 +78,7 @@ const updatePerPage = (per_page) => {
     })
 }
 
-const preformAction = (action, ids, table_id) => {
+const preformTableAction = (action, ids, table_id) => {
     axios.request(route(action.route_name), {
         data: {ids: ids},
         method: action.method
@@ -85,6 +87,17 @@ const preformAction = (action, ids, table_id) => {
             ? router.reload()
             : console.warn(res)
         resetCheckbox(table_id)
+    }).catch(error => console.error(error))
+}
+
+const preformRowAction = (action, id) => {
+    axios.request(route(action.route_name), {
+        data: {id: id},
+        method: action.method
+    }).then(res => {
+        res.data.success
+            ? router.reload()
+            : console.warn(res)
     }).catch(error => console.error(error))
 }
 
@@ -122,7 +135,7 @@ const preformAction = (action, ids, table_id) => {
 
                 <template #content>
                     <SecondaryButton v-for="action in table_actions"
-                                     @click="preformAction(action, selected_ids, table_id)"
+                                     @click="preformTableAction(action, selected_ids, table_id)"
                                      class="flex justify-between w-full">
                         <span>{{ action.name }}</span>
                         <span>{{ selected_ids.length }}</span>
@@ -152,10 +165,10 @@ const preformAction = (action, ids, table_id) => {
                 <Td v-for="column in columns">
                     <TextInput v-if="column === 'id'" type="checkbox" :model-value="row[column].toString()"
                                @click.stop @click="handleRowCheckboxClick"/>
-                    <DangerButton v-else-if="column === 'actions'" class="ml-3" @click.stop
-                                  @click="console.log('delete row')">
-                        <i class="fa-sharp fa-solid fa-trash"></i>
-                    </DangerButton>
+                    <div v-else-if="column === 'actions'" class="flex ml-3">
+                        <i v-for="action in row_actions" @click.stop @click="preformRowAction(action, row.id)"
+                           class="rounded-full p-2 border border-transparent" :class="action.icon_class"></i>
+                    </div>
                     <template v-else-if="date_columns.includes(column)">{{
                             (new Date(row[column])).toLocaleDateString()
                         }}

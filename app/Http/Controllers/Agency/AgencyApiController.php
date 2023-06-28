@@ -23,10 +23,27 @@ class AgencyApiController extends Controller
         ]);
     }
 
+    public function delete(Request $request): Response
+    {
+        if (!is_null($id = $request->get('id'))) {
+            $deleted = AgencyModelController::delete($id);
+
+            return response([
+                'success' => $deleted,
+                'message' => $deleted ? 'Agency deleted' : 'Agency fail to be deleted',
+            ]);
+        }
+
+        return response([
+            'success' => false,
+            'message' => 'No id found, so agency is not deleted',
+        ]);
+    }
+
     public function deleteMultiple(Request $request): Response
     {
         if (is_array($ids = $request->get('ids'))) {
-            $deleted = AgencyModelController::deleteByIds($ids);
+            $deleted = AgencyModelController::delete($ids);
 
             $success = $deleted === count($ids);
 
