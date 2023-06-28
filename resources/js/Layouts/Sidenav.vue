@@ -87,7 +87,7 @@ onMounted(function () {
         <div id="scroll-container">
             <ul class="relative m-0 list-none px-[0.2rem]" data-te-sidenav-menu-ref>
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Dashboard">
+                    <SidenavLink route_path="/dashboard" name="Dashboard">
                         <template #icon>
                             <i class="fa-solid fa-chart-line"></i>
                         </template>
@@ -99,7 +99,7 @@ onMounted(function () {
                         General
                     </span>
 
-                    <SidenavLink route_name="dashboard" name="Products">
+                    <SidenavLink route_path="/dashboard" name="Products">
                         <template #icon>
                             <i class="fa-solid fa-shirt"></i>
                         </template>
@@ -107,7 +107,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Packages">
+                    <SidenavLink route_path="/dashboard" name="Packages">
                         <template #icon>
                             <i class="fa-solid fa-box"></i>
                         </template>
@@ -115,7 +115,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Shipment">
+                    <SidenavLink route_path="/dashboard" name="Shipment">
                         <template #icon>
                             <i class="fa-solid fa-truck-arrow-right"></i>
                         </template>
@@ -123,7 +123,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Campaigns">
+                    <SidenavLink route_path="/dashboard" name="Campaigns">
                         <template #icon>
                             <i class="fa-solid fa-people-group"></i>
                         </template>
@@ -131,7 +131,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Web-shops">
+                    <SidenavLink route_path="/dashboard" name="Web-shops">
                         <template #icon>
                             <i class="fa-solid fa-shop"></i>
                         </template>
@@ -139,7 +139,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Closets">
+                    <SidenavLink route_path="/dashboard" name="Closets">
                         <template #icon>
                             <i class="fa-solid fa-notdef"></i>
                         </template>
@@ -147,7 +147,7 @@ onMounted(function () {
                 </li>
                 `
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Companies">
+                    <SidenavLink route_path="/dashboard" name="Companies">
                         <template #icon>
                             <i class="fa-solid fa-building"></i>
                         </template>
@@ -155,7 +155,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Subscriptions">
+                    <SidenavLink route_path="/dashboard" name="Subscriptions">
                         <template #icon>
                             <i class="fa-solid fa-file-contract"></i>
                         </template>
@@ -166,7 +166,7 @@ onMounted(function () {
                         Internal
                     </span>
 
-                    <SidenavLink route_name="dashboard" name="Shop Apps">
+                    <SidenavLink route_path="/dashboard" name="Shop Apps">
                         <template #icon>
                             <i class="fa-brands fa-app-store-ios"></i>
                         </template>
@@ -174,7 +174,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="agencies.index" name="Agencies">
+                    <SidenavLink route_path="/agencies" name="Agencies">
                         <template #icon>
                             <i class="fa-brands fa-app-store-ios"></i>
                         </template>
@@ -182,7 +182,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Countries">
+                    <SidenavLink route_path="/dashboard" name="Countries">
                         <template #icon>
                             <i class="mr-2 fa-solid fa-flag"></i>
                         </template>
@@ -190,7 +190,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Messages">
+                    <SidenavLink route_path="/dashboard" name="Messages">
                         <template #icon>
                             <i class="fa-solid fa-envelope"></i>
                         </template>
@@ -198,7 +198,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Product Types">
+                    <SidenavLink route_path="/dashboard" name="Product Types">
                         <template #icon>
                             <i class="mr-2 fa-solid fa-socks"></i>
                         </template>
@@ -206,7 +206,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Stock Moves">
+                    <SidenavLink route_path="/dashboard" name="Stock Moves">
                         <template #icon>
                             <i class="mr-2 fa-solid fa-cubes"></i>
                         </template>
@@ -227,7 +227,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Variation Types">
+                    <SidenavLink route_path="/dashboard" name="Variation Types">
                         <template #icon>
                             <i class="mr-2 fas fa-bolt"></i>
                         </template>
@@ -235,7 +235,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="dashboard" name="Warehouses">
+                    <SidenavLink route_path="/dashboard" name="Warehouses">
                         <template #icon>
                             <i class="fa-solid fa-warehouse"></i>
                         </template>
@@ -247,7 +247,7 @@ onMounted(function () {
                         Settings
                     </span>
 
-                    <SidenavLink route_name="users.index" name="Users">
+                    <SidenavLink route_path="/users" name="Users">
                         <template #icon>
                             <i class="fa-solid fa-circle-user"></i>
                         </template>
@@ -255,7 +255,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_name="roles.index" name="Roles">
+                    <SidenavLink route_path="/roles" name="Roles">
                         <template #icon>
                             <i class="fa-solid fa-user-tag"></i>
                         </template>
