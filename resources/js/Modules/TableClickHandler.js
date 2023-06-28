@@ -1,15 +1,15 @@
 import {ref} from "vue";
 
-const selected_id = ref([]);
+const selected_ids = ref([]);
 
 const updateSelectedId = (row_checkbox) => {
     const value = row_checkbox.value;
-    const index = selected_id.value.indexOf(value)
+    const index = selected_ids.value.indexOf(value)
 
     if (row_checkbox.checked && index === -1) {
-        selected_id.value.push(value)
+        selected_ids.value.push(value)
     } else if (index !== -1) {
-        selected_id.value.splice(index, 1);
+        selected_ids.value.splice(index, 1);
     }
 }
 
@@ -45,4 +45,4 @@ const handleRowClick = (row_id, route) => {
     location.href = route.replace('__ROW_ID__', row_id)
 }
 
-export {handleRowClick, handleRowCheckboxClick,  handleTableCheckboxClick}
+export {handleRowClick, handleRowCheckboxClick,  handleTableCheckboxClick, selected_ids}
