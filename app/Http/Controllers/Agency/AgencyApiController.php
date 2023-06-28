@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Agency;
 use App\Http\Controllers\Controller;
 use App\Models\Agency;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class AgencyApiController extends Controller
@@ -19,6 +20,25 @@ class AgencyApiController extends Controller
                 : 'Fail to add user to an agency',
             'success' => $added,
             'user' => $user
+        ]);
+    }
+
+    public function deleteMultiple(Request $request): Response
+    {
+        if (is_array($ids = $request->get('ids'))) {
+            $deleted = AgencyModelController::deleteByIds($ids);
+
+            $success = $deleted === count($ids);
+
+            return response([
+                'success' => $success,
+                'message' => $success ? 'Multiple agencies deleted' : 'Only some of the agencies deleted',
+            ]);
+        }
+
+        return response([
+            'success' => false,
+            'message' => 'No ids found, so no agency is deleted',
         ]);
     }
 

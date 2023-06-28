@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(static function () {
         Route::get('{agency}/users', [AgencyApiController::class, 'users'])->name('users');
         Route::post('{agency}/add-user/{user}', [AgencyApiController::class, 'addUser'])->name('add-user');
         Route::delete('{agency}/remove-user/{user}', [AgencyApiController::class, 'removeUser'])->name('remove-user');
+        Route::delete('delete/multiple', [AgencyApiController::class, 'deleteMultiple'])->name('delete-multiple');
     });
 
     Route::group([
