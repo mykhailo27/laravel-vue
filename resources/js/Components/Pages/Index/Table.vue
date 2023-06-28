@@ -8,11 +8,17 @@ import TextInput from "@/Components/TextInput.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Select from "@/Components/Select.vue";
-import {handleRowCheckboxClick, handleRowClick, handleTableCheckboxClick} from "@/Modules/TableClickHandler.js";
-import DropdownLink from "@/Components/DropdownLink.vue";
 import Dropdown from "@/Components/Dropdown.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 import {router} from "@inertiajs/vue3";
-import {computed} from "vue";
+import {computed} from "vue"
+
+import {
+    handleRowCheckboxClick,
+    handleRowClick,
+    handleTableCheckboxClick,
+    selected_ids
+} from "@/Modules/TableClickHandler.js";
 
 const props = defineProps({
     data: {
@@ -26,6 +32,9 @@ const props = defineProps({
     details_url: {
         type: String,
         required: true
+    },
+    table_actions: {
+        type: Array
     }
 })
 
@@ -62,6 +71,14 @@ const updatePerPage = (per_page) => {
     })
 }
 
+const preformAction = (action, ids) => {
+    axios.request(route(action.route_name), {
+        data: {ids: ids},
+        method: action.method
+    }).then(res => console.log(res))
+        .catch(error => console.error(error))
+}
+
 </script>
 
 <template>
@@ -94,14 +111,12 @@ const updatePerPage = (per_page) => {
             </template>
 
             <template #content>
-                <DropdownLink href="#" :class="'flex justify-between'">
-                    <span>Delete</span>
-                    <span>10</span>
-                </DropdownLink>
-                <DropdownLink href="#" method="post" as="button" :class="'flex justify-between'">
-                    <span>Refresh</span>
-                    <span>10</span>
-                </DropdownLink>
+                <SecondaryButton v-for="action in table_actions"
+                                 @click="preformAction(action, selected_ids)"
+                                 class="flex justify-between w-full">
+                    <span>{{ action.name }}</span>
+                    <span>{{ selected_ids.length }}</span>
+                </SecondaryButton>
             </template>
         </Dropdown>
 
