@@ -28,7 +28,7 @@ const table_actions = [
             <Header :link="{url: route('agencies.create'), name: 'Create'}"/>
         </template>
 
-        <Table :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="agencies"
+        <Table table_id="agency-table" :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="agencies"
                :details_url="route('agencies.details', {agency: '__ROW_ID__'})" :table_actions="table_actions"/>
 
     </AuthenticatedLayout>

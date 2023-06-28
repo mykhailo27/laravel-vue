@@ -214,7 +214,7 @@ const clickSubmitBtn = () => {
                 </Content>
 
                 <Content :tab="tab_attributes.permissions">
-                    <Table>
+                    <Table table_id="role-permissions-table">
                         <template #columns>
                             <Th>Name</Th>
                             <Th>Guard</Th>
@@ -246,7 +246,7 @@ const clickSubmitBtn = () => {
                                      @click="closetPermissionModal"></SecondaryButton>
                 </div>
 
-                <Table>
+                <Table table_id="add-permissions-table">
                     <template #columns>
                         <Th>Name</Th>
                         <Th>Guard</Th>

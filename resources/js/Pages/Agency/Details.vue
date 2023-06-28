@@ -210,7 +210,7 @@ const handleRemoveUser = (event) => {
                 </Content>
                 <Content :tab="tab_attributes.users">
 
-                    <Table>
+                    <Table table_id="agency-users-table">
                         <template #columns>
                             <Th>Name</Th>
                             <Th>Email</Th>
@@ -243,7 +243,7 @@ const handleRemoveUser = (event) => {
                                      @click="closetUserModal"></SecondaryButton>
                 </div>
 
-                <Table>
+                <Table table_id="add-users-table">
                     <template #columns>
                         <Th>Name</Th>
                         <Th>Email</Th>

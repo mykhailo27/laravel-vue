@@ -22,7 +22,7 @@ const props = defineProps({
             <Header :link="{url: route('roles.create'), name: 'Create'}"/>
         </template>
 
-        <Table :columns="['id', 'name', 'guard_name', 'created_at', 'actions']" :data="roles"
+        <Table table_id="roles-table" :columns="['id', 'name', 'guard_name', 'created_at', 'actions']" :data="roles"
                :details_url="route('roles.details', {role: '__ROW_ID__'})"/>
 
     </AuthenticatedLayout>

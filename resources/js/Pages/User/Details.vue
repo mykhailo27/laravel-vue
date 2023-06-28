@@ -284,7 +284,7 @@ const clickSubmitBtn = () => {
                     </form>
                 </Content>
                 <Content :tab="tab_attributes.roles">
-                    <Table>
+                    <Table table_id="user-roles-table">
                         <template #columns>
                             <Th>Name</Th>
                             <Th>Guard</Th>
@@ -307,7 +307,7 @@ const clickSubmitBtn = () => {
                 </Content>
 
                 <Content :tab="tab_attributes.permissions">
-                    <Table>
+                    <Table table_id="user-permissions-table">
                         <template #columns>
                             <Th>Name</Th>
                             <Th>Guard</Th>
@@ -339,7 +339,7 @@ const clickSubmitBtn = () => {
                                      @click="closetRoleModal"></SecondaryButton>
                 </div>
 
-                <Table>
+                <Table table_id="add-roles-table">
                     <template #columns>
                         <Th>Name</Th>
                         <Th>Guard</Th>
@@ -368,7 +368,7 @@ const clickSubmitBtn = () => {
                                      @click="closetPermissionModal"></SecondaryButton>
                 </div>
 
-                <Table>
+                <Table table_id="add-permissions-table">
                     <template #columns>
                         <Th>Name</Th>
                         <Th>Guard</Th>
