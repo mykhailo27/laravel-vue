@@ -17,7 +17,8 @@ import {
     handleRowCheckboxClick,
     handleRowClick,
     handleTableCheckboxClick,
-    selected_ids
+    resetCheckbox,
+    selected_ids,
 } from "@/Modules/TableClickHandler.js";
 
 const props = defineProps({
@@ -35,6 +36,10 @@ const props = defineProps({
     },
     table_actions: {
         type: Array
+    },
+    table_id: {
+        type: String,
+        required: true
     }
 })
 
@@ -71,12 +76,16 @@ const updatePerPage = (per_page) => {
     })
 }
 
-const preformAction = (action, ids) => {
+const preformAction = (action, ids, table_id) => {
     axios.request(route(action.route_name), {
         data: {ids: ids},
         method: action.method
-    }).then(res => console.log(res))
-        .catch(error => console.error(error))
+    }).then(res => {
+        res.data.success
+            ? router.reload()
+            : console.warn(res)
+        resetCheckbox(table_id)
+    }).catch(error => console.error(error))
 }
 
 </script>
@@ -85,8 +94,9 @@ const preformAction = (action, ids) => {
 
     <div class="flex justify-between flex-wrap gap-2 items-center">
         <!-- table actions -->
-        <Dropdown align="left" width="48">
-            <template #trigger>
+        <div>
+            <Dropdown align="left" width="48" v-if="table_actions">
+                <template #trigger>
                 <span class="inline-flex rounded-md">
                     <button
                         type="button"
@@ -108,17 +118,18 @@ const preformAction = (action, ids) => {
                         </svg>
                     </button>
                 </span>
-            </template>
+                </template>
 
-            <template #content>
-                <SecondaryButton v-for="action in table_actions"
-                                 @click="preformAction(action, selected_ids)"
-                                 class="flex justify-between w-full">
-                    <span>{{ action.name }}</span>
-                    <span>{{ selected_ids.length }}</span>
-                </SecondaryButton>
-            </template>
-        </Dropdown>
+                <template #content>
+                    <SecondaryButton v-for="action in table_actions"
+                                     @click="preformAction(action, selected_ids, table_id)"
+                                     class="flex justify-between w-full">
+                        <span>{{ action.name }}</span>
+                        <span>{{ selected_ids.length }}</span>
+                    </SecondaryButton>
+                </template>
+            </Dropdown>
+        </div>
 
         <!-- table pagination -->
         <Pagination v-if="data" :links="data.links" :from="data.from" :to="data.to" :total="data.total"/>
@@ -128,7 +139,7 @@ const preformAction = (action, ids) => {
                 :options="getPerPages"
                 :modelValue="data.per_page" label="per page"/>
     </div>
-    <Table v-if="data">
+    <Table v-if="data" :table_id="table_id">
         <template #columns>
             <Th v-for="column in columns">
                 <TextInput v-if="column === 'id'" type="checkbox" model-value=""

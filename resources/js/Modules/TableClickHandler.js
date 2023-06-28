@@ -45,4 +45,18 @@ const handleRowClick = (row_id, route) => {
     location.href = route.replace('__ROW_ID__', row_id)
 }
 
-export {handleRowClick, handleRowCheckboxClick,  handleTableCheckboxClick, selected_ids}
+const resetCheckbox = (table_id) => {
+    const table = document.getElementById(table_id);
+    table.querySelector('thead th input').checked = false
+
+    const all_row_checkbox = table.querySelectorAll("tbody tr input[type='checkbox']");
+    [...all_row_checkbox]
+        .forEach((row_checkbox) => {
+            if (row_checkbox.checked) {
+                row_checkbox.checked = false
+            }
+        });
+    selected_ids.value = []
+}
+
+export {handleRowClick, handleRowCheckboxClick,  handleTableCheckboxClick, resetCheckbox, selected_ids}
