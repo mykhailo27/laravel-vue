@@ -25,7 +25,7 @@ watch(search, debounce(value => {
         preserveState: true,
         onError: (error => console.log(error)),
     })
-}, 500))
+}, 300))
 
 </script>
 
