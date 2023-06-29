@@ -10,6 +10,9 @@ defineProps({
         type: Object,
         required: true,
     },
+    filters: {
+        type: Object
+    }
 });
 
 const form = useForm({});
@@ -29,7 +32,7 @@ const row_actions = [
     <AuthenticatedLayout>
 
         <template #header>
-            <Header :link="{url: route('agencies.create'), name: 'Create'}"/>
+            <Header :link="{url: route('agencies.create'), name: 'Create'}" :filters="filters"/>
         </template>
 
         <Table table_id="agency-table" :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="agencies"

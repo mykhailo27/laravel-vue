@@ -10,6 +10,9 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    filters: {
+        type: Object
+    }
 });
 
 </script>
@@ -19,7 +22,7 @@ const props = defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <Header :link="{url: route('users.create'), name: 'Create'}"/>
+            <Header :link="{url: route('users.create'), name: 'Create'}" :filters="filters"/>
         </template>
 
         <Table table_id="users-table" :columns="['id', 'name', 'email', 'created_at', 'actions']" :data="users"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -20,18 +21,24 @@ class RoleViewController extends Controller
      */
     public function index(Request $request): Response
     {
-        $search = $request->get('search');
-
-        $roles = Role::where(static function ($query) use ($search) {
-            $query->where('name', 'LIKE', '%' . $search . '%')
-                ->orWhere('guard_name', 'LIKE', '%' . $search . '%');
-        })
-            ->paginate(10)
+        $roles = Role::query()
+            ->when($request->get('search'), static function (Builder $query, string $search) {
+                $query->where('name', 'like', "%$search%")
+                    ->orWhere('guard_name', 'like', "%$search%");
+            })
+            ->paginate($request->get('per_page', 10))
+            ->through(fn($role) => [
+                'id' => $role->id,
+                'name' => $role->name,
+                'guard_name' => $role->guard_name,
+                'created_at' => $role->created_at,
+            ])
             ->withQueryString()
             ->onEachSide(0);
 
         return Inertia::render('Role/Index', [
-            'roles' => $roles
+            'roles' => $roles,
+            'filters' => $request->only(['search'])
         ]);
     }
 

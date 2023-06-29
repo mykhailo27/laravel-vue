@@ -36,7 +36,8 @@ class AgencyViewController extends Controller
             ->onEachSide(0);
 
         return Inertia::render('Agency/Index', [
-            'agencies' => $agencies
+            'agencies' => $agencies,
+            'filters' => $request->only(['search'])
         ]);
     }
 
