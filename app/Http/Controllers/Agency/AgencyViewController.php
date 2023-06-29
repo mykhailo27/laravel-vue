@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Agency\StoreAgencyRequest;
 use App\Http\Requests\Agency\UpdateAgencyRequest;
 use App\Models\Agency;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -19,17 +20,20 @@ class AgencyViewController extends Controller
      */
     public function index(Request $request): Response
     {
-        $search = $request->get('search');
-        $per_page = $request->get('per_page', 10);
-
-        $agencies = Agency::where(static function ($query) use ($search) {
-            $query->where('name', 'LIKE', '%' . $search . '%')
-                ->orWhere('email', 'LIKE', '%' . $search . '%');
-        })
-            ->paginate($per_page)
+        $agencies = Agency::query()
+            ->when($request->get('search'), static function (Builder $query, string $search) {
+                $query->where('name', 'like', "%$search%")
+                    ->orWhere('email', 'like', "%$search%");
+            })
+            ->paginate($request->get('per_page', 10))
+            ->through(fn($agency) => [
+                'id' => $agency->id,
+                'name' => $agency->name,
+                'email' => $agency->email,
+                'created_at' => $agency->created_at,
+            ])
             ->withQueryString()
             ->onEachSide(0);
-
 
         return Inertia::render('Agency/Index', [
             'agencies' => $agencies
