@@ -4,6 +4,7 @@ import TextInput from "@/Components/TextInput.vue";
 import Link from "@/Components/Link.vue";
 import {router} from "@inertiajs/vue3";
 import {ref, watch} from "vue";
+import debounce from "lodash/debounce";
 
 const props = defineProps({
     link: {
@@ -17,14 +18,14 @@ const props = defineProps({
 
 const search = ref(props.filters.search ?? '')
 
-watch(search, value => {
+watch(search, debounce(value => {
     router.get(location.href, {
         search: value
     }, {
         preserveState: true,
         onError: (error => console.log(error)),
     })
-})
+}, 500))
 
 </script>
 
