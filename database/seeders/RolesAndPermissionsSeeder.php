@@ -5,15 +5,16 @@ namespace Database\Seeders;
 use App\Constants\Permission as PermissionConstant;
 use App\Constants\Role as RoleConstant;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Models\Permission;
+use App\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
-    use WithoutModelEvents;
+    use WithoutModelEvents, HasUuids;
 
     private array $guard_names = ['web'];
 
@@ -40,7 +41,11 @@ class RolesAndPermissionsSeeder extends Seeder
 
                 $attributes = collect($this->guard_names)
                     ->map(function ($guard_name) use ($prefix, $model) {
-                        return ['name' => $prefix . $model, 'guard_name' => $guard_name];
+                        return [
+                            'id' => $this->newUniqueId(),
+                            'name' => $prefix . $model,
+                            'guard_name' => $guard_name
+                        ];
                     });
 
                 Permission::insert($attributes->toArray());
@@ -56,7 +61,11 @@ class RolesAndPermissionsSeeder extends Seeder
 
             $attributes = collect($this->guard_names)
                 ->map(function ($guard_name) use ($name) {
-                    return ['name' => $name, 'guard_name' => $guard_name];
+                    return [
+                        'id' => $this->newUniqueId(),
+                        'name' => $name,
+                        'guard_name' => $guard_name
+                    ];
                 });
 
             Role::insert($attributes->toArray());
