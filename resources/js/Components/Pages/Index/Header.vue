@@ -13,6 +13,9 @@ const props = defineProps({
     },
     filters: {
         type: Object
+    },
+    can_create: {
+        type: Boolean
     }
 })
 
@@ -34,7 +37,7 @@ watch(search, debounce(value => {
         <!-- table search  -->
         <TextInput type="search" v-model="search" id="search-input" class="focus:border-0" placeholder="Search . . ." autofocus/>
 
-        <Link :href="link.url"
+        <Link v-if="can_create" :href="link.url"
               class="bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
             {{ link.name }}
         </Link>

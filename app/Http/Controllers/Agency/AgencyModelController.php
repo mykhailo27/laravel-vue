@@ -16,4 +16,9 @@ class AgencyModelController extends Controller
     {
         return Agency::destroy($ids);
     }
+
+    public static function getById(string $id): Agency
+    {
+        return Agency::find($id);
+    }
 }

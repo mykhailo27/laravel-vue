@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Agency;
 
+use App\Constants\Ability;
 use App\Http\Controllers\Controller;
 use App\Models\Agency;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -23,40 +25,45 @@ class AgencyApiController extends Controller
         ]);
     }
 
-    public function delete(Request $request): Response
-    {
-        if (!is_null($id = $request->get('id'))) {
-            $deleted = AgencyModelController::delete($id);
-
-            return response([
-                'success' => $deleted,
-                'message' => $deleted ? 'Agency deleted' : 'Agency fail to be deleted',
-            ]);
-        }
-
-        return response([
-            'success' => false,
-            'message' => 'No id found, so agency is not deleted',
-        ]);
-    }
-
     public function deleteMultiple(Request $request): Response
     {
-        if (is_array($ids = $request->get('ids'))) {
-            $deleted = AgencyModelController::delete($ids);
+        try {
+            $this->authorize(Ability::DELETE_ANY, Agency::class);
 
+            $ids = $request->get('ids');
+            $deleted = AgencyModelController::delete($ids);
             $success = $deleted === count($ids);
 
             return response([
                 'success' => $success,
-                'message' => $success ? 'Multiple agencies deleted' : 'Only some of the agencies deleted',
+                'message' => $success ? 'All agencies deleted' : 'Some agencies deleted',
+            ]);
+        } catch (AuthorizationException $e) {
+            return response([
+                'success' => false,
+                'message' => $e->getMessage(),
             ]);
         }
+    }
 
-        return response([
-            'success' => false,
-            'message' => 'No ids found, so no agency is deleted',
-        ]);
+    public function delete(Request $request): Response
+    {
+        try {
+            $agency = AgencyModelController::getById($request->get('id'));
+
+            $this->authorize(Ability::DELETE, $agency);
+
+            $deleted = AgencyModelController::delete($agency->id);
+            return response([
+                'success' => $deleted,
+                'message' => $deleted ? 'Agency deleted' : 'Agency fail to be deleted',
+            ]);
+        } catch (AuthorizationException $e) {
+            return response([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 
     public function users(Agency $agency): Response

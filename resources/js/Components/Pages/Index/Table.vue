@@ -42,6 +42,9 @@ const props = defineProps({
     },
     row_actions: {
         type: Array
+    },
+    can: {
+        type: Object
     }
 })
 
@@ -134,12 +137,14 @@ const preformRowAction = (action, id) => {
                 </template>
 
                 <template #content>
-                    <SecondaryButton v-for="action in table_actions"
-                                     @click="preformTableAction(action, selected_ids, table_id)"
-                                     class="flex justify-between w-full">
-                        <span>{{ action.name }}</span>
-                        <span>{{ selected_ids.length }}</span>
-                    </SecondaryButton>
+                    <template v-for="action in table_actions">
+                        <SecondaryButton v-if="can[action.ability]"
+                                         @click="preformTableAction(action, selected_ids, table_id)"
+                                         class="flex justify-between w-full">
+                            <span>{{ action.name }}</span>
+                            <span>{{ selected_ids.length }}</span>
+                        </SecondaryButton>
+                    </template>
                 </template>
             </Dropdown>
         </div>
@@ -166,8 +171,10 @@ const preformRowAction = (action, id) => {
                     <TextInput v-if="column === 'id'" type="checkbox" :model-value="row[column].toString()"
                                @click.stop @click="handleRowCheckboxClick"/>
                     <div v-else-if="column === 'actions'" class="flex ml-3">
-                        <i v-for="action in row_actions" @click.stop @click="preformRowAction(action, row.id)"
-                           class="rounded-full p-2 border border-transparent" :class="action.icon_class"></i>
+                        <template v-for="action in row_actions">
+                            <i v-if="row.can[action.ability]" @click.stop @click="preformRowAction(action, row.id)"
+                               class="rounded-full p-2 border border-transparent" :class="action.icon_class"/>
+                        </template>
                     </div>
                     <template v-else-if="date_columns.includes(column)">{{
                             (new Date(row[column])).toLocaleDateString()

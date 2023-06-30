@@ -2,7 +2,8 @@
 
 namespace App\Policies;
 
-use App\Constants\Right;
+use App\Constants\Permission;
+use App\Constants\Role;
 use App\Models\Agency;
 use App\Models\User;
 
@@ -12,9 +13,9 @@ class AgencyPolicy
 
     public function before(User $user, string $ability): bool|null
     {
-        // todo check if user is agency user
-        // todo check if user has role of full admin
-        // todo check if user has all the permissions
+        if ($user->hasRole(Role::ADMIN)) {
+            return true;
+        }
 
         return null;
     }
@@ -24,7 +25,7 @@ class AgencyPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo(Right::VIEW_ANY . $this->model);
+        return $user->hasPermissionTo(Permission::VIEW_ANY . $this->model);
     }
 
     /**
@@ -32,7 +33,7 @@ class AgencyPolicy
      */
     public function view(User $user, Agency $agency): bool
     {
-        return $user->hasPermissionTo(Right::VIEW . $this->model);
+        return $user->hasPermissionTo(Permission::VIEW . $this->model);
     }
 
     /**
@@ -40,7 +41,7 @@ class AgencyPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo(Right::CREATE . $this->model);
+        return $user->hasPermissionTo(Permission::CREATE . $this->model);
     }
 
     /**
@@ -48,7 +49,7 @@ class AgencyPolicy
      */
     public function update(User $user, Agency $agency): bool
     {
-        return $user->hasPermissionTo(Right::UPDATE . $this->model);
+        return $user->hasPermissionTo(Permission::UPDATE . $this->model);
     }
 
     /**
@@ -56,7 +57,7 @@ class AgencyPolicy
      */
     public function delete(User $user, Agency $agency): bool
     {
-        return $user->hasPermissionTo(Right::DELETE . $this->model);
+        return $user->hasPermissionTo(Permission::DELETE . $this->model);
     }
 
     /**
@@ -64,7 +65,7 @@ class AgencyPolicy
      */
     public function restore(User $user, Agency $agency): bool
     {
-        return $user->hasPermissionTo(Right::RESTORE . $this->model);
+        return $user->hasPermissionTo(Permission::RESTORE . $this->model);
     }
 
     /**
@@ -72,6 +73,14 @@ class AgencyPolicy
      */
     public function forceDelete(User $user, Agency $agency): bool
     {
-        return $user->hasPermissionTo(Right::FORCE_DELETE . $this->model);
+        return $user->hasPermissionTo(Permission::FORCE_DELETE . $this->model);
+    }
+
+    /**
+     * Determine whether the user can delete any models.
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->hasPermissionTo(Permission::DELETE_ANY . $this->model);
     }
 }
