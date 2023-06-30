@@ -2,11 +2,16 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Company;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
+/**
+ * @property Company $company
+ */
 class UpdateCompanyRequest extends FormRequest
 {
     /**
@@ -37,8 +42,12 @@ class UpdateCompanyRequest extends FormRequest
                 'string', 'min:10', 'max:20',
                 Rule::unique('companies')->ignore($this->company->id),
             ],
+
             'logo' => [
-                'string',
+                File::image()
+                    ->min(1024)
+                    ->max(12 * 1024)
+                    ->dimensions(Rule::dimensions()->maxWidth(500)->maxHeight(500)),
                 Rule::unique('companies')->ignore($this->company->id),
             ],
         ];

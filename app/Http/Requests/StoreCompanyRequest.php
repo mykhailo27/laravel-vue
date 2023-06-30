@@ -7,6 +7,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
 class StoreCompanyRequest extends FormRequest
 {
@@ -38,8 +39,13 @@ class StoreCompanyRequest extends FormRequest
                 'required', 'string', 'min:10', 'max:20',
                 Rule::unique(Company::class),
             ],
+
             'logo' => [
-                'sometimes', 'string',
+                'required',
+                File::image()
+                    ->min(1024)
+                    ->max(12 * 1024)
+                    ->dimensions(Rule::dimensions()->maxWidth(500)->maxHeight(500)),
                 Rule::unique(Company::class),
             ],
         ];
