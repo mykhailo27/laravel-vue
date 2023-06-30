@@ -42,8 +42,7 @@ const closetPermissionModal = () => {
     <Head title="Welcome"/>
 
     <!-- Section: Design Block -->
-    <section>
-        <!-- Navbar -->
+    <section class="min-h-screen overflow-auto"><!-- Navbar -->
         <nav
             class="relative flex w-full items-center justify-between bg-white py-2 shadow-sm shadow-neutral-700/10 dark:bg-neutral-800 dark:shadow-black/30  lg:flex-wrap lg:justify-start"
             data-te-navbar-ref>
@@ -77,6 +76,7 @@ const closetPermissionModal = () => {
             <!-- Container wrapper -->
         </nav>
         <!-- Navbar -->
+
 
         <!-- Jumbotron -->
         <div class="px-6 py-12 text-center md:px-12 lg:text-left">
