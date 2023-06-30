@@ -68,9 +68,9 @@ onMounted(function () {
 
         <div class="flex justify-between">
             <Link :href="route('dashboard')"
-                  class="flex w-full h-16 cursor-pointer items-center truncate rounded-[5px] px-6 py-6 gap-2 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                  class="flex w-full h-16 cursor-pointer items-center truncate rounded-[5px] p-6 text-[0.875rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
                   data-te-sidenav-link-ref data-te-ripple-init data-te-ripple-color="primary">
-                <ApplicationLogo class="block h-8 w-auto fill-current text-gray-800"/>
+                <ApplicationLogo />
                 <span
                     class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
                     data-te-sidenav-slim="false">Wardrobe</span>
@@ -267,9 +267,9 @@ onMounted(function () {
         <hr>
         <div class="absolute bottom-0 w-full">
             <a href="https://teamsunday.com/" target="_blank"
-               class="flex items-center justify-start py-4 px-4 outline-none"
+               class="flex items-center justify-start p-4 outline-none"
                data-te-ripple-init data-te-ripple-color="primary">
-                <ApplicationLogo class="block h-8 pr-4 w-auto fill-current text-gray-800"/>
+                <ApplicationLogo/>
                 <span
                     class="group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
                     data-te-sidenav-slim="false"
