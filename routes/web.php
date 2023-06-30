@@ -4,6 +4,10 @@ use App\Http\Controllers\Agency\AgencyViewController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Role\RoleViewController;
 use App\Http\Controllers\User\UserViewController;
+use App\Mail\ContactSubmitted;
+use Illuminate\Http\Request;
+use Illuminate\Mail\PendingMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -23,6 +27,23 @@ Route::get('/', static function () {
         'canLogin' => Route::has('login'),
     ]);
 });
+
+Route::post('/contact', static function (Request $request) {
+
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|',
+        'message' => 'required|min:10|max:1000|',
+        'send_me' => 'required|bool|',
+    ]);
+
+    Mail::to(config('mail.from.address'))
+        ->when($validated['send_me'], fn(PendingMail $mail) => $mail->cc($validated['email']))
+        ->send(new ContactSubmitted($validated));
+
+    return back();
+
+})->name('contact');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
