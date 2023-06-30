@@ -316,7 +316,7 @@ const clickSubmitBtn = () => {
                         </template>
                         <template #rows>
                             <Tr v-if="user_permissions !== null" v-for="permission in user_permissions" class="capitalize">
-                                <Td>{{ permission.name?.replace('.', ' ') }}</Td>
+                                <Td>{{ permission.name?.split('_').join(' ') }}</Td>
                                 <Td>{{ permission.guard_name }}</Td>
                                 <Td>{{ (new Date(permission.created_at)).toLocaleDateString() }}</Td>
                                 <Td>
@@ -376,7 +376,7 @@ const clickSubmitBtn = () => {
                     </template>
                     <template #rows>
                         <Tr v-if="permissions !== null" v-for="permission in filtered_permissions" class="capitalize">
-                            <Td>{{ permission.name?.replace('.', ' ') }}</Td>
+                            <Td>{{ permission.name?.split('_').join(' ') }}</Td>
                             <Td>{{ permission.guard_name }}</Td>
                             <Td>
                                 <PrimaryButton title="Add Permission" class="fa-solid fa-plus" :data-permission-id="permission.id"
