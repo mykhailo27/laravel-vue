@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Agency\AgencyApiController;
+use App\Http\Controllers\Company\CompanyApiController;
 use App\Http\Controllers\Role\RoleApiController;
 use App\Http\Controllers\User\UserApiController;
 use Illuminate\Http\Request;
@@ -33,6 +34,17 @@ Route::middleware('auth:sanctum')->group(static function () {
         Route::delete('{agency}/remove-user/{user}', [AgencyApiController::class, 'removeUser'])->name('remove-user');
         Route::delete('delete', [AgencyApiController::class, 'delete'])->name('delete');
         Route::delete('delete/multiple', [AgencyApiController::class, 'deleteMultiple'])->name('delete-multiple');
+    });
+
+    Route::group([
+        'prefix' => 'companies',
+        'as' => 'companies.'
+    ], static function () {
+        Route::get('{company}/users', [CompanyApiController::class, 'users'])->name('users');
+        Route::post('{company}/add-user/{user}', [CompanyApiController::class, 'addUser'])->name('add-user');
+        Route::delete('{company}/remove-user/{user}', [CompanyApiController::class, 'removeUser'])->name('remove-user');
+        Route::delete('delete', [CompanyApiController::class, 'delete'])->name('delete');
+        Route::delete('delete/multiple', [CompanyApiController::class, 'deleteMultiple'])->name('delete-multiple');
     });
 
     Route::group([

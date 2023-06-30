@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('agency_user', static function (Blueprint $table) {
+        Schema::create('company_user', static function (Blueprint $table) {
             $table->uuid('id');
             $table->boolean('selected')->default(false);
-            $table->string('agency_id');
+            $table->string('company_id');
             $table->string('user_id');
             $table->timestamps();
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('agency_user');
+        Schema::dropIfExists('company_user');
     }
 };

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Agency\AgencyViewController;
 use App\Http\Controllers\Auth\ProfileController;
+use App\Http\Controllers\Company\CompanyViewController;
 use App\Http\Controllers\Role\RoleViewController;
 use App\Http\Controllers\User\UserViewController;
 use App\Mail\ContactSubmitted;
@@ -61,6 +62,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{agency?}', [AgencyViewController::class, 'details'])->name('details');
         Route::put('/{agency}', [AgencyViewController::class, 'update'])->name('update');
         Route::delete('/{agency}', [AgencyViewController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group([
+        'prefix' => 'companies',
+        'as' => 'companies.'
+    ], static function () {
+        Route::get('/', [CompanyViewController::class, 'index'])->name('index');
+        Route::get('/create', [CompanyViewController::class, 'create'])->name('create');
+        Route::post('/', [CompanyViewController::class, 'store'])->name('store');
+        Route::get('/{company?}', [CompanyViewController::class, 'details'])->name('details');
+        Route::put('/{company}', [CompanyViewController::class, 'update'])->name('update');
+        Route::delete('/{company}', [CompanyViewController::class, 'destroy'])->name('destroy');
     });
 
     Route::group([

@@ -3,15 +3,22 @@
 namespace App\Models;
 
 use App\Enums\CompanyState;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property string $agency_id
  * @property string $owner_id
+ * @property Collection $users
+ * @property string $id
+ * @property string $name
+ * @method static create(array $validated)
+ * @method static find(string $id)
  */
 class Company extends Model
 {
@@ -37,5 +44,13 @@ class Company extends Model
     public function agency(): BelongsTo
     {
         return $this->belongsTo(Agency::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+            ->using(CompanyUser::class)
+            ->withPivot('selected')
+            ->withTimestamps();
     }
 }

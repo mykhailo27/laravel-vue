@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Agency;
+namespace App\Http\Controllers\Company;
 
 use App\Constants\Ability;
 use App\Http\Controllers\Controller;
-use App\Models\Agency;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class AgencyApiController extends Controller
+class CompanyApiController extends Controller
 {
-    public function addUser(Agency $agency, User $user): Response
+    public function addUser(Company $Company, User $user): Response
     {
-        $added = AgencyModelController::addUser($agency, $user);
+        $added = CompanyModelController::addUser($Company, $user);
 
         return response([
             'message' => $added
                 ? 'User has been added successful'
-                : 'Fail to add user to an agency',
+                : 'Fail to add user to an Company',
             'success' => $added,
             'user' => $user
         ]);
@@ -28,15 +28,15 @@ class AgencyApiController extends Controller
     public function deleteMultiple(Request $request): Response
     {
         try {
-            $this->authorize(Ability::DELETE_ANY, Agency::class);
+            $this->authorize(Ability::DELETE_ANY, Company::class);
 
             $ids = $request->get('ids');
-            $deleted = AgencyModelController::delete($ids);
+            $deleted = CompanyModelController::delete($ids);
             $success = $deleted === count($ids);
 
             return response([
                 'success' => $success,
-                'message' => $success ? 'All agencies deleted' : 'Some agencies deleted',
+                'message' => $success ? 'All companies deleted' : 'Some companies deleted',
             ]);
         } catch (AuthorizationException $e) {
             return response([
@@ -49,14 +49,14 @@ class AgencyApiController extends Controller
     public function delete(Request $request): Response
     {
         try {
-            $agency = AgencyModelController::getById($request->get('id'));
+            $company = CompanyModelController::getById($request->get('id'));
 
-            $this->authorize(Ability::DELETE, $agency);
+            $this->authorize(Ability::DELETE, $company);
 
-            $deleted = AgencyModelController::delete($agency->id);
+            $deleted = CompanyModelController::delete($company->id);
             return response([
                 'success' => $deleted,
-                'message' => $deleted ? 'Agency deleted' : 'Agency fail to be deleted',
+                'message' => $deleted ? 'Company deleted' : 'Company fail to be deleted',
             ]);
         } catch (AuthorizationException $e) {
             return response([
@@ -66,23 +66,23 @@ class AgencyApiController extends Controller
         }
     }
 
-    public function users(Agency $agency): Response
+    public function users(Company $company): Response
     {
         return response([
             'success' => true,
-            'message' => 'Load agency users',
-            'users' => $agency->users
+            'message' => 'Load Company users',
+            'users' => $company->users // todo return a resource
         ]);
     }
 
-    public function removeUser(Agency $agency, User $user): Response
+    public function removeUser(Company $company, User $user): Response
     {
-        $removed = AgencyModelController::removeUser($agency, $user);
+        $removed = CompanyModelController::removeUser($company, $user);
 
         return response([
             'message' => $removed
                 ? 'User has been removed successful'
-                : 'Fail to remove user from an agency',
+                : 'Fail to remove user from an company',
             'success' => $removed,
             'user' => $user
         ]);

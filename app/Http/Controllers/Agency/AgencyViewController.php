@@ -93,7 +93,7 @@ class AgencyViewController extends Controller
         return Inertia::render('Agency/Details', [
             'agency' => $agency,
             'agency_users' => $agency->users,
-            'non_agency_users' => $agency->nonAgencyUser()
+            'non_agency_users' => AgencyModelController::nonAgencyUser($agency)
         ]);
     }
 

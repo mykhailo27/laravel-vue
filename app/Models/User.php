@@ -16,6 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $id
  * @property string $name
  * @property string $email
+ * @method static whereNotIn(string $column, mixed[] $values)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -56,6 +57,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Agency::class)
             ->using(AgencyUser::class)
+            ->withPivot('selected')
+            ->withTimestamps();
+    }
+
+    public function companies(): BelongsToMany
+    {
+        return $this->belongsToMany(Company::class)
+            ->using(CompanyUser::class)
             ->withPivot('selected')
             ->withTimestamps();
     }
