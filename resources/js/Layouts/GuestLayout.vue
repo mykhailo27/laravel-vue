@@ -4,7 +4,7 @@ import Link from "@/Components/Link.vue";
 </script>
 
 <template>
-    <div class="min-h-screen w-full bg-gray-100">
+    <div class="min-h-screen w-full">
 
         <nav
             class="fixed top-0 w-full items-center py-4 px-6 shadow-sm shadow-neutral-700/10 bg-white dark:bg-neutral-800 dark:shadow-black/30"
