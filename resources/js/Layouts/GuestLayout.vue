@@ -7,7 +7,7 @@ import Link from "@/Components/Link.vue";
     <div class="min-h-screen w-full bg-gray-100">
 
         <nav
-            class="flex w-full items-center py-4 px-6 shadow-sm shadow-neutral-700/10 bg-white dark:bg-neutral-800 dark:shadow-black/30"
+            class="fixed top-0 w-full items-center py-4 px-6 shadow-sm shadow-neutral-700/10 bg-white dark:bg-neutral-800 dark:shadow-black/30"
             data-te-navbar-ref>
             <!-- Container wrapper -->
             <Link href="/" content-classes="p-0">
@@ -16,8 +16,8 @@ import Link from "@/Components/Link.vue";
         </nav>
 
         <!-- Section: Design Block -->
-        <section class="flex flex-wrap items-center p-6 md:p-12 lg:p-16">
-            <div class="mb-6 w-full shrink-0 grow-0 basis-auto lg:mb-0 lg:w-5/12">
+        <section class="flex flex-wrap h-screen items-center p-6 md:p-12 lg:p-16">
+            <div class="mt-12 mb-6 w-full shrink-0 grow-0 basis-auto lg:mb-0 lg:w-5/12">
                 <img src="https://wardrobe.teamsunday.com/img/2021/09/sunday_wardrobe.png"
                      alt="Sunday Wardrobe™"
                      class="w-full rounded-lg shadow-lg dark:shadow-black/20 lg:ml-[50px]">
