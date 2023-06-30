@@ -155,8 +155,8 @@ const closetPermissionModal = () => {
             <div class="mx-6 py-10 text-center md:text-left">
                 <div class="grid-1 grid gap-6 md:grid-cols-3 lg:grid-cols-3">
                     <!-- Tailwind Elements section -->
-                    <div class="">
-                        <div class="flex justify-center md:justify-start">
+                    <div>
+                        <div class="mb-2 flex justify-center md:justify-start">
                             <NamedApplicationLogo/>
                         </div>
                         <p>
@@ -164,7 +164,7 @@ const closetPermissionModal = () => {
                         </p>
                     </div>
                     <!-- Useful links section -->
-                    <div class="">
+                    <div>
                         <h6
                             class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
                             Legal Policy
