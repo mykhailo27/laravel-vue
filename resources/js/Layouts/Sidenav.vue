@@ -7,12 +7,14 @@ import SidenavLink from "@/Components/SidenavLink.vue";
 import {Link} from "@inertiajs/vue3";
 import SidenavDropdown from "@/Components/SidenavDropdown.vue";
 import SidenavDropdownItem from "@/Components/SidenavDropdownItem.vue";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import Dropdown from "@/Components/Dropdown.vue";
 
 const props = defineProps({
     content: {
         type: String,
         required: true
-    }
+    },
 });
 
 let innerWidth = null;
@@ -32,6 +34,15 @@ const setMode = (sidenavInstance) => {
         sidenavInstance.show();
     }
 };
+
+const currentCloset = (user_closets) => {
+    for (let i = 0; i < user_closets.length; i++) {
+        if (user_closets[i].selected) {
+            return user_closets[i].name;
+        }
+    }
+    return 'No closet';
+}
 
 onMounted(function () {
     initTE({Sidenav, Ripple});
@@ -78,9 +89,40 @@ onMounted(function () {
 
             <i @click="sidenavInstance.toggleSlim()"
                class="absolute right-0 px-4 py-6 fa-solid fa-angles-left self-center group-[&[data-te-sidenav-slim-collapsed='true']]:data-[te-sidenav-slim='false']:hidden"
-               data-te-sidenav-slim="false"
-            ></i>
+               data-te-sidenav-slim="false"/>
         </div>
+
+        <hr>
+
+        <Dropdown align="right" width="48" class="relative px-[0.2rem]">
+            <template #trigger>
+                <span class="flex items-center justify-between rounded-md px-6 py-4">
+                    <button
+                        type="button"
+                        class="inline-flex gap-2 capitalize items-center border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                        <i class="fa-solid fa-notdef"></i>
+                        {{ currentCloset($page.props.user_closets) }}
+                    </button>
+                    <svg v-if="$page.props.user_closets.length"
+                        class="ml-2 -mr-0.5 h-4 w-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor">
+                            <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                </span>
+            </template>
+
+            <template #content v-if="$page.props.user_closets.length">
+                <DropdownLink v-for="closet in $page.props.user_closets" :href="route('users.switch_closet', {id: closet.id})">
+                    {{ closet.name }}
+                </DropdownLink>
+            </template>
+        </Dropdown>
 
         <hr>
 
