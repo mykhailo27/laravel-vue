@@ -36,6 +36,7 @@ const company_form = useForm({
     abbreviation: props.company?.abbreviation ?? '',
     vat: props.company?.vat ?? '',
     logo: props.company?.logo ?? '',
+    _method: 'put',
 });
 
 const tab_attributes = {
@@ -46,7 +47,7 @@ const tab_attributes = {
 const submit = () => {
     if (props.company !== null) {
         if (company_form.isDirty) {
-            company_form.put(route('companies.update', {company: props.company.id}), {
+            company_form.post(route('companies.update', {company: props.company.id}), {
                 onFinish: () => {
                     console.log('Company updated')
                 }
@@ -224,19 +225,28 @@ const handleRemoveUser = (event) => {
                         <div>
                             <InputLabel for="logo" value="Logo"/>
 
-                            <TextInput
+                            <input
                                 id="logo"
                                 type="file"
+                                accept=".png"
                                 class="border py-2 mt-1 block w-full"
-                                v-model="company_form.logo"
+                                @input="company_form.logo = $event.target.files[0]"
                                 required
                             />
 
                             <InputError class="mt-2" :message="company_form.errors.logo"/>
                         </div>
 
-                        <button type="submit" id="submit-btn" hidden>Submit</button>
+                        <progress v-if="company_form.progress" :value="company_form.progress.percentage" max="100">
+                            {{ company_form.progress.percentage }}%
+                        </progress>
+
+                        <button type="submit" id="submit-btn" :disabled="company_form.processing" hidden>Submit</button>
                     </form>
+
+                    <img v-if="company.logo" :src="company.logo"
+                        class="mt-2 h-auto max-w-sm rounded-lg shadow-none transition-shadow duration-300 ease-in-out hover:shadow-lg hover:shadow-black/30"
+                        alt="company logo"/>
                 </Content>
                 <Content :tab="tab_attributes.users">
 

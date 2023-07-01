@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -61,6 +62,10 @@ class CompanyViewController extends Controller
      */
     public function details(Company $company): Response
     {
+        if ($company->logo) {
+            $company->logo = Storage::url($company->logo);
+        }
+
         return Inertia::render('Company/Details', [
             'company' => $company,
             'company_users' => $company->users,
@@ -76,11 +81,29 @@ class CompanyViewController extends Controller
     {
         $this->authorize(Ability::CREATE, Company::class);
 
-        $company = Company::create($request->validated());
+        if ($path = $this->uploadLogo($request)) {
+            $validated = $request->validated();
+            $validated['logo'] = $path;
 
-        return Redirect::route('companies.details', [
-            'company' => $company->id
-        ])->with('message', 'company-created');
+            $company = Company::create($validated);
+
+            return Redirect::route('companies.details', [
+                'company' => $company->id
+            ])->with('message', 'company-created');
+        }
+
+        return back(409, [
+            'company' => null
+        ])->withErrors('fail to upload logo', 'logo');
+    }
+
+    private function uploadLogo(StoreCompanyRequest|UpdateCompanyRequest $request): ?string
+    {
+        $logo = $request->file('logo');
+
+        return $logo->isValid()
+            ? Storage::putFile('public/company', $logo, 'public')
+            : null;
     }
 
     /**
@@ -100,14 +123,25 @@ class CompanyViewController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @throws AuthorizationException
      */
     public function update(UpdateCompanyRequest $request, Company $company): RedirectResponse
     {
-        $company->update($request->validated());
+        $this->authorize(Ability::UPDATE, $company);
+
+        if (is_null($path = $this->uploadLogo($request))) {
+            return back(409, [
+                'company' => null
+            ])->withErrors('logo file path is null', 'logo');
+        }
+
+        $validated = $request->validated();
+        $validated['logo'] = $path;
+        $company->update($validated);
 
         return Redirect::route('companies.details', [
             'company' => $company->id
-        ])->with('message', 'company-updated');
+        ])->with('message', 'company-created');
     }
 
     /**
