@@ -145,8 +145,12 @@ onMounted(function () {
                         </template>
                     </SidenavLink>
                 </li>
-                `
-                <li class="relative">
+
+                <li class="relative pt-4">
+                    <span class="px-6 py-4 text-[0.6rem] font-bold uppercase text-gray-600 dark:text-gray-400">
+                        Agency
+                    </span>
+
                     <SidenavLink route_path="/companies" name="companies">
                         <template #icon>
                             <i class="fa-solid fa-building"></i>
