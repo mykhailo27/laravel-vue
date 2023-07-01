@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Collection $users
  * @property string $id
  * @property string $name
+ * @property string $logo
  * @method static create(array $validated)
  * @method static find(string $id)
  */
