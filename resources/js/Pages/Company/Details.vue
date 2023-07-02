@@ -18,10 +18,20 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import Modal from "@/Components/Modal.vue";
 import {handleRowClick} from "@/Modules/TableClickHandler.js";
 import {filter} from "@/Modules/DataProcessing.js";
+import Select from "@/Components/Select.vue";
 
 const props = defineProps({
     company: {
         type: Object,
+    },
+    address: {
+        type: Object,
+    },
+    country: {
+        type: Object,
+    },
+    countries: {
+        type: Array,
     },
     company_users: {
         type: Object,
@@ -32,11 +42,18 @@ const props = defineProps({
 });
 
 const company_form = useForm({
+    _method: props.company ? 'put': 'post',
     name: props.company?.name ?? '',
     abbreviation: props.company?.abbreviation ?? '',
     vat: props.company?.vat ?? '',
     logo: props.company?.logo ?? '',
-    _method: 'put',
+
+    address_line_1: props.address?.line_1 ?? '',
+    address_line_2: props.address?.line_2 ?? '',
+    address_zip_code: props.address?.zip_code ?? '',
+    address_city: props.address?.city ?? '',
+    address_state_or_region: props.address?.state_or_region ?? '',
+    address_country: props.country?.id ?? '',
 });
 
 const tab_attributes = {
@@ -64,6 +81,12 @@ const submit = () => {
     }
 };
 
+const getCountries = computed(() => {
+    return props.countries.reduce((countries, country) => {
+        countries.push({name: country.name, value: country.id})
+        return countries;
+    }, [])
+})
 
 const show_add_or_update_company_btn = ref(true)
 const show_add_user_btn = ref(false)
@@ -237,6 +260,83 @@ const handleRemoveUser = (event) => {
                             <InputError class="mt-2" :message="company_form.errors.logo"/>
                         </div>
 
+                        <!-- Address -->
+
+                        <div>
+                            <InputLabel for="address_line_1" value="Address Line 1"/>
+
+                            <TextInput
+                                id="address_line_1"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="company_form.address_line_1"
+                                required
+                            />
+
+                            <InputError class="mt-2" :message="company_form.errors.address_line_1"/>
+                        </div>
+
+                        <div>
+                            <InputLabel for="address_line_2" value="Address Line 2"/>
+
+                            <TextInput
+                                id="address_line_2"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="company_form.address_line_2"
+                            />
+
+                            <InputError class="mt-2" :message="company_form.errors.address_line_2"/>
+                        </div>
+
+                        <div>
+                            <InputLabel for="address_zip_code" value="Address zip code"/>
+
+                            <TextInput
+                                id="address_zip_code"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="company_form.address_zip_code"
+                                required
+                            />
+
+                            <InputError class="mt-2" :message="company_form.errors.address_zip_code"/>
+                        </div>
+
+                        <div>
+                            <InputLabel for="address_city" value="Address city"/>
+
+                            <TextInput
+                                id="address_city"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="company_form.address_city"
+                                required
+                            />
+
+                            <InputError class="mt-2" :message="company_form.errors.address_city"/>
+                        </div>
+
+                        <div>
+                            <InputLabel for="address_state_or_region" value="Address state | region"/>
+
+                            <TextInput
+                                id="address_state_or_region"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="company_form.address_state_or_region"
+                                required
+                            />
+
+                            <InputError class="mt-2" :message="company_form.errors.address_state_or_region"/>
+                        </div>
+
+                        <div class="mt-4">
+                            <Select v-if="countries" :modelValue="country?.id"
+                                    @update:modelValue="value => company_form.address_country = value"
+                                    :options="getCountries" label="Address country"/>
+                        </div>
+
                         <progress v-if="company_form.progress" :value="company_form.progress.percentage" max="100">
                             {{ company_form.progress.percentage }}%
                         </progress>
@@ -244,7 +344,7 @@ const handleRemoveUser = (event) => {
                         <button type="submit" id="submit-btn" :disabled="company_form.processing" hidden>Submit</button>
                     </form>
 
-                    <img v-if="company.logo" :src="company.logo"
+                    <img v-if="company?.logo" :src="company.logo"
                         class="mt-2 h-auto max-w-sm rounded-lg shadow-none transition-shadow duration-300 ease-in-out hover:shadow-lg hover:shadow-black/30"
                         alt="company logo"/>
                 </Content>

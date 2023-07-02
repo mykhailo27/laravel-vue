@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Company;
 
 use App\Constants\Ability;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Country\CountryModelController;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use App\Models\Address;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -66,8 +68,13 @@ class CompanyViewController extends Controller
             $company->logo = Storage::url($company->logo);
         }
 
+        $address = $company->address;
+
         return Inertia::render('Company/Details', [
             'company' => $company,
+            'address' => $address,
+            'country' => $address?->country,
+            'countries' => CountryModelController::getAll(),
             'company_users' => $company->users,
             'non_company_users' => CompanyModelController::nonCompanyUser($company)
         ]);
@@ -85,11 +92,23 @@ class CompanyViewController extends Controller
             $validated = $request->validated();
             $validated['logo'] = $path;
 
-            $company = Company::create($validated);
+            $error = '';
+
+            if (!is_null($company = Company::create($validated))) {
+                if (is_null($this->updateOrCreateAddress($request, $company))) {
+                    $error = 'fail to create address for the company';
+                }
+            } else {
+                $error = 'fail to create company';
+            }
+
+            if ($error) {
+                return back('400')->withErrors('message', $error);
+            }
 
             return Redirect::route('companies.details', [
                 'company' => $company->id
-            ])->with('message', 'company-created');
+            ])->with('message', 'company created');
         }
 
         return back(409, [
@@ -116,8 +135,37 @@ class CompanyViewController extends Controller
 
         return Inertia::render('Company/Details', [
             'company' => null,
+            'address' => null,
+            'country' => null,
+            'countries' => CountryModelController::getAll(),
             'company_users' => null,
             'non_company_users' => null,
+        ]);
+    }
+
+    private function updateOrCreateAddress(StoreCompanyRequest|UpdateCompanyRequest $request, Company $company): ?Address
+    {
+        if (!is_null($address = $company->address)) {
+            $address->update([
+                'line_1' => $request->get('address_line_1'),
+                'line_2' => $request->get('address_line_2'),
+                'zip_code' => $request->get('address_zip_code'),
+                'city' => $request->get('address_city'),
+                'state_or_region' => $request->get('address_state_or_region'),
+                'country_id' => $request->get('address_country'),
+            ]);
+            return $address;
+        }
+
+        return Address::create([
+            'line_1' => $request->get('address_line_1'),
+            'line_2' => $request->get('address_line_2'),
+            'zip_code' => $request->get('address_zip_code'),
+            'city' => $request->get('address_city'),
+            'state_or_region' => $request->get('address_state_or_region'),
+            'country_id' => $request->get('address_country'),
+            'addressable_id' => $company->id,
+            'addressable_type' => get_class($company),
         ]);
     }
 
@@ -137,7 +185,20 @@ class CompanyViewController extends Controller
 
         $validated = $request->validated();
         $validated['logo'] = $path;
-        $company->update($validated);
+
+        $error = '';
+
+        if (!is_null($company->update($validated))) {
+            if (!$this->updateOrCreateAddress($request, $company)) {
+                $error = 'fail to create address for the company';
+            }
+        } else {
+            $error = 'fail to create company';
+        }
+
+        if ($error) {
+            return back('400')->withErrors('message', $error);
+        }
 
         return Redirect::route('companies.details', [
             'company' => $company->id
