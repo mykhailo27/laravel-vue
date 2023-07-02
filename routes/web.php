@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Address\AddressViewController;
 use App\Http\Controllers\Agency\AgencyViewController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Company\CompanyViewController;
@@ -108,6 +109,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{role?}', [RoleViewController::class, 'details'])->name('details');
         Route::put('/{role}', [RoleViewController::class, 'update'])->name('update');
         Route::delete('/{role}', [RoleViewController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group([
+        'prefix' => 'address',
+        'as' => 'address.',
+    ], static function () {
+        Route::post('/', [AddressViewController::class, 'store'])->name('store');
+        Route::put('/{address}', [AddressViewController::class, 'update'])->name('update');
     });
 
 });

@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\Agency;
 
+use App\Constants\Ability;
 use App\Models\Agency;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class StoreAgencyRequest extends FormRequest
@@ -15,7 +17,8 @@ class StoreAgencyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check(); // todo implement authorization
+        return Auth::check()
+            && Gate::allows(Ability::CREATE, Agency::class);
     }
 
     /**

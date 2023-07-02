@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @method static create(array $attributes)
+ * @method static find(string $id)
  * @property Country $country
  */
 class Address extends Model

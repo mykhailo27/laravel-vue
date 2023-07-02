@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Company;
 
 use App\Models\Company;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -9,10 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
 
-/**
- * @property Company $company
- */
-class UpdateCompanyRequest extends FormRequest
+class StoreCompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,32 +28,24 @@ class UpdateCompanyRequest extends FormRequest
     {
         return [
             'name' => [
-                'string', 'max:55',
-                Rule::unique('companies')->ignore($this->company->id),
+                'required', 'string', 'max:55',
+                Rule::unique(Company::class),
             ],
             'abbreviation' => [
-                'string', 'max:5',
-                Rule::unique('companies')->ignore($this->company->id),
+                'required', 'string', 'max:5',
+                Rule::unique(Company::class),
             ],
             'vat' => [
-                'string', 'min:10', 'max:20',
-                Rule::unique('companies')->ignore($this->company->id),
+                'required', 'string', 'min:10', 'max:20',
+                Rule::unique(Company::class),
             ],
-
-            /* address validation */
-            'address_line_1' => 'required|string|min:5|max:20',
-            'address_line_2' => 'string|min:2|max:20',
-            'address_zip_code' => 'required|string|min:3|max:10',
-            'address_city' => 'required|string|min:3|max:20',
-            'address_state_or_region' => 'string|min:5|max:20',
-            'address_country' => ['required', 'string', Rule::exists('countries', 'id')],
-
             'logo' => [
+                'required',
                 File::image()
                     /*->min(1024) todo update the validation, to match the expected image size and dimension
                     ->max(12 * 1024)
                     ->dimensions(Rule::dimensions()->maxWidth(500)->maxHeight(500))*/,
-                Rule::unique('companies')->ignore($this->company->id),
+                Rule::unique(Company::class),
             ],
         ];
     }

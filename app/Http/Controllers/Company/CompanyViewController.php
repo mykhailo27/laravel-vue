@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Company;
 use App\Constants\Ability;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Country\CountryModelController;
-use App\Http\Requests\StoreCompanyRequest;
-use App\Http\Requests\UpdateCompanyRequest;
-use App\Models\Address;
+use App\Http\Requests\Company\StoreCompanyRequest;
+use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -92,28 +91,13 @@ class CompanyViewController extends Controller
             $validated = $request->validated();
             $validated['logo'] = $path;
 
-            $error = '';
 
-            if (!is_null($company = Company::create($validated))) {
-                if (is_null($this->updateOrCreateAddress($request, $company))) {
-                    $error = 'fail to create address for the company';
-                }
-            } else {
-                $error = 'fail to create company';
-            }
-
-            if ($error) {
-                return back('400')->withErrors('message', $error);
-            }
-
-            return Redirect::route('companies.details', [
-                'company' => $company->id
-            ])->with('message', 'company created');
+            return is_null($company = Company::create($validated))
+                ? back()->withErrors(['error' => 'fail to create company'])
+                : Redirect::route('companies.details', ['company' => $company->id])->with('message', 'company created');
         }
 
-        return back(409, [
-            'company' => null
-        ])->withErrors('fail to upload logo', 'logo');
+        return back()->withErrors(['error' => 'fail to upload logo']);
     }
 
     private function uploadLogo(StoreCompanyRequest|UpdateCompanyRequest $request): ?string
@@ -143,30 +127,15 @@ class CompanyViewController extends Controller
         ]);
     }
 
-    private function updateOrCreateAddress(StoreCompanyRequest|UpdateCompanyRequest $request, Company $company): ?Address
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Company $company): RedirectResponse
     {
-        if (!is_null($address = $company->address)) {
-            $address->update([
-                'line_1' => $request->get('address_line_1'),
-                'line_2' => $request->get('address_line_2'),
-                'zip_code' => $request->get('address_zip_code'),
-                'city' => $request->get('address_city'),
-                'state_or_region' => $request->get('address_state_or_region'),
-                'country_id' => $request->get('address_country'),
-            ]);
-            return $address;
-        }
+        $company->delete();
 
-        return Address::create([
-            'line_1' => $request->get('address_line_1'),
-            'line_2' => $request->get('address_line_2'),
-            'zip_code' => $request->get('address_zip_code'),
-            'city' => $request->get('address_city'),
-            'state_or_region' => $request->get('address_state_or_region'),
-            'country_id' => $request->get('address_country'),
-            'addressable_id' => $company->id,
-            'addressable_type' => get_class($company),
-        ]);
+        return Redirect::route('companies.index')
+            ->with('message', "$company->name is deleted");
     }
 
     /**
@@ -178,41 +147,14 @@ class CompanyViewController extends Controller
         $this->authorize(Ability::UPDATE, $company);
 
         if (is_null($path = $this->uploadLogo($request))) {
-            return back(409, [
-                'company' => null
-            ])->withErrors('logo file path is null', 'logo');
+            return back()->withErrors(['error' => 'logo file path is null']);
         }
 
         $validated = $request->validated();
         $validated['logo'] = $path;
 
-        $error = '';
-
-        if (!is_null($company->update($validated))) {
-            if (!$this->updateOrCreateAddress($request, $company)) {
-                $error = 'fail to create address for the company';
-            }
-        } else {
-            $error = 'fail to create company';
-        }
-
-        if ($error) {
-            return back('400')->withErrors('message', $error);
-        }
-
-        return Redirect::route('companies.details', [
-            'company' => $company->id
-        ])->with('message', 'company-created');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Company $company): RedirectResponse
-    {
-        $company->delete();
-
-        return Redirect::route('companies.index')
-            ->with('message', "$company->name is deleted");
+        return $company->update($validated)
+            ? Redirect::route('companies.details', ['company' => $company->id])->with('message', 'company-created')
+            : back()->withErrors(['error' => 'fail to create company']);
     }
 }

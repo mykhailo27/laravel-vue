@@ -57,17 +57,13 @@ class AgencyViewController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @throws AuthorizationException
      */
     public function store(StoreAgencyRequest $request): RedirectResponse
     {
-        $this->authorize(Ability::CREATE, Agency::class);
-
-        $agency = Agency::create($request->validated());
-
-        return Redirect::route('agencies.details', [
-            'agency' => $agency->id
-        ])->with('message', 'agency-created');
+        return !is_null($agency = Agency::create($request->validated()))
+            ? Redirect::route('agencies.details', ['agency' => $agency->id])
+                ->with('message', 'agency-created')
+            : back()->withErrors(['error' => 'fail to store agency']);
     }
 
     /**
@@ -102,11 +98,10 @@ class AgencyViewController extends Controller
      */
     public function update(UpdateAgencyRequest $request, Agency $agency): RedirectResponse
     {
-        $agency->update($request->validated());
-
-        return Redirect::route('agencies.details', [
-            'agency' => $agency->id
-        ])->with('message', 'agency-updated');
+        return $agency->update($request->validated())
+            ? Redirect::route('agencies.details', ['agency' => $agency->id])
+                ->with('message', 'agency-updated')
+            : back()->withErrors(['error' => 'fail to update agency']);
     }
 
     /**
