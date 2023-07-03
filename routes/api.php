@@ -52,9 +52,9 @@ Route::middleware('auth:sanctum')->group(static function () {
         'as' => 'users.'
     ], static function () {
         Route::get('{user}/roles', [UserApiController::class, 'roles'])->name('roles');
-        Route::post('{user}/add-role/{role}', [UserApiController::class, 'addRole'])->name('add-role');
+        Route::post('{user}/assign-role/{role}', [UserApiController::class, 'assignRole'])->name('assign-role');
         Route::delete('{user}/remove-role/{role}', [UserApiController::class, 'removeRole'])->name('remove-role');
-        Route::post('{user}/add-permission/{permission}', [UserApiController::class, 'addPermission'])->name('add-permission');
+        Route::post('{user}/give-permission/{permission}', [UserApiController::class, 'givePermission'])->name('give-permission');
         Route::delete('{user}/remove-permission/{permission}', [UserApiController::class, 'removePermission'])->name('remove-permission');
     });
 
@@ -63,7 +63,7 @@ Route::middleware('auth:sanctum')->group(static function () {
         'as' => 'roles.'
     ], static function () {
         Route::get('{role}/permissions', [RoleApiController::class, 'permissions'])->name('permissions');
-        Route::post('{role}/add-permission/{permission}', [RoleApiController::class, 'addPermission'])->name('add-permission');
+        Route::post('{role}/give-permission/{permission}', [RoleApiController::class, 'givePermission'])->name('give-permission');
         Route::delete('{role}/remove-permission/{permission}', [RoleApiController::class, 'removePermission'])->name('remove-permission');
     });
 });

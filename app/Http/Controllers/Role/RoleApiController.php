@@ -18,7 +18,7 @@ class RoleApiController extends Controller
         ]);
     }
 
-    public function addPermission(Role $role, Permission $permission): Response
+    public function givePermission(Role $role, Permission $permission): Response
     {
         $role->givePermissionTo($permission);
 

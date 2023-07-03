@@ -19,7 +19,7 @@ class UserApiController extends Controller
         ]);
     }
 
-    public function addRole(User $user, Role $role): Response
+    public function assignRole(User $user, Role $role): Response
     {
         $user->assignRole($role);
 
@@ -27,8 +27,8 @@ class UserApiController extends Controller
 
         return response([
             'message' => $assigned
-                ? 'Role has been added successful'
-                : 'Fail to add role to a user',
+                ? 'Role has been assigned successful'
+                : 'Fail to assign role to a user',
             'success' => $assigned,
             'role' => $role
         ]);
@@ -49,7 +49,7 @@ class UserApiController extends Controller
         ]);
     }
 
-    public function addPermission(User $user, Permission $permission): Response
+    public function givePermission(User $user, Permission $permission): Response
     {
         $user->givePermissionTo($permission);
 

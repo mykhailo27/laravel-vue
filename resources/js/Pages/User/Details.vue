@@ -78,23 +78,23 @@ const create_state = computed(() => {
     return props.user === null;
 });
 
-const show_add_or_update_user_btn = ref(true)
-const show_add_role_btn = ref(false)
-const show_add_permission_btn = ref(false)
+const show_create_or_update_user_btn = ref(true)
+const show_assign_role_btn = ref(false)
+const show_give_permission_btn = ref(false)
 
-const show_add_role_modal = ref(false)
+const show_assign_role_modal = ref(false)
 const search_role_input = ref('')
 
-const show_add_permission_modal = ref(false)
+const show_give_permission_modal = ref(false)
 const search_permission_input = ref('')
 
 const closetRoleModal = () => {
-    show_add_role_modal.value = false
+    show_assign_role_modal.value = false
     search_role_input.value = '';
 }
 
 const closetPermissionModal = () => {
-    show_add_permission_modal.value = false
+    show_give_permission_modal.value = false
     search_permission_input.value = '';
 }
 
@@ -112,11 +112,11 @@ const filtered_permissions = computed(() => {
         search_permission_input.value)
 })
 
-const handleAddRole = (event) => {
+const handleAssignRole = (event) => {
     const target = event.target;
     const role_id = target.dataset.roleId
 
-    axios.post(route('api.users.add-role', {user: props.user.id, role: role_id}))
+    axios.post(route('api.users.assign-role', {user: props.user.id, role: role_id}))
         .then(res => {
             const role = res.data.role;
 
@@ -163,11 +163,11 @@ const handleRemovePermission = (event) => {
         .catch(error => console.error(error))
 }
 
-const handleAddPermission = (event) => {
+const handleGivePermission = (event) => {
     const target = event.target;
     const permission_id = target.dataset.permissionId
 
-    axios.post(route('api.users.add-permission', {user: props.user.id, permission: permission_id}))
+    axios.post(route('api.users.give-permission', {user: props.user.id, permission: permission_id}))
         .then(res => {
             const permission = res.data.permission;
 
@@ -185,19 +185,19 @@ const activateTab = (event) => {
 
     switch (tab_id) {
         case tab_attributes.user.id:
-            show_add_role_btn.value = false;
-            show_add_permission_btn.value = false;
-            show_add_or_update_user_btn.value = true;
+            show_assign_role_btn.value = false;
+            show_give_permission_btn.value = false;
+            show_create_or_update_user_btn.value = true;
             break;
         case tab_attributes.roles.id:
-            show_add_or_update_user_btn.value = false;
-            show_add_permission_btn.value = false;
-            show_add_role_btn.value = true;
+            show_create_or_update_user_btn.value = false;
+            show_give_permission_btn.value = false;
+            show_assign_role_btn.value = true;
             break;
         case tab_attributes.permissions.id:
-            show_add_role_btn.value = false;
-            show_add_or_update_user_btn.value = false;
-            show_add_permission_btn.value = true;
+            show_assign_role_btn.value = false;
+            show_create_or_update_user_btn.value = false;
+            show_give_permission_btn.value = true;
             break;
     }
 }
@@ -215,7 +215,7 @@ const clickSubmitBtn = () => {
         <template #header>
             <div class="flex justify-between items-center mt-4">
                 <div>
-                    <PrimaryButton v-show="show_add_or_update_user_btn" @click="clickSubmitBtn" class="ml-4"
+                    <PrimaryButton v-show="show_create_or_update_user_btn" @click="clickSubmitBtn" class="ml-4"
                                    :class="{ 'opacity-25': user_form.processing }"
                                    :disabled="user_form.processing">
                         {{ (create_state ? 'Save' : 'Update') }}
@@ -223,11 +223,11 @@ const clickSubmitBtn = () => {
                 </div>
 
                 <div>
-                    <PrimaryButton v-show="show_add_role_btn" @click="show_add_role_modal = true">
-                        Add Role
+                    <PrimaryButton v-show="show_assign_role_btn" @click="show_assign_role_modal = true">
+                        Assign Role
                     </PrimaryButton>
-                    <PrimaryButton v-show="show_add_permission_btn" @click="show_add_permission_modal = true">
-                        Add Permission
+                    <PrimaryButton v-show="show_give_permission_btn" @click="show_give_permission_modal = true">
+                        Give Permission
                     </PrimaryButton>
                 </div>
             </div>
@@ -330,7 +330,7 @@ const clickSubmitBtn = () => {
             </template>
         </Pill>
 
-        <Modal :show="show_add_role_modal" @close="closetRoleModal">
+        <Modal :show="show_assign_role_modal" @close="closetRoleModal">
             <div class="p-6">
                 <div class="flex">
                     <TextInput model-value="" type="search" v-model="search_role_input" class="w-full mr-4"
@@ -339,7 +339,7 @@ const clickSubmitBtn = () => {
                                      @click="closetRoleModal"></SecondaryButton>
                 </div>
 
-                <Table table_id="add-roles-table">
+                <Table table_id="assign-roles-table">
                     <template #columns>
                         <Th>Name</Th>
                         <Th>Guard</Th>
@@ -350,8 +350,8 @@ const clickSubmitBtn = () => {
                             <Td>{{ role.name }}</Td>
                             <Td>{{ role.guard_name }}</Td>
                             <Td>
-                                <PrimaryButton title="Add Role" class="fa-solid fa-plus" :data-role-id="role.id"
-                                               @click="handleAddRole"/>
+                                <PrimaryButton title="Assign Role" class="fa-solid fa-plus" :data-role-id="role.id"
+                                               @click="handleAssignRole"/>
                             </Td>
                         </Tr>
                     </template>
@@ -359,7 +359,7 @@ const clickSubmitBtn = () => {
             </div>
         </Modal>
 
-        <Modal :show="show_add_permission_modal" @close="closetPermissionModal">
+        <Modal :show="show_give_permission_modal" @close="closetPermissionModal">
             <div class="p-6">
                 <div class="flex">
                     <TextInput model-value="" type="search" v-model="search_permission_input" class="w-full mr-4"
@@ -368,7 +368,7 @@ const clickSubmitBtn = () => {
                                      @click="closetPermissionModal"></SecondaryButton>
                 </div>
 
-                <Table table_id="add-permissions-table">
+                <Table table_id="give-permissions-table">
                     <template #columns>
                         <Th>Name</Th>
                         <Th>Guard</Th>
@@ -379,8 +379,8 @@ const clickSubmitBtn = () => {
                             <Td>{{ permission.name?.split('_').join(' ') }}</Td>
                             <Td>{{ permission.guard_name }}</Td>
                             <Td>
-                                <PrimaryButton title="Add Permission" class="fa-solid fa-plus" :data-permission-id="permission.id"
-                                               @click="handleAddPermission"/>
+                                <PrimaryButton title="Give Permission" class="fa-solid fa-plus" :data-permission-id="permission.id"
+                                               @click="handleGivePermission"/>
                             </Td>
                         </Tr>
                     </template>
