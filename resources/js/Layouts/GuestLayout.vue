@@ -1,6 +1,12 @@
 <script setup>
 import NamedApplicationLogo from "@/Components/NamedApplicationLogo.vue";
 import Link from "@/Components/Link.vue";
+import {onMounted} from "vue";
+import {initTE, Ripple} from "tw-elements";
+
+onMounted(() => {
+    initTE({Ripple});
+})
 </script>
 
 <template>
