@@ -26,14 +26,14 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('contact'), {
-        onSuccess: () => closetPermissionModal(),
+        onSuccess: () => closetContactModal(),
     });
 };
 
-const show_add_permission_modal = ref(false)
+const show_contact_modal = ref(false)
 
-const closetPermissionModal = () => {
-    show_add_permission_modal.value = false
+const closetContactModal = () => {
+    show_contact_modal.value = false
 }
 
 </script>
@@ -89,7 +89,7 @@ const closetPermissionModal = () => {
                                 Sunday help companies<br/><span class="text-primary">make their clients be their ambassadors.</span>
                             </h1>
                             <div class="flex gap-2 items-center lg:justify-start justify-center">
-                                <PrimaryButton class="sm:py-4" @click="show_add_permission_modal = true">
+                                <PrimaryButton class="sm:py-4" @click="show_contact_modal = true">
                                     Contact Us
                                 </PrimaryButton>
                                 <a class="inline-block rounded text-sm sm:py-4 py-2 px-4 font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 dark:hover:bg-neutral-700 dark:hover:bg-opacity-40"
@@ -251,12 +251,12 @@ const closetPermissionModal = () => {
     <!-- Section: Design Block -->
 
     <!-- Modal: contact Block -->
-    <Modal :show="show_add_permission_modal" @close="closetPermissionModal">
+    <Modal :show="show_contact_modal" @close="closetContactModal">
         <!-- Container for demo purpose -->
         <div class="p-6">
             <div class="flex justify-between mb-3">
                 <h2 class="text-3xl font-bold">Contact us</h2>
-                <SecondaryButton class="fa-sharp fa-solid fa-xmark" @click="closetPermissionModal"/>
+                <SecondaryButton class="fa-sharp fa-solid fa-xmark" @click="closetContactModal"/>
             </div>
 
             <form @submit.prevent="submit">
