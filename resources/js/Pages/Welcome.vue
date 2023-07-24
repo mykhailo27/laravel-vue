@@ -4,12 +4,13 @@ import Link from "@/Components/Link.vue";
 import NamedApplicationLogo from "@/Components/NamedApplicationLogo.vue";
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import InputError from "@/Components/InputError.vue";
+import { initTE, Ripple} from "tw-elements";
 
 defineProps({
     canLogin: {
@@ -35,6 +36,10 @@ const show_contact_modal = ref(false)
 const closetContactModal = () => {
     show_contact_modal.value = false
 }
+
+onMounted(() => {
+    initTE({Ripple});
+})
 
 </script>
 
