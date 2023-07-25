@@ -14,5 +14,5 @@ class Country extends Model
         'aliases' => 'array'
     ];
 
-    protected $fillable = ['name', 'alpha_1', 'alpha_2', 'aliases', 'zip_code_regex'];
+    protected $fillable = ['name', 'alpha_2', 'alpha_3', 'enabled', 'aliases', 'zip_code_regex'];
 }

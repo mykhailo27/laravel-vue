@@ -208,7 +208,8 @@ const handleRemoveUser = (event) => {
                 </div>
 
                 <div id="secondary-actions">
-                    <PrimaryButton v-show="show_add_user_btn" @click="show_add_user_modal = true">Add Users
+                    <PrimaryButton v-show="show_add_user_btn" @click="show_add_user_modal = true">
+                        Add Users
                     </PrimaryButton>
                 </div>
             </div>

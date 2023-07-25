@@ -4,6 +4,7 @@ use App\Http\Controllers\Address\AddressViewController;
 use App\Http\Controllers\Agency\AgencyViewController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Company\CompanyViewController;
+use App\Http\Controllers\Country\CountryViewController;
 use App\Http\Controllers\Role\RoleViewController;
 use App\Http\Controllers\User\UserViewController;
 use App\Http\Controllers\Warehouse\WarehouseViewController;
@@ -132,6 +133,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{warehouse}', [WarehouseViewController::class, 'destroy'])->name('destroy');
     });
 
+    Route::group([
+        'prefix' => 'countries',
+        'as' => 'countries.'
+    ], static function () {
+        Route::get('/', [CountryViewController::class, 'index'])->name('index');
+        Route::get('/{country?}', [CountryViewController::class, 'details'])->name('details');
+        Route::put('/{country}', [CountryViewController::class, 'update'])->name('update');
+    });
 });
 
 require __DIR__ . '/auth.php';

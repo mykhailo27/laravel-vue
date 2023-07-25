@@ -9,7 +9,6 @@ import debounce from "lodash/debounce";
 const props = defineProps({
     link: {
         type: Object,
-        required: true,
     },
     filters: {
         type: Object
