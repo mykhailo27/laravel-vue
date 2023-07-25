@@ -22,7 +22,11 @@ defineProps({
 const form = useForm({});
 
 const table_actions = [
-    {name: 'delete', ability: ability.DELETE_ANY, route_name: 'api.agencies.delete-multiple', method: 'delete'}
+    {
+        name: 'delete', ability: ability.DELETE_ANY,
+        route_name: 'api.agencies.delete-multiple',
+        method: 'delete'
+    }
 ];
 
 const row_actions = [
