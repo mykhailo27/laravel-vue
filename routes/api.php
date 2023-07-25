@@ -4,6 +4,7 @@ use App\Http\Controllers\Agency\AgencyApiController;
 use App\Http\Controllers\Company\CompanyApiController;
 use App\Http\Controllers\Role\RoleApiController;
 use App\Http\Controllers\User\UserApiController;
+use App\Http\Controllers\Warehouse\WarehouseApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -65,5 +66,16 @@ Route::middleware('auth:sanctum')->group(static function () {
         Route::get('{role}/permissions', [RoleApiController::class, 'permissions'])->name('permissions');
         Route::post('{role}/give-permission/{permission}', [RoleApiController::class, 'givePermission'])->name('give-permission');
         Route::delete('{role}/remove-permission/{permission}', [RoleApiController::class, 'removePermission'])->name('remove-permission');
+    });
+
+    Route::group([
+        'prefix' => 'warehouses',
+        'as' => 'warehouses.'
+    ], static function () {
+        Route::get('{warehouse}/countries', [WarehouseApiController::class, 'countries'])->name('countries');
+        Route::post('{warehouse}/add-country/{country}', [WarehouseApiController::class, 'addCountry'])->name('add-country');
+        Route::delete('{warehouse}/remove-country/{country}', [WarehouseApiController::class, 'removeCountry'])->name('remove-country');
+        Route::delete('delete', [WarehouseApiController::class, 'delete'])->name('delete');
+        Route::delete('delete/multiple', [WarehouseApiController::class, 'deleteMultiple'])->name('delete-multiple');
     });
 });

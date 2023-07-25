@@ -29,11 +29,11 @@ class StoreAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'line_1' => 'required|string|min:5|max:20',
-            'line_2' => 'string|min:2|max:20',
-            'zip_code' => 'required|string|min:3|max:10',
-            'city' => 'required|string|min:3|max:20',
-            'state_or_region' => 'string|min:5|max:20',
+            'line_1' => 'required|string|min:3|max:50',
+            'line_2' => 'string|max:30',
+            'zip_code' => 'required|string|min:3|max:20',
+            'city' => 'required|string|min:2|max:30',
+            'state_or_region' => 'string|min:2|max:30',
             'country_id' => ['required', 'string', Rule::exists('countries', 'id')],
             'addressable_id' => 'required|string',
             'addressable_type' => 'required|string',

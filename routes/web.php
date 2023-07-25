@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Company\CompanyViewController;
 use App\Http\Controllers\Role\RoleViewController;
 use App\Http\Controllers\User\UserViewController;
+use App\Http\Controllers\Warehouse\WarehouseViewController;
 use App\Mail\ContactSubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Mail\PendingMail;
@@ -117,6 +118,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ], static function () {
         Route::post('/', [AddressViewController::class, 'store'])->name('store');
         Route::put('/{address}', [AddressViewController::class, 'update'])->name('update');
+    });
+
+    Route::group([
+        'prefix' => 'warehouses',
+        'as' => 'warehouses.'
+    ], static function () {
+        Route::get('/', [WarehouseViewController::class, 'index'])->name('index');
+        Route::get('/create', [WarehouseViewController::class, 'create'])->name('create');
+        Route::post('/', [WarehouseViewController::class, 'store'])->name('store');
+        Route::get('/{warehouse?}', [WarehouseViewController::class, 'details'])->name('details');
+        Route::put('/{warehouse}', [WarehouseViewController::class, 'update'])->name('update');
+        Route::delete('/{warehouse}', [WarehouseViewController::class, 'destroy'])->name('destroy');
     });
 
 });

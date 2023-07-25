@@ -32,7 +32,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
     private function seedPermissions(): void
     {
-        $models = collect(['agency', 'user', 'company', 'address']);
+        $models = collect(['agency', 'user', 'company', 'address', 'warehouse']);
         $prefixes = PermissionConstant::getConstants();
 
         $models->map(function ($model) use ($prefixes) {
