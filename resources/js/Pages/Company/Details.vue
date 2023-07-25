@@ -64,8 +64,33 @@ const address_form = useForm({
 })
 
 const tab_attributes = {
-    company: {id: 'company-form-tab', content_href: '#company-form', content_id: 'company-form', name: 'Company'},
-    users: {id: 'company-users-tab', content_href: '#company-users', content_id: 'company-users', name: 'Users'},
+    company: {
+        id: 'company-form-tab',
+        content_href: '#company-form',
+        content_id: 'company-form',
+        name: 'Company'
+    },
+    users: {
+        id: 'company-users-tab',
+        content_href: '#company-users',
+        content_id: 'company-users',
+        name: 'Users'
+    },
+}
+
+const activateTab = (event) => {
+    const tab_id = event.target.id;
+
+    switch (tab_id) {
+        case tab_attributes.users.id:
+            show_add_user_btn.value = true;
+            show_add_or_update_company_btn.value = false;
+            break;
+        case tab_attributes.company.id:
+            show_add_or_update_company_btn.value = true;
+            show_add_user_btn.value = false;
+            break;
+    }
 }
 
 const submitCompanyForm = () => {
@@ -109,22 +134,6 @@ const getCountries = computed(() => {
 
 const show_add_or_update_company_btn = ref(true)
 const show_add_user_btn = ref(false)
-
-const activateTab = (event) => {
-    const tab_id = event.target.id;
-
-    switch (tab_id) {
-        case tab_attributes.users.id:
-            show_add_user_btn.value = true;
-            show_add_or_update_company_btn.value = false;
-            break;
-        case tab_attributes.company.id:
-            show_add_or_update_company_btn.value = true;
-            show_add_user_btn.value = false;
-            break;
-    }
-}
-
 const show_add_user_modal = ref(false)
 const search_user_input = ref('')
 

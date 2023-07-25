@@ -78,10 +78,6 @@ const tab_attributes = {
     },
 }
 
-const warehouse_exist = computed(() => {
-    return props.warehouse === null;
-});
-
 const activateTab = (event) => {
     const tab_id = event.target.id;
 
@@ -96,6 +92,10 @@ const activateTab = (event) => {
             break;
     }
 }
+
+const warehouse_exist = computed(() => {
+    return props.warehouse === null;
+});
 
 const address_form = useForm({
     _method: props.address ? 'put' : 'post',
