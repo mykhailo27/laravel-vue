@@ -8,10 +8,14 @@ import InputError from "@/Components/InputError.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import Toast from "@/Components/Toast.vue";
+import {ability} from "@/Config/ability.js";
 
 const props = defineProps({
     country: {
         type: Object,
+    },
+    can: {
+        type: Object
     }
 });
 
@@ -66,7 +70,7 @@ const addAlias = () => {
         <template #header>
             <div class="flex items-center justify-between mt-4">
                 <div id="primary-actions">
-                    <PrimaryButton @click="clickSubmitBtn" class="ml-4"
+                    <PrimaryButton v-if="can[ability.UPDATE]" @click="clickSubmitBtn" class="ml-4"
                                    :class="{ 'opacity-25': country_form.processing }"
                                    :disabled="country_form.processing">
                         Update

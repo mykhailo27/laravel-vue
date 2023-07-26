@@ -6,10 +6,12 @@ use App\Constants\Ability;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Country\UpdateCountryRequest;
 use App\Models\Country;
+use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -67,8 +69,14 @@ class CountryViewController extends Controller
      */
     public function details(Country $country): Response
     {
+        /** @var User $user */
+        $user = Auth::user();
+
         return Inertia::render('Country/Details', [
             'country' => $country,
+            'can' => [
+                Ability::UPDATE => $user->can(Ability::UPDATE, $country)
+            ]
         ]);
     }
 }
