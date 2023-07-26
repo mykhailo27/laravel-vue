@@ -13,6 +13,10 @@ defineProps({
     },
     details: {
         type: String
+    },
+    dismissible: {
+        type: Boolean,
+        default: true
     }
 })
 
@@ -46,7 +50,7 @@ onMounted(() => {
                     type="button"
                     @click="$emit('close')"
                     class="ml-2 box-content rounded-none border-none opacity-80 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
-                    data-te-toast-dismiss
+                    :data-te-toast-dismiss="dismissible ? true: null"
                     aria-label="Close">
                     <span
                         class="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">

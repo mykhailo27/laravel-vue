@@ -129,7 +129,7 @@ const addAlias = () => {
             <div id="aliases-list">
                 <InputLabel for="aliases" value="Aliases"/>
                 <div class="flex gap-x-2">
-                    <Toast :id="alias" v-for="alias in country_form.aliases" :message="alias" @close="removeAlias(alias)"/>
+                    <Toast :dismissible="false" v-for="alias in country_form.aliases" :message="alias" @close="removeAlias(alias)"/>
                 </div>
                 <InputError class="mt-2" :message="country_form.errors.aliases"/>
             </div>
