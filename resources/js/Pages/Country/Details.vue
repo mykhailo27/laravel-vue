@@ -77,7 +77,7 @@ const addAlias = () => {
 
         <form @submit.prevent="submitCountryForm">
 
-            <div>
+            <div class="mb-2">
                 <InputLabel for="name" value="Name"/>
                 <TextInput
                     id="name"
@@ -90,7 +90,7 @@ const addAlias = () => {
                 <InputError class="mt-2" :message="country_form.errors.name"/>
             </div>
 
-            <div>
+            <div class="mb-2">
                 <InputLabel for="alpha_2" value="Alpha 2"/>
                 <TextInput
                     id="alpha_2"
@@ -102,7 +102,7 @@ const addAlias = () => {
                 <InputError class="mt-2" :message="country_form.errors.alpha_2"/>
             </div>
 
-            <div>
+            <div class="mb-2">
                 <InputLabel for="alpha_3" value="Alpha 3"/>
                 <TextInput
                     id="alpha_3"
@@ -114,7 +114,7 @@ const addAlias = () => {
                 <InputError class="mt-2" :message="country_form.errors.alpha_3"/>
             </div>
 
-            <div>
+            <div class="mb-2">
                 <InputLabel for="zip_code_regex" value="Zip Code Regex"/>
                 <TextInput
                     id="zip_code_regex"
@@ -126,7 +126,7 @@ const addAlias = () => {
                 <InputError class="mt-2" :message="country_form.errors.zip_code_regex"/>
             </div>
 
-            <div id="aliases-list">
+            <div class="mb-2">
                 <InputLabel for="aliases" value="Aliases"/>
                 <div class="flex gap-x-2">
                     <Toast :dismissible="false" v-for="alias in country_form.aliases" :message="alias" @close="removeAlias(alias)"/>
@@ -134,7 +134,7 @@ const addAlias = () => {
                 <InputError class="mt-2" :message="country_form.errors.aliases"/>
             </div>
 
-            <div class="my-4 flex flex-wrap items-stretch">
+            <div class="mb-2 flex flex-wrap items-stretch">
                 <input
                     id="alias-input"
                     type="text"
@@ -152,7 +152,7 @@ const addAlias = () => {
                 </button>
             </div>
 
-            <div class="mt-2">
+            <div class="mt-4">
                 <label class="flex items-center">
                     <Checkbox name="enabled" v-model:checked="country_form.enabled"/>
                     <span class="ml-2 text-sm text-gray-600">Enabled</span>
