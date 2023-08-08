@@ -3,6 +3,7 @@
 use App\Http\Controllers\Address\AddressViewController;
 use App\Http\Controllers\Agency\AgencyViewController;
 use App\Http\Controllers\Auth\ProfileController;
+use App\Http\Controllers\Closet\ClosetViewController;
 use App\Http\Controllers\Company\CompanyViewController;
 use App\Http\Controllers\Country\CountryViewController;
 use App\Http\Controllers\Role\RoleViewController;
@@ -140,6 +141,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [CountryViewController::class, 'index'])->name('index');
         Route::get('/{country?}', [CountryViewController::class, 'details'])->name('details');
         Route::put('/{country}', [CountryViewController::class, 'update'])->name('update');
+    });
+
+    Route::group([
+        'prefix' => 'closets',
+        'as' => 'closets.'
+    ], static function () {
+        Route::get('/', [ClosetViewController::class, 'index'])->name('index');
+        Route::get('/create', [ClosetViewController::class, 'create'])->name('create');
+        Route::post('/', [ClosetViewController::class, 'store'])->name('store');
+        Route::get('/{closet?}', [ClosetViewController::class, 'details'])->name('details');
+        Route::put('/{closet}', [ClosetViewController::class, 'update'])->name('update');
+        Route::delete('/{closet}', [ClosetViewController::class, 'destroy'])->name('destroy');
     });
 });
 

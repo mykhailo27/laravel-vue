@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Agency\AgencyApiController;
+use App\Http\Controllers\Closet\ClosetApiController;
 use App\Http\Controllers\Company\CompanyApiController;
 use App\Http\Controllers\Role\RoleApiController;
 use App\Http\Controllers\User\UserApiController;
@@ -77,5 +78,16 @@ Route::middleware('auth:sanctum')->group(static function () {
         Route::delete('{warehouse}/remove-country/{country}', [WarehouseApiController::class, 'removeCountry'])->name('remove-country');
         Route::delete('delete', [WarehouseApiController::class, 'delete'])->name('delete');
         Route::delete('delete/multiple', [WarehouseApiController::class, 'deleteMultiple'])->name('delete-multiple');
+    });
+
+    Route::group([
+        'prefix' => 'closets',
+        'as' => 'closets.'
+    ], static function () {
+        Route::get('{closet}/users', [ClosetApiController::class, 'users'])->name('users');
+        Route::post('{closet}/add-user/{user}', [ClosetApiController::class, 'addUser'])->name('add-user');
+        Route::delete('{closet}/remove-user/{user}', [ClosetApiController::class, 'removeUser'])->name('remove-user');
+        Route::delete('delete', [ClosetApiController::class, 'delete'])->name('delete');
+        Route::delete('delete/multiple', [ClosetApiController::class, 'deleteMultiple'])->name('delete-multiple');
     });
 });
