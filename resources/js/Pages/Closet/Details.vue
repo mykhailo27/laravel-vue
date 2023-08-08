@@ -197,16 +197,15 @@ const handleRemoveUser = (event) => {
                             <InputError class="mt-2" :message="closet_form.errors.name"/>
                         </div>
 
-                        <div>
-                            <InputLabel for="active" value="Active"/>
+                        <div class="flex gap-2 mt-2">
                             <TextInput
                                 id="active"
                                 type="checkbox"
                                 @change="closet_form.active = !closet_form.active"
                                 model-value="closet_form.active"
                                 :checked="closet_form.active === 1 ? 'checked': null"
-                                required
                             />
+                            <InputLabel for="active" value="Active"/>
                             <InputError class="mt-2" :message="closet_form.errors.active"/>
                         </div>
 
