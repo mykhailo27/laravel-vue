@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             AgencySeeder::class,
             CountrySeeder::class,
             CompanySeeder::class,
+            ClosetSeeder::class,
             UserSeeder::class,
             RolesAndPermissionsSeeder::class,
             WarehouseSeeder::class,

@@ -2,7 +2,7 @@
 
 namespace App\Constants;
 
-class Role extends Constant
+class Role extends BaseConstant
 {
     public const ADMIN = 'admin';
     public const MANAGER = 'manager';

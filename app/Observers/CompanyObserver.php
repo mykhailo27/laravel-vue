@@ -2,16 +2,15 @@
 
 namespace App\Observers;
 
+use App\Http\Controllers\Company\CompanyModelController;
 use App\Models\Company;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class CompanyObserver
 {
 
     public function creating(Company $company): void
     {
-        $this->assignOwnerAndAgency($company);
+        CompanyModelController::assignOwnerAndAgency($company);
     }
 
     /**
@@ -52,15 +51,5 @@ class CompanyObserver
     public function forceDeleted(Company $company): void
     {
         //
-    }
-
-    private function assignOwnerAndAgency(Company $company): void
-    {
-        /** @var User $user */
-        $user = Auth::user();
-        $agency = $user->currentAgency();
-
-        $company->agency_id = $agency->id;
-        $company->owner_id = $user->id;
     }
 }

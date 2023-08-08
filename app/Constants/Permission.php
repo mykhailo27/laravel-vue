@@ -2,7 +2,7 @@
 
 namespace App\Constants;
 
-class Permission extends Constant
+class Permission extends BaseConstant
 {
     public const VIEW_ANY = 'view_any_';
     public const VIEW = 'view_';

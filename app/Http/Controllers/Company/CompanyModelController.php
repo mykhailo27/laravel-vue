@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyModelController extends Controller
 {
@@ -50,5 +51,15 @@ class CompanyModelController extends Controller
             ->toArray();
 
         return User::whereNotIn('id', $users_id)->get();
+    }
+
+    public static function assignOwnerAndAgency(Company $company): void
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $agency = $user->currentAgency();
+
+        $company->agency_id = $agency->id;
+        $company->owner_id = $user->id;
     }
 }

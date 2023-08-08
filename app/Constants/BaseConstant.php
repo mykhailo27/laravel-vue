@@ -4,7 +4,7 @@ namespace App\Constants;
 
 use ReflectionClass;
 
-class Constant
+class BaseConstant
 {
     public static function getConstants(): array
     {

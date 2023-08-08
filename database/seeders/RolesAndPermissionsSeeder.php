@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Constants\Permission as PermissionConstant;
+use App\Constants\PermissionModel;
 use App\Constants\Role as RoleConstant;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -32,7 +33,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
     private function seedPermissions(): void
     {
-        $models = collect(['agency', 'user', 'company', 'address', 'warehouse', 'country']);
+        $models = collect(PermissionModel::getConstants());
         $prefixes = PermissionConstant::getConstants();
 
         $models->map(function ($model) use ($prefixes) {

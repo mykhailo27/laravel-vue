@@ -2,7 +2,7 @@
 
 namespace App\Constants;
 
-class Ability extends Constant
+class Ability extends BaseConstant
 {
     public const VIEW_ANY = 'viewAny';
     public const VIEW = 'view';
