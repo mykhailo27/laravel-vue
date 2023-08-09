@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Warehouse;
 
+use App\Constants\Ability;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Warehouse;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class WarehouseApiController extends Controller
@@ -33,5 +36,46 @@ class WarehouseApiController extends Controller
             'success' => $removed,
             'country' => $country
         ]);
+    }
+
+    public function delete(Request $request): Response
+    {
+        try {
+            $warehouse = WarehouseModelController::getById($request->get('id'));
+
+            $this->authorize(Ability::DELETE, $warehouse);
+
+            $deleted = WarehouseModelController::delete($warehouse->id);
+            return response([
+                'success' => $deleted,
+                'message' => $deleted ? 'Warehouse deleted' : 'Warehouse fail to be deleted',
+            ]);
+        } catch (AuthorizationException $e) {
+            return response([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function deleteMultiple(Request $request): Response
+    {
+        try {
+            $this->authorize(Ability::DELETE_ANY, Warehouse::class);
+
+            $ids = $request->get('ids');
+            $deleted = WarehouseModelController::delete($ids);
+            $success = $deleted === count($ids);
+
+            return response([
+                'success' => $success,
+                'message' => $success ? 'All warehouses deleted' : 'Some warehouses deleted',
+            ]);
+        } catch (AuthorizationException $e) {
+            return response([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 }

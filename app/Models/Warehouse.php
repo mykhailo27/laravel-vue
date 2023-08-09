@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property Collection $countries
  * @property User $responsibleUser
+ * @method static find(string $id)
  */
 class Warehouse extends Model
 {

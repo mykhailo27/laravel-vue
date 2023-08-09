@@ -46,4 +46,14 @@ class WarehouseModelController extends Controller
             ->where('id', '=', $country->id)
             ->first();
     }
+
+    public static function getById(string $id): Warehouse
+    {
+        return Warehouse::find($id);
+    }
+
+    public static function delete(mixed $ids): int
+    {
+        return Warehouse::destroy($ids);
+    }
 }
