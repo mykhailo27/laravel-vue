@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Closet;
 
 use App\Constants\Ability;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Closet\StoreClosetRequest;
 use App\Http\Requests\Closet\UpdateClosetRequest;
 use App\Models\Closet;
 use App\Models\User;
@@ -61,8 +62,34 @@ class ClosetViewController extends Controller
         return Inertia::render('Closet/Details', [
             'closet' => $closet,
             'closet_users' => $closet->users,
-            'non_closet_users' => ClosetModelController::nonClosetUser($closet)
+            'non_closet_users' => ClosetModelController::nonClosetUser($closet),
         ]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function create(): Response
+    {
+        $this->authorize(Ability::CREATE, Closet::class);
+
+        return Inertia::render('Closet/Details', [
+            'closet' => null,
+            'closet_users' => null,
+            'non_closet_users' => null,
+        ]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function store(StoreClosetRequest $request): RedirectResponse
+    {
+        $this->authorize(Ability::CREATE, Closet::class);
+
+        return is_null($closet = Closet::create($request->validated()))
+            ? back()->withErrors(['error' => 'fail to create closet'])
+            : Redirect::route('closets.details', ['closet' => $closet->id])->with('message', 'closet created');
     }
 
     /**

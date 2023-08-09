@@ -2,15 +2,21 @@
 
 namespace App\Observers;
 
-use App\Http\Controllers\Company\CompanyModelController;
 use App\Models\Company;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyObserver
 {
 
     public function creating(Company $company): void
     {
-        CompanyModelController::assignOwnerAndAgency($company);
+        /** @var User $user */
+        $user = Auth::user();
+        $agency = $user->selectedAgency();
+
+        $company->agency_id = $agency->id;
+        $company->owner_id = $user->id;
     }
 
     /**

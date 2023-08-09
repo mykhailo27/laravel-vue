@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Closet;
 use App\Models\Company;
+use App\Observers\CloserObserver;
 use App\Observers\CompanyObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -29,6 +31,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $observers = [
         Company::class => [CompanyObserver::class],
+        Closet::class => [CloserObserver::class]
     ];
 
     /**

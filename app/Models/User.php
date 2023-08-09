@@ -61,14 +61,18 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withTimestamps();
     }
 
-    public function currentAgency(): Agency
+    public function selectedAgency(): Agency
     {
-        /** @var Agency $agency */
-        $agency = $this->agencies()
+        return $this->agencies()
             ->wherePivot('selected', '=', true)
             ->first();
+    }
 
-        return $agency;
+    public function selectedCompany(): Company
+    {
+        return $this->companies()
+            ->wherePivot('selected', '=', true)
+            ->first();
     }
 
     public function companies(): BelongsToMany
