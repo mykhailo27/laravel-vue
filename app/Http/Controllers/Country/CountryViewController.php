@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -57,7 +56,6 @@ class CountryViewController extends Controller
     {
         $this->authorize(Ability::UPDATE, $country);
 
-        Log::debug('$request->validated() ' . print_r($request->validated(), true));
         return $country->update($request->validated())
             ? Redirect::route('countries.details', ['country' => $country->id])
                 ->with('message', 'country-updated')
