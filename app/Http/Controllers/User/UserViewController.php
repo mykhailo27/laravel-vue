@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Constants\Ability;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
@@ -9,6 +10,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -22,6 +24,9 @@ class UserViewController extends Controller
      */
     public function index(Request $request): Response
     {
+        /** @var User $auth_user */
+        $auth_user = Auth::user();
+
         $users = User::query()
             ->when($request->get('search'), static function (Builder $query, string $search) {
                 $query->where('name', 'like', "%$search%")
@@ -33,13 +38,20 @@ class UserViewController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'created_at' => $user->created_at,
+                'can' => [
+                    Ability::DELETE => $auth_user->can(Ability::DELETE, $user)
+                ]
             ])
             ->withQueryString()
             ->onEachSide(0);
 
         return Inertia::render('User/Index', [
             'users' => $users,
-            'filters' => $request->only(['search'])
+            'filters' => $request->only(['search']),
+            'can' => [
+                Ability::CREATE => $auth_user->can(Ability::CREATE, User::class),
+                Ability::DELETE_ANY => $auth_user->can(Ability::DELETE_ANY, User::class)
+            ]
         ]);
     }
 

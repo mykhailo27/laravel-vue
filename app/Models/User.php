@@ -17,6 +17,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $name
  * @property string $email
  * @method static whereNotIn(string $column, mixed[] $values)
+ * @method static find(string $id)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {

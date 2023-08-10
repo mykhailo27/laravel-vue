@@ -58,6 +58,8 @@ Route::middleware('auth:sanctum')->group(static function () {
         Route::delete('{user}/remove-role/{role}', [UserApiController::class, 'removeRole'])->name('remove-role');
         Route::post('{user}/give-permission/{permission}', [UserApiController::class, 'givePermission'])->name('give-permission');
         Route::delete('{user}/remove-permission/{permission}', [UserApiController::class, 'removePermission'])->name('remove-permission');
+        Route::delete('delete', [UserApiController::class, 'delete'])->name('delete');
+        Route::delete('delete/multiple', [UserApiController::class, 'deleteMultiple'])->name('delete-multiple');
     });
 
     Route::group([

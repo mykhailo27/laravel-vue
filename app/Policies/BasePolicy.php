@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BasePolicy
 {
-    public function __construct(private readonly string $model_name)
+    public function __construct(protected readonly string $model_name)
     {
     }
 
