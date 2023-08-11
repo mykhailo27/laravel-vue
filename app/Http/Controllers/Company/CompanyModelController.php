@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\User\UserModelController;
 use App\Models\Company;
 use App\Models\User;
 
@@ -27,7 +28,13 @@ class CompanyModelController extends Controller
     {
         $company->users()->syncWithoutDetaching($user);
 
-        return self::hasUser($company, $user);
+        if (self::hasUser($company, $user)) {
+            UserModelController::inviteToJoinCompany($user, $company);
+
+            return true;
+        }
+
+        return false;
     }
 
     public static function hasUser(Company $company, User $user): bool

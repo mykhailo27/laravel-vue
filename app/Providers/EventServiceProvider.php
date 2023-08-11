@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Listeners\SelectCompanyListener;
 use App\Models\Closet;
 use App\Models\Company;
 use App\Observers\CloserObserver;
 use App\Observers\CompanyObserver;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        PasswordReset::class => [
+            SelectCompanyListener::class
+        ]
     ];
 
     /**
