@@ -100,7 +100,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{user?}', [UserViewController::class, 'details'])->name('details');
         Route::put('/{user}', [UserViewController::class, 'update'])->name('update');
         Route::delete('/{user}', [UserViewController::class, 'destroy'])->name('destroy');
-        Route::get('/switch/closet/{id}', [UserViewController::class, 'switchCloset'])->name('switch_closet');
     });
 
     Route::group([
@@ -154,6 +153,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{closet?}', [ClosetViewController::class, 'details'])->name('details');
         Route::put('/{closet}', [ClosetViewController::class, 'update'])->name('update');
         Route::delete('/{closet}', [ClosetViewController::class, 'destroy'])->name('destroy');
+        Route::get('/select/{closet}', [ClosetViewController::class, 'select'])->name('select');
     });
 });
 

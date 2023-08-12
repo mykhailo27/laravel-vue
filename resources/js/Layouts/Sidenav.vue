@@ -35,15 +35,6 @@ const setMode = (sidenavInstance) => {
     }
 };
 
-const currentCloset = (user_closets) => {
-    for (let i = 0; i < user_closets.length; i++) {
-        if (user_closets[i].selected) {
-            return user_closets[i].name;
-        }
-    }
-    return 'No closet';
-}
-
 onMounted(function () {
     initTE({Sidenav, Ripple});
 
@@ -101,9 +92,9 @@ onMounted(function () {
                         type="button"
                         class="inline-flex gap-2 capitalize items-center border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                         <i class="fa-solid fa-notdef"></i>
-                        {{ currentCloset($page.props.user_closets) }}
+                        {{ $page.props.selected_closet.name }}
                     </button>
-                    <svg v-if="$page.props.user_closets.length"
+                    <svg
                         class="ml-2 -mr-0.5 h-4 w-4"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
@@ -117,8 +108,8 @@ onMounted(function () {
                 </span>
             </template>
 
-            <template #content v-if="$page.props.user_closets.length">
-                <DropdownLink v-for="closet in $page.props.user_closets" :href="route('users.switch_closet', {id: closet.id})">
+            <template #content>
+                <DropdownLink v-for="closet in $page.props.user_closets" :href="route('closets.select', {closet: closet.id})">
                     {{ closet.name }}
                 </DropdownLink>
             </template>

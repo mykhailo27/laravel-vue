@@ -104,4 +104,19 @@ class ClosetViewController extends Controller
                 ->with('message', 'closet-updated')
             : back()->withErrors(['error' => 'fail to update closet']);
     }
+
+    public function select(Closet $closet): RedirectResponse
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->closets()
+            ->wherePivot('active', '=', true)
+            ->update(['active' => false]);
+
+        $user->closets()
+            ->updateExistingPivot($closet->id, ['active' => false]);
+
+        return back();
+    }
 }

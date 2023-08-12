@@ -55,13 +55,6 @@ class UserViewController extends Controller
         ]);
     }
 
-    public function switchCloset(): RedirectResponse
-    {
-        // todo switch closet and redirect back to the same page
-
-        return back();
-    }
-
     /**
      * Display a listing of the resource.
      */

@@ -33,17 +33,17 @@ class HandleInertiaRequests extends Middleware
     {
         /** @var User $user */
         $user = $request->user();
+        $selected_company = $user->selectedCompany(['company_id as id', 'name']);
 
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $user,
             ],
-            'selected_company' => $user->selectedCompany(['company_id as id', 'name']),
+            'selected_company' => $selected_company,
             'user_companies' => $user->companies()->wherePivot('selected', '=', false)->get(['company_id as id', 'name']),
-            'user_closets' => [ // todo get the current user closets
-                ['name' => 'general', 'id' => '998b712f-0a53-4f21-ae85-fd68b6ce8a23', 'selected' => true],
-                ['name' => 'sunday', 'id' => '998b712f-0b5c-453d-a12b-0533c8073ff4',  'selected' => false],
-            ],
+            'selected_closet' => $user->selectedCloset($selected_company, ['closet_id as id', 'name']),
+            'user_closets' => $user->closets()->wherePivot('active', '=', false)->where('closets.company_id', '=', $selected_company->id)
+                ->get(['closet_id as id', 'name']),
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),

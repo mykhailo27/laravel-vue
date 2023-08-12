@@ -83,4 +83,20 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withPivot('selected')
             ->withTimestamps();
     }
+
+    public function closets(): BelongsToMany
+    {
+        return $this->belongsToMany(Closet::class)
+            ->using(ClosetUser::class)
+            ->withPivot('active')
+            ->withTimestamps();
+    }
+
+    public function selectedCloset(Company $company, array $columns = ['*']): ?Closet
+    {
+        return $this->closets()
+            ->where('closets.company_id', '=', $company->id)
+            ->wherePivot('active', '=', true)
+            ->first($columns);
+    }
 }
