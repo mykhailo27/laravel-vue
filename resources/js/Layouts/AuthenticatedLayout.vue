@@ -60,6 +60,7 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
+                                        <div class="px-4 py-2 capitalize rounded-t-md text-left text-sm bg-gray-200">select company</div>
                                         <DropdownLink v-for="company in $page.props.user_companies" :href="route('companies.select', {company: company.id})">{{ company.name }}</DropdownLink>
                                     </template>
                                 </Dropdown>
