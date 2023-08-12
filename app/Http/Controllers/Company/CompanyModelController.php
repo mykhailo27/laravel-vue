@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Http\Controllers\Closet\ClosetModelController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\User\UserModelController;
+use App\Models\Closet;
 use App\Models\Company;
 use App\Models\User;
 
@@ -57,5 +59,40 @@ class CompanyModelController extends Controller
             ->toArray();
 
         return User::whereNotIn('id', $users_id)->get();
+    }
+
+    public static function createGeneralCloset(Company $company)
+    {
+        $attributes = [
+            'name' => 'general',
+            'company_id' => $company->id
+        ];
+
+        return ClosetModelController::create($attributes);
+    }
+
+    public static function unSelectAll(User $user): int
+    {
+        return $user->companies()
+            ->wherePivot('selected', '=', true)
+            ->update([
+                'selected' => false
+            ]);
+    }
+
+    public static function select(User $user, Company $company): int
+    {
+        $selected = $user->companies()
+            ->updateExistingPivot($company->id, [
+                'selected' => true
+            ]);
+
+        if ($selected) {
+            $closet = $company->generalCloset(); // todo only activate if there is no other active closet
+            ClosetModelController::addUser($closet, $user);
+            ClosetModelController::activate($user, $closet);
+        }
+
+        return $selected;
     }
 }

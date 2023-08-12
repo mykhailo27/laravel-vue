@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Closet;
 
 use App\Models\Closet;
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -25,10 +26,15 @@ class StoreClosetRequest extends FormRequest
      */
     public function rules(): array
     {
+        /** @var User $user */
+        $user = Auth::user();
+        $company = $user->selectedCompany();
+
         return [
             'name' => [
                 'required', 'string', 'max:55',
-                Rule::unique(Closet::class),
+                Rule::unique(Closet::class)
+                    ->where('company_id', $company->id),
             ],
             'active' => 'numeric', Rule::in([0, 1]),
         ];

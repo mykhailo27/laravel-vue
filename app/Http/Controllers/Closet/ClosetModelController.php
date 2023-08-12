@@ -51,4 +51,22 @@ class ClosetModelController extends Controller
 
         return User::whereNotIn('id', $users_id)->get();
     }
+
+    public static function create(array $attributes)
+    {
+        return Closet::create($attributes);
+    }
+
+    public static function activate(User $user, Closet $closet): int
+    {
+        return $user->closets()
+            ->updateExistingPivot($closet->id, ['active' => true]);
+    }
+
+    public static function deactivateAll(User $user): int
+    {
+        return $user->closets()
+            ->wherePivot('active', '=', true)
+            ->update(['closet_user.active' => false]);
+    }
 }

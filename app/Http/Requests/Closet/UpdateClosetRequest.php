@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Closet;
 
 use App\Models\Closet;
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -28,11 +29,16 @@ class UpdateClosetRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        /** @var User $user */
+        $user = Auth::user();
+        $company = $user->selectedCompany();
 
+        return [
             'name' => [
                 'string', 'max:55',
-                Rule::unique('closets')->ignore($this->closet->id),
+                Rule::unique('closets')
+                    ->where('company_id', $company->id)
+                    ->ignore($this->closet->id),
             ],
             'active' => 'numeric', Rule::in([0, 1]),
         ];

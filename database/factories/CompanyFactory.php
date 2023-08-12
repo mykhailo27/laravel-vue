@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\CompanyState;
+use App\Http\Controllers\Company\CompanyModelController;
 use App\Models\Agency;
 use App\Models\Company;
 use App\Models\User;
@@ -44,8 +45,10 @@ class CompanyFactory extends Factory
 
             $this->assignToAgency($company);
             $this->assignToOwner($company);
-
             return $company;
+
+        })->afterCreating(function (Company $company) {
+            CompanyModelController::createGeneralCloset($company);
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Closet;
 
 use App\Constants\Ability;
+use App\Http\Controllers\Company\CompanyModelController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Closet\StoreClosetRequest;
 use App\Http\Requests\Closet\UpdateClosetRequest;
@@ -110,12 +111,9 @@ class ClosetViewController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $user->closets()
-            ->wherePivot('active', '=', true)
-            ->update(['active' => false]);
+        ClosetModelController::deactivateAll($user);
 
-        $user->closets()
-            ->updateExistingPivot($closet->id, ['active' => false]);
+        ClosetModelController::activate($user, $closet);
 
         return back();
     }

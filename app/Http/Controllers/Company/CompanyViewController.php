@@ -143,16 +143,8 @@ class CompanyViewController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $user->companies()
-            ->wherePivot('selected', '=', true)
-            ->update([
-                'selected' => false
-            ]);
-
-        $user->companies()
-            ->updateExistingPivot($company->id, [
-                'selected' => true
-            ]);
+        CompanyModelController::unSelectAll($user);
+        CompanyModelController::select($user, $company);
 
         return back();
     }
