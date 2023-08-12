@@ -138,6 +138,25 @@ class CompanyViewController extends Controller
             ->with('message', "$company->name is deleted");
     }
 
+    public function select(Company $company): RedirectResponse
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->companies()
+            ->wherePivot('selected', '=', true)
+            ->update([
+                'selected' => false
+            ]);
+
+        $user->companies()
+            ->updateExistingPivot($company->id, [
+                'selected' => true
+            ]);
+
+        return back();
+    }
+
     /**
      * Update the specified resource in storage.
      * @throws AuthorizationException

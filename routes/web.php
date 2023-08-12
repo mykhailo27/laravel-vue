@@ -78,6 +78,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{company?}', [CompanyViewController::class, 'details'])->name('details');
         Route::put('/{company}', [CompanyViewController::class, 'update'])->name('update');
         Route::delete('/{company}', [CompanyViewController::class, 'destroy'])->name('destroy');
+        Route::get('select/{company}', [CompanyViewController::class, 'select'])->name('select');
     });
 
     Route::group([

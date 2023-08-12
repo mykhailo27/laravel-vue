@@ -69,11 +69,11 @@ class User extends Authenticatable implements MustVerifyEmail
             ->first();
     }
 
-    public function selectedCompany(): Company
+    public function selectedCompany(array $columns = ['*']): ?Company
     {
         return $this->companies()
             ->wherePivot('selected', '=', true)
-            ->first();
+            ->first($columns);
     }
 
     public function companies(): BelongsToMany
