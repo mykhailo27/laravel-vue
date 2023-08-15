@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Closet\ClosetViewController;
 use App\Http\Controllers\Company\CompanyViewController;
 use App\Http\Controllers\Country\CountryViewController;
+use App\Http\Controllers\Product\ProductViewController;
 use App\Http\Controllers\Role\RoleViewController;
 use App\Http\Controllers\User\UserViewController;
 use App\Http\Controllers\Warehouse\WarehouseViewController;
@@ -154,6 +155,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/{closet}', [ClosetViewController::class, 'update'])->name('update');
         Route::delete('/{closet}', [ClosetViewController::class, 'destroy'])->name('destroy');
         Route::get('/select/{closet}', [ClosetViewController::class, 'select'])->name('select');
+    });
+
+
+    Route::group([
+        'prefix' => 'products',
+        'as' => 'products.'
+    ], static function () {
+        Route::get('/', [ProductViewController::class, 'index'])->name('index');
+        Route::get('/create', [ProductViewController::class, 'create'])->name('create');
+        Route::post('/', [ProductViewController::class, 'store'])->name('store');
+        Route::get('/{product?}', [ProductViewController::class, 'details'])->name('details');
+        Route::put('/{product}', [ProductViewController::class, 'update'])->name('update');
+        Route::delete('/{product}', [ProductViewController::class, 'destroy'])->name('destroy');
     });
 });
 

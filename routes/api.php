@@ -3,6 +3,7 @@
 use App\Http\Controllers\Agency\AgencyApiController;
 use App\Http\Controllers\Closet\ClosetApiController;
 use App\Http\Controllers\Company\CompanyApiController;
+use App\Http\Controllers\Product\ProductApiController;
 use App\Http\Controllers\Role\RoleApiController;
 use App\Http\Controllers\User\UserApiController;
 use App\Http\Controllers\Warehouse\WarehouseApiController;
@@ -91,5 +92,13 @@ Route::middleware('auth:sanctum')->group(static function () {
         Route::delete('{closet}/remove-user/{user}', [ClosetApiController::class, 'removeUser'])->name('remove-user');
         Route::delete('delete', [ClosetApiController::class, 'delete'])->name('delete');
         Route::delete('delete/multiple', [ClosetApiController::class, 'deleteMultiple'])->name('delete-multiple');
+    });
+
+    Route::group([
+        'prefix' => 'products',
+        'as' => 'products.'
+    ], static function () {
+        Route::delete('delete', [ProductApiController::class, 'delete'])->name('delete');
+        Route::delete('delete/multiple', [ProductApiController::class, 'deleteMultiple'])->name('delete-multiple');
     });
 });

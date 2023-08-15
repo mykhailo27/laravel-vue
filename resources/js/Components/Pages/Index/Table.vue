@@ -11,6 +11,7 @@ import Dropdown from "@/Components/Dropdown.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import {router} from "@inertiajs/vue3";
 import {computed} from "vue"
+import {currency} from "@/Config/Currency.js";
 
 import {
     handleRowCheckboxClick,
@@ -178,6 +179,10 @@ const preformRowAction = (action, id) => {
                     </div>
                     <template v-else-if="date_columns.includes(column)">{{
                             (new Date(row[column])).toLocaleDateString()
+                        }}
+                    </template>
+                    <template v-else-if="column === 'price'">{{
+                            row[column] + ' ' + currency.EURO
                         }}
                     </template>
                     <template v-else>{{ row[column] }}</template>

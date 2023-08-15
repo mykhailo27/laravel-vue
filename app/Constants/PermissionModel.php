@@ -11,4 +11,6 @@ class PermissionModel extends BaseConstant
     public const ADDRESS = 'address';
     public const WAREHOUSE = 'warehouse';
     public const COUNTRY = 'country';
+
+    public const PRODUCT = 'product';
 }

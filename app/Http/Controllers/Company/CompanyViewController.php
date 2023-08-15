@@ -165,7 +165,7 @@ class CompanyViewController extends Controller
         $validated['logo'] = $path;
 
         return $company->update($validated)
-            ? Redirect::route('companies.details', ['company' => $company->id])->with('message', 'company-created')
-            : back()->withErrors(['error' => 'fail to create company']);
+            ? Redirect::route('companies.details', ['company' => $company->id])->with('message', 'company-updated')
+            : back()->withErrors(['error' => 'fail to update company']);
     }
 }
