@@ -6,6 +6,7 @@ use App\Http\Controllers\Company\CompanyApiController;
 use App\Http\Controllers\Product\ProductApiController;
 use App\Http\Controllers\Role\RoleApiController;
 use App\Http\Controllers\User\UserApiController;
+use App\Http\Controllers\Variant\VariantApiController;
 use App\Http\Controllers\Warehouse\WarehouseApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -100,5 +101,13 @@ Route::middleware('auth:sanctum')->group(static function () {
     ], static function () {
         Route::delete('delete', [ProductApiController::class, 'delete'])->name('delete');
         Route::delete('delete/multiple', [ProductApiController::class, 'deleteMultiple'])->name('delete-multiple');
+    });
+
+    Route::group([
+        'prefix' => 'variants',
+        'as' => 'variants.'
+    ], static function () {
+        Route::delete('delete', [VariantApiController::class, 'delete'])->name('delete');
+        Route::delete('delete/multiple', [VariantApiController::class, 'deleteMultiple'])->name('delete-multiple');
     });
 });

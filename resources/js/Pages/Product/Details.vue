@@ -16,7 +16,6 @@ import Table from "@/Components/Table/Table.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import Modal from "@/Components/Modal.vue";
-import {handleRowClick} from "@/Modules/TableClickHandler.js";
 import {currency} from "@/Config/Currency.js";
 
 const props = defineProps({
@@ -64,6 +63,19 @@ const activateTab = (event) => {
             show_add_variant_btn.value = false;
             break;
     }
+}
+
+const handleDeleteVariant = (event) => {
+    const target = event.target;
+    const variant_id = Number(target.dataset.variantId)
+
+    axios.delete(route('api.variants.delete', {id: variant_id}))
+        .then(res => {
+            if (res.data.success) {
+                props.product_variants.splice(props.product_variants.findIndex(ob => ob.id === variant_id), 1);
+            }
+        })
+        .catch(error => console.error(error))
 }
 
 const submitProductForm = () => {
@@ -212,21 +224,18 @@ const clickSubmitBtn = () => {
 
                     <Table table_id="product-variants-table">
                         <template #columns>
-                            <Th>Name</Th>
-                            <Th>Email</Th>
+                            <Th>Sku</Th>
                             <Th>Create At</Th>
                             <Th>Actions</Th>
                         </template>
                         <template #rows>
-                            <Tr v-if="product_variants !== null" v-for="variant in product_variants"
-                                @click="handleRowClick(variant.id, route('variants.details', {variant: '__ROW_ID__'}))">
-                                <Td>{{ variant.name }}</Td>
-                                <Td>{{ variant.email }}</Td>
+                            <Tr v-if="product_variants !== null" v-for="variant in product_variants">
+                                <Td>{{ variant.sku }}</Td>
                                 <Td>{{ (new Date(variant.created_at)).toLocaleDateString() }}</Td>
                                 <Td>
                                     <DangerButton title="Remove Variant" class="fa-sharp fa-solid fa-trash"
                                                   :data-variant-id="variant.id" @click.stop
-                                                  @click="handleRemoveVariant"/>
+                                                  @click="handleDeleteVariant"/>
                                 </Td>
                             </Tr>
                         </template>

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Constants\Ability;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
-use App\Models\Product;
-use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Constants\Ability;
+use App\Models\Product;
+use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -64,6 +64,7 @@ class ProductViewController extends Controller
     {
         return Inertia::render('Product/Details', [
             'product' => $product,
+            'product_variants' => ProductModelController::getVariants($product)
         ]);
     }
 
@@ -90,6 +91,7 @@ class ProductViewController extends Controller
 
         return Inertia::render('Product/Details', [
             'product' => null,
+            'product_variants' => null
         ]);
     }
 
