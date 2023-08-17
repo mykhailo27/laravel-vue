@@ -28,7 +28,9 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             WarehouseSeeder::class,
             ProductSeeder::class,
-            VariantSeeder::class
+            SizeSeeder::class,
+            ColorSeeder::class,
+            VariantSeeder::class,
         ]);
     }
 

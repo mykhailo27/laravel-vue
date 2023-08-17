@@ -165,6 +165,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [ProductViewController::class, 'index'])->name('index');
         Route::get('/create', [ProductViewController::class, 'create'])->name('create');
         Route::post('/', [ProductViewController::class, 'store'])->name('store');
+        Route::post('/{product}/add-variant', [ProductViewController::class, 'addVariant'])->name('add-variant');
         Route::get('/{product?}', [ProductViewController::class, 'details'])->name('details');
         Route::put('/{product}', [ProductViewController::class, 'update'])->name('update');
         Route::delete('/{product}', [ProductViewController::class, 'destroy'])->name('destroy');

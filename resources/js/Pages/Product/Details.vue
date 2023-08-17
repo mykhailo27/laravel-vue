@@ -17,6 +17,7 @@ import DangerButton from "@/Components/DangerButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import Modal from "@/Components/Modal.vue";
 import {currency} from "@/Config/Currency.js";
+import Select from "@/Components/Select.vue";
 
 const props = defineProps({
     product: {
@@ -25,6 +26,17 @@ const props = defineProps({
     product_variants: {
         type: Object,
     },
+    sizes: {
+        type: Object,
+    },
+    colors: {
+        type: Object,
+    }
+});
+
+
+const product_variants = computed(() => {
+    return props.product_variants.data;
 });
 
 const product_form = useForm({
@@ -72,7 +84,7 @@ const handleDeleteVariant = (event) => {
     axios.delete(route('api.variants.delete', {id: variant_id}))
         .then(res => {
             if (res.data.success) {
-                props.product_variants.splice(props.product_variants.findIndex(ob => ob.id === variant_id), 1);
+                props.product_variants.data.splice(props.product_variants.data.findIndex(ob => ob.id === variant_id), 1);
             }
         })
         .catch(error => console.error(error))
@@ -109,6 +121,32 @@ const closetVariantModal = () => {
 const clickSubmitBtn = () => {
     document.getElementById('submit-btn').click();
 }
+
+const variant_form = useForm({
+    size_id: '',
+    color_id: '',
+})
+
+const submitVariantForm = () => {
+    variant_form.post(route('products.add-variant', {product: props.product.id}), {
+        onSuccess: () => console.log('Variant created'),
+        onError: (err) => console.error(err)
+    });
+}
+
+const getSizes = computed(() => {
+    return props.sizes.reduce((sizes, size) => {
+        sizes.push({name: size.name, value: size.id})
+        return sizes;
+    }, [])
+})
+
+const getColors = computed(() => {
+    return props.colors.reduce((colors, color) => {
+        colors.push({name: color.name, value: color.id})
+        return colors;
+    }, [])
+})
 
 </script>
 
@@ -225,12 +263,16 @@ const clickSubmitBtn = () => {
                     <Table table_id="product-variants-table">
                         <template #columns>
                             <Th>Sku</Th>
+                            <Th>Size</Th>
+                            <Th>Color</Th>
                             <Th>Create At</Th>
                             <Th>Actions</Th>
                         </template>
                         <template #rows>
                             <Tr v-if="product_variants !== null" v-for="variant in product_variants">
                                 <Td>{{ variant.sku }}</Td>
+                                <Td>{{ variant.size }}</Td>
+                                <Td>{{ variant.color }}</Td>
                                 <Td>{{ (new Date(variant.created_at)).toLocaleDateString() }}</Td>
                                 <Td>
                                     <DangerButton title="Remove Variant" class="fa-sharp fa-solid fa-trash"
@@ -246,12 +288,33 @@ const clickSubmitBtn = () => {
 
         <Modal :show="show_add_variant_modal" @close="closetVariantModal">
             <div class="p-6">
-                <div class="flex">
+                <div class="flex justify-between">
+                    <h4>Create Variant</h4>
                     <SecondaryButton class="fa-sharp fa-solid fa-xmark"
                                      @click="closetVariantModal"></SecondaryButton>
                 </div>
 
-                // todo create variant
+                <form @submit.prevent="submitVariantForm">
+
+                    <div class="mt-4">
+                        <Select v-if="sizes"
+                                @update:modelValue="value => variant_form.size_id = value"
+                                :options="getSizes" label="Size"/>
+                    </div>
+
+                    <div class="mt-4">
+                        <Select v-if="colors"
+                                @update:modelValue="value => variant_form.color_id = value"
+                                :options="getColors" label="Color"/>
+                    </div>
+
+                    <progress v-if="variant_form.progress" :value="variant_form.progress.percentage" max="100">
+                        {{ variant_form.progress.percentage }}%
+                    </progress>
+
+                    <PrimaryButton type="submit" class="float-right my-2" :disabled="variant_form.processing">Add</PrimaryButton>
+
+                </form>
             </div>
         </Modal>
 

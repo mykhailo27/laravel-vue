@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Http\Controllers\Color\ColorModelController;
+use App\Http\Controllers\Size\SizeModelController;
+use App\Http\Controllers\Variant\VariantModelController;
+use App\Http\Controllers\Variation\VariationModelController;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
+use App\Http\Resources\Variant\VariantCollection;
+use App\Models\Attributes\Color;
+use App\Models\Attributes\Size;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Redirect;
@@ -64,7 +71,9 @@ class ProductViewController extends Controller
     {
         return Inertia::render('Product/Details', [
             'product' => $product,
-            'product_variants' => ProductModelController::getVariants($product)
+            'product_variants' => new VariantCollection($product->variants),
+            'sizes' => Size::all(),
+            'colors' => Color::all()
         ]);
     }
 
@@ -118,5 +127,26 @@ class ProductViewController extends Controller
             ? Redirect::route('products.details', ['product' => $product->id])
                 ->with('message', 'product-updated')
             : back()->withErrors(['error' => 'fail to update product']);
+    }
+
+    public function addVariant(Product $product, Request $request): RedirectResponse
+    {
+        $size = SizeModelController::getById($request->get('size_id'));
+        $color = ColorModelController::getById($request->get('color_id'));
+
+        if (is_null($size) || is_null($color)) {
+            return back()->withErrors(['error' => 'given variations not found']);
+        }
+
+        $variant = VariantModelController::create([
+            'sku' => $product->sku . '-' . $size->getValue() . '-' . $color->getName(),
+            'product_id' => $product->id
+        ]);
+
+        VariationModelController::createFor($variant, $size);
+        VariationModelController::createFor($variant, $color);
+
+        return Redirect::route('products.details', ['product' => $product->id])
+            ->with('message', 'variant-created');
     }
 }

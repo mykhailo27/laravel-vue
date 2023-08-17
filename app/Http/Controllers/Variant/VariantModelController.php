@@ -7,11 +7,6 @@ use App\Models\Variant;
 
 class VariantModelController extends Controller
 {
-    /**
-     * @param mixed $ids
-     * @note param could be single id or ids
-     * @return int
-     */
     public static function delete(mixed $ids): int
     {
         return Variant::destroy($ids);
@@ -20,5 +15,10 @@ class VariantModelController extends Controller
     public static function getById(string $id): Variant
     {
         return Variant::find($id);
+    }
+
+    public static function create(array $attributes): Variant
+    {
+        return Variant::create($attributes);
     }
 }
