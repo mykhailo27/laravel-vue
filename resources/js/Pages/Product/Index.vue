@@ -42,7 +42,7 @@ const row_actions = [
 </script>
 
 <template>
-    <Head title="product"/>
+    <Head title="Product"/>
     <AuthenticatedLayout>
 
         <template #header>

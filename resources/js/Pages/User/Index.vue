@@ -40,7 +40,7 @@ const row_actions = [
 </script>
 
 <template>
-    <Head title="Users"/>
+    <Head title="User"/>
 
     <AuthenticatedLayout>
         <template #header>

@@ -36,7 +36,7 @@ const props = defineProps({
 
 
 const product_variants = computed(() => {
-    return props.product_variants.data;
+    return props.product_variants?.data;
 });
 
 const product_form = useForm({

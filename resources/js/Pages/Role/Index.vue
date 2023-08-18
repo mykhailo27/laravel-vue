@@ -18,7 +18,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Roles"/>
+    <Head title="Role"/>
 
     <AuthenticatedLayout>
         <template #header>

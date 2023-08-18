@@ -37,7 +37,7 @@ const countries = computed(() => {
 </script>
 
 <template>
-    <Head title="countries"/>
+    <Head title="Country"/>
 
     <AuthenticatedLayout>
         <template #header>
