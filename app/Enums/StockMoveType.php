@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum InventoryType: int
+enum StockMoveType: int
 {
     use Enumeration;
 
