@@ -3,7 +3,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head, useForm} from '@inertiajs/vue3';
 import Table from "@/Components/Pages/Index/Table.vue";
-import Header from "@/Components/Pages/Index/Header.vue";
 import {ability} from "@/Config/ability.js";
 
 defineProps({
@@ -44,11 +43,6 @@ const row_actions = [
 <template>
     <Head title="Company"/>
     <AuthenticatedLayout>
-
-        <template #header>
-            <Header :link="{url: route('stock_moves.create'), name: 'Create'}"
-                    :filters="filters" :can_create="can[ability.CREATE]"/>
-        </template>
 
         <Table table_id="stock-move-table" :columns="['id', 'type', 'created_at', 'actions']" :data="stock_moves"
                :details_url="route('stock_moves.details', {stock_move: '__ROW_ID__'})"

@@ -177,7 +177,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'as' => 'stock_moves.'
     ], static function () {
         Route::get('/', [StockMoveViewController::class, 'index'])->name('index');
-        Route::get('/create', [StockMoveViewController::class, 'create'])->name('create');
         Route::post('/', [StockMoveViewController::class, 'store'])->name('store');
         Route::get('/{stock_move?}', [StockMoveViewController::class, 'details'])->name('details');
         Route::put('/{stock_move}', [StockMoveViewController::class, 'update'])->name('update');
