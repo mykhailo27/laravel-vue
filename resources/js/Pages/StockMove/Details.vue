@@ -3,7 +3,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {Head} from "@inertiajs/vue3";
-import {computed, ref} from "vue";
+import {ref} from "vue";
 
 const props = defineProps({
     stock_move: {
@@ -26,10 +26,7 @@ const props = defineProps({
 const stock_move = ref(props.stock_move.data)
 const next_action = ref(props.next_action)
 const previous_action = ref(props.previous_action)
-
-const variant = computed(() => {
-    return props.variant.data
-})
+const variant = ref(props.variant.data)
 
 const processStockMoveType = (action) => {
     axios.post(route('api.stock_moves.process', {stock_move: stock_move.value.id, action: action}))
@@ -48,13 +45,17 @@ const processStockMoveType = (action) => {
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex items-center justify-between mt-4">
-                <PrimaryButton v-if="next_action" @click="processStockMoveType(props.next_action)">
-                    {{ next_action }}
-                </PrimaryButton>
-                <PrimaryButton v-if="previous_action" @click="processStockMoveType(props.previous_action)">
-                    {{ previous_action }}
-                </PrimaryButton>
+            <div class="flex justify-between">
+                <div>
+                    <PrimaryButton v-if="next_action" @click="processStockMoveType(next_action)">
+                        {{ next_action }}
+                    </PrimaryButton>
+                </div>
+                <div>
+                    <PrimaryButton v-if="previous_action" @click="processStockMoveType(previous_action)">
+                        {{ previous_action }}
+                    </PrimaryButton>
+                </div>
             </div>
         </template>
 
