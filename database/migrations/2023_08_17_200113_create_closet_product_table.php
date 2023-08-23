@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('closet_product', function (Blueprint $table) {
             $table->string('closet_id');
             $table->string('product_id');
-            $table->json('variants');
         });
     }
 

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('closets', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->boolean('active')->default(false);
             $table->foreignUuid('company_id')->constrained();

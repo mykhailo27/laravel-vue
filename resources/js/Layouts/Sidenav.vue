@@ -243,7 +243,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_path="/Stock Moves" name="stock-moves">
+                    <SidenavLink route_path="/stock-moves" name="stock-moves">
                         <template #icon>
                             <i class="mr-2 fa-solid fa-cubes"></i>
                         </template>

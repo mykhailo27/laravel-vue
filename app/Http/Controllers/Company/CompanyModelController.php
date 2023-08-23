@@ -95,4 +95,9 @@ class CompanyModelController extends Controller
 
         return $selected;
     }
+
+    public static function RandomFirst(): ?Company
+    {
+        return Company::inRandomOrder()->first();
+    }
 }

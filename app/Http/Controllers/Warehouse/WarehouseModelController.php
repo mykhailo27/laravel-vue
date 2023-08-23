@@ -56,4 +56,9 @@ class WarehouseModelController extends Controller
     {
         return Warehouse::destroy($ids);
     }
+
+    public static function RandomFirst(): ?Warehouse
+    {
+        return Warehouse::inRandomOrder()->first();
+    }
 }

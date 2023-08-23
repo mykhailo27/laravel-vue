@@ -23,4 +23,9 @@ class Variant extends Model
     {
         return $this->hasMany(Variation::class);
     }
+
+    public function inventories(): HasMany
+    {
+        return $this->hasMany(Inventory::class);
+    }
 }

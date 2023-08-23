@@ -5,6 +5,7 @@ use App\Http\Controllers\Closet\ClosetApiController;
 use App\Http\Controllers\Company\CompanyApiController;
 use App\Http\Controllers\Product\ProductApiController;
 use App\Http\Controllers\Role\RoleApiController;
+use App\Http\Controllers\StockMove\StockMoveApiController;
 use App\Http\Controllers\User\UserApiController;
 use App\Http\Controllers\Variant\VariantApiController;
 use App\Http\Controllers\Warehouse\WarehouseApiController;
@@ -109,5 +110,14 @@ Route::middleware('auth:sanctum')->group(static function () {
     ], static function () {
         Route::delete('delete', [VariantApiController::class, 'delete'])->name('delete');
         Route::delete('delete/multiple', [VariantApiController::class, 'deleteMultiple'])->name('delete-multiple');
+    });
+
+    Route::group([
+        'prefix' => 'stock_moves',
+        'as' => 'stock_moves.'
+    ], static function () {
+        Route::delete('delete', [StockMoveApiController::class, 'delete'])->name('delete');
+        Route::delete('delete/multiple', [StockMoveApiController::class, 'deleteMultiple'])->name('delete-multiple');
+        Route::post('process/{stock_move}/{action}', [StockMoveApiController::class, 'process'])->name('process');
     });
 });

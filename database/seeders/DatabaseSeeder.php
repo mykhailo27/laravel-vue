@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             SizeSeeder::class,
             ColorSeeder::class,
             VariantSeeder::class,
+            StockMoveSeeder::class
         ]);
     }
 

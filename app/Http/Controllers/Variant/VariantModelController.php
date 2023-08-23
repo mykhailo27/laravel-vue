@@ -21,4 +21,9 @@ class VariantModelController extends Controller
     {
         return Variant::create($attributes);
     }
+
+    public static function RandomFirst(): ?Variant
+    {
+        return Variant::inRandomOrder()->first();
+    }
 }

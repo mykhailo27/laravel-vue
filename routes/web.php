@@ -8,6 +8,7 @@ use App\Http\Controllers\Company\CompanyViewController;
 use App\Http\Controllers\Country\CountryViewController;
 use App\Http\Controllers\Product\ProductViewController;
 use App\Http\Controllers\Role\RoleViewController;
+use App\Http\Controllers\StockMove\StockMoveViewController;
 use App\Http\Controllers\User\UserViewController;
 use App\Http\Controllers\Warehouse\WarehouseViewController;
 use App\Mail\ContactSubmitted;
@@ -169,6 +170,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{product?}', [ProductViewController::class, 'details'])->name('details');
         Route::put('/{product}', [ProductViewController::class, 'update'])->name('update');
         Route::delete('/{product}', [ProductViewController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group([
+        'prefix' => 'stock-moves',
+        'as' => 'stock_moves.'
+    ], static function () {
+        Route::get('/', [StockMoveViewController::class, 'index'])->name('index');
+        Route::get('/create', [StockMoveViewController::class, 'create'])->name('create');
+        Route::post('/', [StockMoveViewController::class, 'store'])->name('store');
+        Route::get('/{stock_move?}', [StockMoveViewController::class, 'details'])->name('details');
+        Route::put('/{stock_move}', [StockMoveViewController::class, 'update'])->name('update');
     });
 });
 

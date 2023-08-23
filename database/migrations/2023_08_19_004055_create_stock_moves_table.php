@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\Currency;
+use App\Enums\StockMoveType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,12 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warehouses', static function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name');
-            $table->foreignUuid('responsible_user_id')->constrained('users');
-            $table->double('return_cost');
-            $table->enum('currency', Currency::values())->default(Currency::EUR->value);
+        Schema::create('stock_moves', function (Blueprint $table) {
+            $table->id();
+            $table->enum('type', StockMoveType::values())->type('integer');
+            $table->foreignUuid('company_id')->constrained();
+            $table->foreignUuid('warehouse_id')->constrained();
+            $table->foreignId('variant_id')->constrained();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warehouses');
+        Schema::dropIfExists('stock_moves');
     }
 };

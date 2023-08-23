@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -36,5 +37,10 @@ class Closet extends Model
         return $this->belongsToMany(Product::class)
             ->using(ClosetProduct::class)
             ->withPivot('variants');
+    }
+
+    public function inventories(): HasMany
+    {
+        return $this->hasMany(Inventory::class);
     }
 }
