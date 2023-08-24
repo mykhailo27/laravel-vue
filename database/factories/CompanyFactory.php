@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Enums\CompanyState;
-use App\Http\Controllers\Company\CompanyModelController;
 use App\Models\Agency;
+use App\Models\Closet;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -33,6 +33,8 @@ class CompanyFactory extends Factory
             'abbreviation' => Str::random(3),
             'vat' => Str::random(15),
             'state' => $states[array_rand($states)],
+            'agency_id' => $this->getAgencyId(),
+            'owner_id' => $this->getOwnerId(),
         ];
     }
 
@@ -41,28 +43,34 @@ class CompanyFactory extends Factory
      */
     public function configure(): static
     {
-        return $this->afterMaking(function (Company $company) {
-
-            $this->assignToAgency($company);
-            $this->assignToOwner($company);
-            return $company;
-
-        })->afterCreating(function (Company $company) {
-            CompanyModelController::createGeneralCloset($company);
+        return $this->afterCreating(function (Company $company) {
+            $this->createGeneralCloset($company);
         });
     }
 
-    public function assignToAgency(Company $company): void
+    public function getAgencyId(): string
     {
         /** @var Agency $agency */
-        $agency = Agency::inRandomOrder()->first() ?? Agency::factory()->create();
-        $company->agency_id = $agency->id;
+        $agency = Agency::inRandomOrder()->first()
+            ?? Agency::factory()->create();
+
+        return $agency->id;
     }
 
-    private function assignToOwner(Company $company): void
+    private function getOwnerId(): string
     {
         /** @var User $user */
-        $user = User::inRandomOrder()->first() ?? User::factory()->create();
-        $company->owner_id = $user->id;
+        $user = User::inRandomOrder()->first()
+            ?? User::factory()->create();
+
+        return $user->id;
+    }
+
+    private function createGeneralCloset(Company $company): void
+    {
+        Closet::factory()->create([
+            'name' => 'general',
+            'company_id' => $company->id,
+        ]);
     }
 }

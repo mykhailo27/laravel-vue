@@ -17,8 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->createAdmin();
-
         $this->call([
             AgencySeeder::class,
             CountrySeeder::class,
@@ -33,6 +31,8 @@ class DatabaseSeeder extends Seeder
             VariantSeeder::class,
             StockMoveSeeder::class
         ]);
+
+        $this->createAdmin();
     }
 
     /**

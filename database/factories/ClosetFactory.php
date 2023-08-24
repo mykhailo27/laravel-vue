@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Closet;
 use App\Models\Company;
+use App\Models\Warehouse;
 use Exception;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -26,21 +27,27 @@ class ClosetFactory extends Factory
         return [
             'id' => $this->newUniqueId(),
             'name' => $this->faker->name,
-            'active' => random_int(0, 1)
+            'active' => random_int(0, 1),
+            'company_id' => $this->getCompanyId(),
+            'warehouse_id' => $this->getWarehouseId(),
         ];
     }
 
-    public function configure(): ClosetFactory|Factory
-    {
-        return $this->afterMaking(function (Closet $closet) {
-            $this->assignToCompany($closet);
-        });
-    }
-
-    public function assignToCompany(Closet $closet): void
+    public function getCompanyId(): string
     {
         /** @var Company $company */
-        $company = Company::inRandomOrder()->first() ?? Company::factory()->create();
-        $closet->company_id = $company->id;
+        $company = Company::inRandomOrder()->first()
+            ?? Company::factory()->create();
+
+        return $company->id;
+    }
+
+    private function getWarehouseId(): string
+    {
+        /** @var Warehouse $warehouse */
+        $warehouse = Warehouse::inRandomOrder()->first()
+            ?? Warehouse::factory()->create();
+
+        return $warehouse->id;
     }
 }

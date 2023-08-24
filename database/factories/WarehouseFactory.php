@@ -33,16 +33,16 @@ class WarehouseFactory extends Factory
             'name' => $this->faker->name,
             'return_cost' => random_int(20, 100),
             'currency' => $currency[array_rand($currency)],
+            'responsible_user_id' => $this->getResponsibleUserId()
         ];
     }
 
     public function configure(): static
     {
-        return $this->afterMaking(function (Warehouse $warehouse) {
+        return $this->afterCreating(function (Warehouse $warehouse) {
 
             $this->addAddress($warehouse);
             $this->addCountries($warehouse);
-            $this->assignResponsibleUser($warehouse);
 
             return $warehouse;
         });
@@ -67,11 +67,12 @@ class WarehouseFactory extends Factory
         ]);
     }
 
-    private function assignResponsibleUser(Warehouse $warehouse): void
+    private function getResponsibleUserId(): string
     {
         /** @var User $user */
-        $user = User::inRandomOrder()->first() ?? User::factory()->create();
+        $user = User::inRandomOrder()->first()
+            ?? User::factory()->create();
 
-        $warehouse->responsible_user_id = $user->id;
+        return $user->id;
     }
 }

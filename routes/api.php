@@ -102,6 +102,7 @@ Route::middleware('auth:sanctum')->group(static function () {
     ], static function () {
         Route::delete('delete', [ProductApiController::class, 'delete'])->name('delete');
         Route::delete('delete/multiple', [ProductApiController::class, 'deleteMultiple'])->name('delete-multiple');
+        Route::post('inventory/transfer', [ProductApiController::class, 'inventoryTransfer'])->name('inventory-transfer');
     });
 
     Route::group([

@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Closet\ClosetModelController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\User\UserModelController;
-use App\Models\Closet;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\Warehouse;
 
 class CompanyModelController extends Controller
 {
@@ -61,11 +61,12 @@ class CompanyModelController extends Controller
         return User::whereNotIn('id', $users_id)->get();
     }
 
-    public static function createGeneralCloset(Company $company)
+    public static function createGeneralCloset(Company $company, Warehouse $warehouse)
     {
         $attributes = [
             'name' => 'general',
-            'company_id' => $company->id
+            'company_id' => $company->id,
+            'warehouse_id' => $warehouse->id
         ];
 
         return ClosetModelController::create($attributes);

@@ -26,18 +26,15 @@ class AddressFactory extends Factory
             'zip_code' => $this->faker->postcode,
             'city' => $this->faker->city,
             'state_or_region' => $this->faker->name,
+            'country_id' => $this->getCountryId()
         ];
     }
 
-    public function configure(): static
+    private function getCountryId(): string
     {
-        return $this->afterMaking(function (Address $address) {
+        /** @var Country $country */
+        $country = Country::inRandomOrder()->first();
 
-            $country = Country::inRandomOrder()->first();
-
-            $address->country_id = $country->id;
-
-            return $address;
-        });
+        return $country->id;
     }
 }

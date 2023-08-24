@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static create(array $attributes)
+ * @property Warehouse $warehouse
+ * @property string $warehouse_id
  */
 class Closet extends Model
 {
@@ -37,6 +39,11 @@ class Closet extends Model
         return $this->belongsToMany(Product::class)
             ->using(ClosetProduct::class)
             ->withPivot('variants');
+    }
+
+    public function warehouse(): BelongsTo
+    {
+        return $this->belongsTo(Warehouse::class);
     }
 
     public function inventories(): HasMany

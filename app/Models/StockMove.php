@@ -11,12 +11,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property Variant $variant
  * @property StockMoveType $type
+ * @method static create(array $attributes)
  */
 class StockMove extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['type'];
+    protected $fillable = ['type', 'amount', 'variant_id', 'company_id', 'warehouse_id'];
 
     protected $casts = [
         'type' => StockMoveType::class

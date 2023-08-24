@@ -21,4 +21,9 @@ class StockMoveModelController extends Controller
     {
         return $stock_move->update($attribute);
     }
+
+    public static function create(array $attributes): ?StockMove
+    {
+        return StockMove::create($attributes);
+    }
 }

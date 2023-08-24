@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->boolean('active')->default(false);
             $table->foreignUuid('company_id')->constrained();
+            $table->foreignUuid('warehouse_id')->constrained();
             $table->softDeletes();
             $table->timestamps();
         });

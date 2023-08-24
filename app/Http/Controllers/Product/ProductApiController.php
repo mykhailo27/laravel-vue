@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\Product;
 
 use App\Constants\Ability;
+use App\Enums\StockMoveType;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\StockMove\StockMoveModelController;
 use App\Models\Product;
+use App\Models\User;
+use App\Models\Variant;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ProductApiController extends Controller
 {
@@ -50,5 +56,31 @@ class ProductApiController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function inventoryTransfer(Request $request): Response
+    {
+        $validated = $request->validate([
+            'variant_id' => Rule::exists(Variant::class, 'id'),
+            'amount' => 'integer|min:1'
+        ]);
+
+        /** @var User $user */
+        $user = Auth::user();
+        $company = $user->selectedCompany(['id']);
+        $closet = $company->generalCloset();
+
+        $attributes = array_merge($validated, [
+            'company_id' => $company->id,
+            'warehouse_id' => $closet->warehouse_id,
+            'type' => StockMoveType::REQUESTED
+        ]);
+
+        $created = !is_null(StockMoveModelController::create($attributes));
+
+        return response([
+            'success' => $created,
+            'message' => $created ? 'Stock move created' : 'Fail to create stock move',
+        ]);
     }
 }

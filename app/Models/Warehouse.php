@@ -37,4 +37,9 @@ class Warehouse extends Model
         return $this->belongsToMany(Country::class)
             ->withPivot('active');
     }
+
+    public function closets(): HasMany
+    {
+        return $this->hasMany(Closet::class);
+    }
 }

@@ -109,6 +109,7 @@ const submitProductForm = () => {
 const show_add_or_update_product_btn = ref(true)
 const show_add_variant_btn = ref(false)
 const show_add_variant_modal = ref(false)
+const show_inventory_transfer_modal = ref(false)
 
 const product_exist = computed(() => {
     return props.product === null;
@@ -122,14 +123,30 @@ const clickSubmitBtn = () => {
     document.getElementById('submit-btn').click();
 }
 
+const inventoryTransferModelSwitch = (switch_on) => {
+    show_inventory_transfer_modal.value = switch_on
+}
+
 const variant_form = useForm({
     size_id: '',
     color_id: '',
 })
 
+const inventory_transfer_form = useForm({
+    variant_id: '',
+    amount: 1,
+})
+
 const submitVariantForm = () => {
     variant_form.post(route('products.add-variant', {product: props.product.id}), {
         onSuccess: () => console.log('Variant created'),
+        onError: (err) => console.error(err)
+    });
+}
+
+const submitInventoryTransferForm = () => {
+    inventory_transfer_form.post(route('api.products.inventory-transfer'), {
+        onSuccess: () => console.log('Inventory transfer'),
         onError: (err) => console.error(err)
     });
 }
@@ -145,6 +162,13 @@ const getColors = computed(() => {
     return props.colors.reduce((colors, color) => {
         colors.push({name: color.name, value: color.id})
         return colors;
+    }, [])
+})
+
+const getVariants = computed(() => {
+    return product_variants.value.reduce((variants, variant) => {
+        variants.push({name: variant.sku, value: variant.id})
+        return variants;
     }, [])
 })
 
@@ -165,6 +189,9 @@ const getColors = computed(() => {
                 </div>
 
                 <div id="secondary-actions">
+                    <PrimaryButton class="mr-1" @click="inventoryTransferModelSwitch(true)">
+                        Transfer
+                    </PrimaryButton>
                     <PrimaryButton v-show="show_add_variant_btn" @click="show_add_variant_modal = true">
                         Add Variants
                     </PrimaryButton>
@@ -312,7 +339,48 @@ const getColors = computed(() => {
                         {{ variant_form.progress.percentage }}%
                     </progress>
 
-                    <PrimaryButton type="submit" class="float-right my-2" :disabled="variant_form.processing">Add</PrimaryButton>
+                    <PrimaryButton type="submit" class="float-right my-2" :disabled="variant_form.processing">Add
+                    </PrimaryButton>
+
+                </form>
+            </div>
+        </Modal>
+
+        <Modal :show="show_inventory_transfer_modal" @close="inventoryTransferModelSwitch(false)">
+            <div class="p-6">
+                <div class="flex justify-between">
+                    <h4>Inventory Transfer</h4>
+                    <SecondaryButton class="fa-sharp fa-solid fa-xmark"
+                                     @click="inventoryTransferModelSwitch(false)"></SecondaryButton>
+                </div>
+
+                <form @submit.prevent="submitInventoryTransferForm">
+
+                    <div class="mt-4">
+                        <Select v-if="product_variants"
+                                @update:modelValue="value => inventory_transfer_form.variant_id = value"
+                                :options="getVariants" label="Variant"/>
+                    </div>
+
+                    <div>
+                        <InputLabel for="amount" value="Amount"/>
+                        <TextInput
+                            id="amount"
+                            type="number"
+                            class="mt-1 block w-full"
+                            v-model="inventory_transfer_form.amount"
+                            required
+                        />
+                        <InputError class="mt-2" :message="inventory_transfer_form.errors.amount"/>
+                    </div>
+
+                    <progress v-if="inventory_transfer_form.progress" :value="inventory_transfer_form.progress.percentage" max="100">
+                        {{ inventory_transfer_form.progress.percentage }}%
+                    </progress>
+
+                    <PrimaryButton type="submit" class="float-right my-2" :disabled="inventory_transfer_form.processing">
+                        Transfer
+                    </PrimaryButton>
 
                 </form>
             </div>
