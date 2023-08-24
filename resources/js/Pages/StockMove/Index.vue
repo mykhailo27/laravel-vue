@@ -44,7 +44,7 @@ const row_actions = [
     <Head title="Company"/>
     <AuthenticatedLayout>
 
-        <Table table_id="stock-move-table" :columns="['id', 'type', 'created_at', 'actions']" :data="stock_moves"
+        <Table table_id="stock-move-table" :columns="['id', 'type', 'amount', 'variant', 'created_at', 'actions']" :data="stock_moves"
                :details_url="route('stock_moves.details', {stock_move: '__ROW_ID__'})"
                :table_actions="table_actions"
                :row_actions="row_actions"

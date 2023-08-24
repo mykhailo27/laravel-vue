@@ -27,9 +27,11 @@ class StockMoveViewController extends Controller
                 $query->where('type', 'like', "%$search%");
             })
             ->paginate($request->get('per_page', 10))
-            ->through(fn($stock_move) => [ // todo user resource
+            ->through(fn(StockMove $stock_move) => [ // todo user resource
                 'id' => $stock_move->id,
                 'type' => $stock_move->type->name,
+                'amount' => $stock_move->amount,
+                'variant' => $stock_move->variant->sku,
                 'created_at' => $stock_move->created_at,
                 'can' => [
                     Ability::DELETE => $user->can(Ability::DELETE, $stock_move)
