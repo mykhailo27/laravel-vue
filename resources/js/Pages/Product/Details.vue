@@ -145,10 +145,14 @@ const submitVariantForm = () => {
 }
 
 const submitInventoryTransferForm = () => {
-    inventory_transfer_form.post(route('api.products.inventory-transfer'), {
-        onSuccess: () => console.log('Inventory transfer'),
-        onError: (err) => console.error(err)
-    });
+    axios.post(route('api.products.inventory-transfer'), {
+        variant_id: inventory_transfer_form.variant_id,
+        amount: inventory_transfer_form.amount,
+    }).then(res => {
+        res.data.success
+            ? inventoryTransferModelSwitch(false)
+            : console.warn(res)
+    }).catch(error => console.error(error))
 }
 
 const getSizes = computed(() => {
@@ -374,11 +378,13 @@ const getVariants = computed(() => {
                         <InputError class="mt-2" :message="inventory_transfer_form.errors.amount"/>
                     </div>
 
-                    <progress v-if="inventory_transfer_form.progress" :value="inventory_transfer_form.progress.percentage" max="100">
+                    <progress v-if="inventory_transfer_form.progress"
+                              :value="inventory_transfer_form.progress.percentage" max="100">
                         {{ inventory_transfer_form.progress.percentage }}%
                     </progress>
 
-                    <PrimaryButton type="submit" class="float-right my-2" :disabled="inventory_transfer_form.processing">
+                    <PrimaryButton type="submit" class="float-right my-2"
+                                   :disabled="inventory_transfer_form.processing">
                         Transfer
                     </PrimaryButton>
 
