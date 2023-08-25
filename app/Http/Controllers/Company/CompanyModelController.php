@@ -31,7 +31,7 @@ class CompanyModelController extends Controller
         $company->users()->syncWithoutDetaching($user);
 
         if (self::hasUser($company, $user)) {
-            UserModelController::inviteToJoinCompany($user, $company);
+            // UserModelController::inviteToJoinCompany($user, $company); // todo uncomment after configuring mail
 
             return true;
         }

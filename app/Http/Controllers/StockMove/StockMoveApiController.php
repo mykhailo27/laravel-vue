@@ -4,12 +4,14 @@ namespace App\Http\Controllers\StockMove;
 
 use App\Constants\Ability;
 use App\Enums\StockMoveType;
+use App\Events\StockMoveProcessed;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StockMove\StockMoveResource;
 use App\Models\StockMove;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Event;
 
 class StockMoveApiController extends Controller
 {
@@ -59,6 +61,10 @@ class StockMoveApiController extends Controller
         $processed = StockMoveModelController::update($stock_move, [
             'type' => StockMoveType::getByAction($action)
         ]);
+
+        if (in_array($stock_move->type, [StockMoveType::PROCESSED, StockMoveType::REQUESTED])) {
+            StockMoveProcessed::dispatch($stock_move);
+        }
 
         return response([
             'stock_move' => new StockMoveResource($stock_move),

@@ -71,7 +71,7 @@ class ProductApiController extends Controller
         $closet = $company->generalCloset();
 
         $attributes = array_merge($validated, [
-            'company_id' => $company->id,
+            'closet_id' => $closet->id,
             'warehouse_id' => $closet->warehouse_id,
             'type' => StockMoveType::REQUESTED
         ]);

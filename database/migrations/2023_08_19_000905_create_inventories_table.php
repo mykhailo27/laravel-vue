@@ -15,9 +15,10 @@ return new class extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
             $table->integer('quantity');
-            $table->enum('type', InventoryType::values());
+            $table->enum('type', InventoryType::values())->type('integer');
             $table->foreignId('variant_id')->constrained();
             $table->foreignUuid('closet_id')->constrained();
+            $table->timestamps();
         });
     }
 

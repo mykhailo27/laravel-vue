@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->enum('type', StockMoveType::values())->type('integer');
             $table->integer('amount')->default(1);
-            $table->foreignUuid('company_id')->constrained();
+            $table->foreignUuid('closet_id')->constrained();
             $table->foreignUuid('warehouse_id')->constrained();
             $table->foreignId('variant_id')->constrained();
             $table->softDeletes();

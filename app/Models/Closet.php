@@ -34,20 +34,13 @@ class Closet extends Model
             ->withTimestamps();
     }
 
-    public function products(): BelongsToMany
+    public function inventories(): HasMany
     {
-        return $this->belongsToMany(Product::class)
-            ->using(ClosetProduct::class)
-            ->withPivot('variants');
+        return $this->hasMany(Inventory::class);
     }
 
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
-    }
-
-    public function inventories(): HasMany
-    {
-        return $this->hasMany(Inventory::class);
     }
 }

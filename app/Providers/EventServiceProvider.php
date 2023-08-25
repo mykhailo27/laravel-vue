@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\StockMoveProcessed;
 use App\Listeners\SelectCompanyListener;
+use App\Listeners\ProcessInventory;
 use App\Models\Closet;
 use App\Models\Company;
 use App\Observers\CloserObserver;
@@ -26,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PasswordReset::class => [
             SelectCompanyListener::class
+        ],
+        StockMoveProcessed::class => [
+            ProcessInventory::class
         ]
     ];
 

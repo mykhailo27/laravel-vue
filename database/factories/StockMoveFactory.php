@@ -27,42 +27,36 @@ class StockMoveFactory extends Factory
         $types = StockMoveType::values();
 
         return [
-            'type' => $types[array_rand($types)]
+            'type' => $types[array_rand($types)],
+            'variant_id' => $this->attachToVariant(),
+            'closet_id' => $this->getClosetId(),
+            'warehouse_id' => $this->attachToWarehouse(),
         ];
     }
 
-    public function configure(): StockMoveFactory
-    {
-        return $this->afterMaking(function (StockMove $stock_move) {
-
-            $this->attachToCompany($stock_move);
-            $this->attachToWarehouse($stock_move);
-            $this->attachToVariant($stock_move);
-
-        });
-    }
-
-    private function attachToCompany(StockMove $stock_move): void
+    private function getClosetId(): string
     {
         $company = CompanyModelController::RandomFirst()
             ?: Company::factory()->create();
 
-        $stock_move->company_id = $company->id;
+        $closet = $company->generalCloset();
+
+        return $closet->id;
     }
 
-    private function attachToWarehouse(StockMove $stock_move): void
+    private function attachToWarehouse(): string
     {
         $warehouse = warehouseModelController::RandomFirst()
             ?: Warehouse::factory()->create();
 
-        $stock_move->warehouse_id = $warehouse->id;
+        return $warehouse->id;
     }
 
-    private function attachToVariant(StockMove $stock_move): void
+    private function attachToVariant(): int
     {
         $variant = VariantModelController::RandomFirst()
             ?: Variant::factory()->create();
 
-        $stock_move->variant_id = $variant->id;
+        return $variant->id;
     }
 }

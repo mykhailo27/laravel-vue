@@ -17,15 +17,15 @@ class StockMove extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['type', 'amount', 'variant_id', 'company_id', 'warehouse_id'];
+    protected $fillable = ['type', 'amount', 'variant_id', 'closet_id', 'warehouse_id'];
 
     protected $casts = [
         'type' => StockMoveType::class
     ];
 
-    public function company(): BelongsTo
+    public function closet(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Closet::class);
     }
 
     public function warehouse(): BelongsTo
