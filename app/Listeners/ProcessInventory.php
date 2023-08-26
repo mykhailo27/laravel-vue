@@ -34,9 +34,9 @@ class ProcessInventory implements ShouldQueue
         ]);
 
         if ($update) {
-            Log::debug('$inventory updated ' . print_r($inventory, true));
+            Log::debug('inventory type updated ' . print_r($inventory->type, true));
         } else {
-            Log::debug('$stock_move ' . print_r($stock_move, true));
+            Log::debug('stock move fail update inventory' . print_r($stock_move, true));
         }
     }
 
