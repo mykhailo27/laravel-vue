@@ -17,7 +17,7 @@ class InventoryModelController extends Controller
     public static function firstOrCreateFromStockMove(StockMove $stock_move): Inventory
     {
         return Inventory::firstOrCreate([
-            'type' => InventoryType::IN_TAKE,
+            'type' => InventoryType::IN_STOCK,
             'closet_id' => $stock_move->closet_id,
             'variant_id' => $stock_move->variant_id
         ], [

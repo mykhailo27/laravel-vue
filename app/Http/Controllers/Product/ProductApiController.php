@@ -58,7 +58,7 @@ class ProductApiController extends Controller
         }
     }
 
-    public function inventoryTransfer(Request $request): Response
+    public function stockMoveIntake(Request $request): Response
     {
         $validated = $request->validate([
             'variant_id' => Rule::exists(Variant::class, 'id'),
@@ -73,7 +73,7 @@ class ProductApiController extends Controller
         $attributes = array_merge($validated, [
             'closet_id' => $closet->id,
             'warehouse_id' => $closet->warehouse_id,
-            'type' => StockMoveType::REQUESTED
+            'type' => StockMoveType::INTAKE
         ]);
 
         $created = !is_null(StockMoveModelController::create($attributes));

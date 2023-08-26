@@ -109,7 +109,7 @@ const submitProductForm = () => {
 const show_add_or_update_product_btn = ref(true)
 const show_add_variant_btn = ref(false)
 const show_add_variant_modal = ref(false)
-const show_inventory_transfer_modal = ref(false)
+const show_stock_move_intake_modal = ref(false)
 
 const product_exist = computed(() => {
     return props.product === null;
@@ -123,8 +123,8 @@ const clickSubmitBtn = () => {
     document.getElementById('submit-btn').click();
 }
 
-const inventoryTransferModelSwitch = (switch_on) => {
-    show_inventory_transfer_modal.value = switch_on
+const stockMoveIntakeModelSwitch = (switch_on) => {
+    show_stock_move_intake_modal.value = switch_on
 }
 
 const variant_form = useForm({
@@ -132,7 +132,7 @@ const variant_form = useForm({
     color_id: '',
 })
 
-const inventory_transfer_form = useForm({
+const stock_move_intake_form = useForm({
     variant_id: '',
     amount: 1,
 })
@@ -144,13 +144,13 @@ const submitVariantForm = () => {
     });
 }
 
-const submitInventoryTransferForm = () => {
-    axios.post(route('api.products.inventory-transfer'), {
-        variant_id: inventory_transfer_form.variant_id,
-        amount: inventory_transfer_form.amount,
+const submitStockMoveIntakeForm = () => {
+    axios.post(route('api.products.stock_move-intake'), {
+        variant_id: stock_move_intake_form.variant_id,
+        amount: stock_move_intake_form.amount,
     }).then(res => {
         res.data.success
-            ? inventoryTransferModelSwitch(false)
+            ? stockMoveIntakeModelSwitch(false)
             : console.warn(res)
     }).catch(error => console.error(error))
 }
@@ -193,8 +193,8 @@ const getVariants = computed(() => {
                 </div>
 
                 <div id="secondary-actions">
-                    <PrimaryButton class="mr-1" @click="inventoryTransferModelSwitch(true)">
-                        Transfer
+                    <PrimaryButton class="mr-1" @click="stockMoveIntakeModelSwitch(true)">
+                        Intake
                     </PrimaryButton>
                     <PrimaryButton v-show="show_add_variant_btn" @click="show_add_variant_modal = true">
                         Add Variants
@@ -350,19 +350,19 @@ const getVariants = computed(() => {
             </div>
         </Modal>
 
-        <Modal :show="show_inventory_transfer_modal" @close="inventoryTransferModelSwitch(false)">
+        <Modal :show="show_stock_move_intake_modal" @close="stockMoveIntakeModelSwitch(false)">
             <div class="p-6">
                 <div class="flex justify-between">
-                    <h4>Inventory Transfer</h4>
+                    <h4>Stock Move Intake</h4>
                     <SecondaryButton class="fa-sharp fa-solid fa-xmark"
-                                     @click="inventoryTransferModelSwitch(false)"></SecondaryButton>
+                                     @click="stockMoveIntakeModelSwitch(false)"></SecondaryButton>
                 </div>
 
-                <form @submit.prevent="submitInventoryTransferForm">
+                <form @submit.prevent="submitStockMoveIntakeForm">
 
                     <div class="mt-4">
                         <Select v-if="product_variants"
-                                @update:modelValue="value => inventory_transfer_form.variant_id = value"
+                                @update:modelValue="value => stock_move_intake_form.variant_id = value"
                                 :options="getVariants" label="Variant"/>
                     </div>
 
@@ -372,20 +372,20 @@ const getVariants = computed(() => {
                             id="amount"
                             type="number"
                             class="mt-1 block w-full"
-                            v-model="inventory_transfer_form.amount"
+                            v-model="stock_move_intake_form.amount"
                             required
                         />
-                        <InputError class="mt-2" :message="inventory_transfer_form.errors.amount"/>
+                        <InputError class="mt-2" :message="stock_move_intake_form.errors.amount"/>
                     </div>
 
-                    <progress v-if="inventory_transfer_form.progress"
-                              :value="inventory_transfer_form.progress.percentage" max="100">
-                        {{ inventory_transfer_form.progress.percentage }}%
+                    <progress v-if="stock_move_intake_form.progress"
+                              :value="stock_move_intake_form.progress.percentage" max="100">
+                        {{ stock_move_intake_form.progress.percentage }}%
                     </progress>
 
                     <PrimaryButton type="submit" class="float-right my-2"
-                                   :disabled="inventory_transfer_form.processing">
-                        Transfer
+                                   :disabled="stock_move_intake_form.processing">
+                        Intake
                     </PrimaryButton>
 
                 </form>

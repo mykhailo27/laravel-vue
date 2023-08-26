@@ -62,7 +62,7 @@ class StockMoveApiController extends Controller
             'type' => StockMoveType::getByAction($action)
         ]);
 
-        if (in_array($stock_move->type, [StockMoveType::PROCESSED, StockMoveType::REQUESTED])) {
+        if ($stock_move->type === StockMoveType::PROCESSED) {
             StockMoveProcessed::dispatch($stock_move);
         }
 

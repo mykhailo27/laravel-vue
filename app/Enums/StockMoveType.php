@@ -6,7 +6,7 @@ enum StockMoveType: int
 {
     use Enumeration;
 
-    case REQUESTED = 114;
+    case INTAKE = 60;
     case SENT = 58;
     case RECEIVED = 71;
     case PROCESSED = 104;
@@ -14,7 +14,7 @@ enum StockMoveType: int
     public static function nextAction(self $type): ?string
     {
         return match ($type) {
-            self::REQUESTED => 'send',
+            self::INTAKE => 'send',
             self::SENT => 'receive',
             self::RECEIVED => 'process',
             default => null
@@ -25,7 +25,7 @@ enum StockMoveType: int
     {
         return match ($type) {
             self::PROCESSED => 'receive',
-            self::SENT => 'request',
+            self::SENT => 'intake',
             self::RECEIVED => 'send',
             default => null
         };
@@ -35,7 +35,7 @@ enum StockMoveType: int
     {
         return match ($action) {
             'receive' => self::RECEIVED,
-            'request' => self::REQUESTED,
+            'intake' => self::INTAKE,
             'send' => self::SENT,
             'process' => self::PROCESSED
         };
