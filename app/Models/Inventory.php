@@ -2,20 +2,16 @@
 
 namespace App\Models;
 
-use App\Enums\InventoryType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property InventoryType $type
+ * @property int $in_transit
+ * @property int $in_stock
  */
 class Inventory extends Model
 {
-    protected $casts = [
-        'type' => InventoryType::class
-    ];
-
-    protected $fillable = ['quantity', 'type', 'variant_id', 'closet_id'];
+    protected $fillable = ['in_stock', 'in_reserve', 'in_transit', 'variant_id', 'closet_id'];
 
     public function variant(): BelongsTo
     {

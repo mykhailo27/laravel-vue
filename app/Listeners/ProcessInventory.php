@@ -27,14 +27,14 @@ class ProcessInventory implements ShouldQueue
     public function handle(StockMoveProcessed $event): void
     {
         $stock_move = $event->stock_move;
-        $inventory = InventoryModelController::firstOrCreateFromStockMove($stock_move);
+        $inventory = InventoryModelController::getByStockMove($stock_move);
 
-        $update = InventoryModelController::update($inventory, [
-            'quantity' => $stock_move->amount
-        ]);
+        $update = InventoryModelController::updateInventoryQuantity($inventory, $stock_move);
+
+        Log::debug('$inventory ' . print_r($inventory, true));
 
         if ($update) {
-            Log::debug('inventory type updated ' . print_r($inventory->type, true));
+            Log::debug('inventory stock updated ' . print_r($inventory->in_stock, true));
         } else {
             Log::debug('stock move fail update inventory' . print_r($stock_move, true));
         }

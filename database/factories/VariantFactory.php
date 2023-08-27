@@ -3,8 +3,10 @@
 namespace Database\Factories;
 
 use App\Http\Controllers\Color\ColorModelController;
+use App\Http\Controllers\Inventory\InventoryModelController;
 use App\Http\Controllers\Size\SizeModelController;
 use App\Http\Controllers\Variation\VariationModelController;
+use App\Models\Closet;
 use App\Models\Product;
 use App\Models\Variant;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -22,23 +24,20 @@ class VariantFactory extends Factory
      */
     public function definition(): array
     {
+        $product = $this->getProduct();
+
         return [
-            'sku' => $this->faker->uuid
+            'sku' => $this->faker->uuid,
+            'product_id' => $product->id
         ];
     }
 
     public function configure(): VariantFactory
     {
-        return $this->afterMaking(function (Variant $variant) {
-
-            $product = $this->getProduct();
-            $variant->product_id = $product->id;
-
-        })->afterCreating(function (Variant $variant) {
-
+        return $this->afterCreating(function (Variant $variant) {
             $this->createSizeVariation($variant);
             $this->createColorVariation($variant);
-
+            $this->createInventory($variant);
         });
     }
 
@@ -77,5 +76,14 @@ class VariantFactory extends Factory
         throw_if(is_null($color));
 
         VariationModelController::createFor($variant, $color);
+    }
+
+    private function createInventory(Variant $variant): void
+    {
+        /** @var Closet $closet */
+        $closet = Closet::inRandomOrder()->first()
+            ?: Closet::factory()->create();
+
+        InventoryModelController::createForVariant($variant, $closet);
     }
 }

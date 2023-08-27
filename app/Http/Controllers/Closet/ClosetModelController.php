@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Closet;
 use App\Http\Controllers\Controller;
 use App\Models\Closet;
 use App\Models\User;
+use App\Models\Warehouse;
 
 class ClosetModelController extends Controller
 {
@@ -68,5 +69,11 @@ class ClosetModelController extends Controller
         return $user->closets()
             ->wherePivot('active', '=', true)
             ->update(['closet_user.active' => false]);
+    }
+
+    public static function getByWarehouse(Warehouse $warehouse): ?Closet
+    {
+        return Closet::where('warehouse_id', '=', $warehouse->id)
+            ->first();
     }
 }

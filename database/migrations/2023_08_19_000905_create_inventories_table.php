@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\InventoryType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->integer('quantity');
-            $table->enum('type', InventoryType::values())->type('integer');
+            $table->integer('in_stock')->default(0);
+            $table->integer('in_reserve')->default(0);
+            $table->integer('in_transit')->default(0);
             $table->foreignId('variant_id')->constrained();
             $table->foreignUuid('closet_id')->constrained();
             $table->timestamps();

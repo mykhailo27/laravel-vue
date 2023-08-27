@@ -2,15 +2,16 @@
 
 namespace Database\Factories;
 
+use App\Http\Controllers\Closet\ClosetModelController;
+use App\Http\Controllers\Inventory\InventoryModelController;
 use App\Http\Controllers\Warehouse\WarehouseModelController;
-use App\Http\Controllers\Company\CompanyModelController;
 use App\Http\Controllers\Variant\VariantModelController;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\StockMoveType;
 use App\Models\StockMove;
 use App\Models\Warehouse;
-use App\Models\Company;
 use App\Models\Variant;
+use App\Models\Closet;
 
 /**
  * @extends Factory<StockMove>
@@ -26,37 +27,53 @@ class StockMoveFactory extends Factory
     {
         $types = StockMoveType::values();
 
+        /** @var StockMoveType $type */
+        $type = $types[array_rand($types)];
+
+        $warehouse = $this->getWarehouse();
+        $closet = $this->getClosetBy($warehouse);
+        $variant = $this->getVariant();
+
         return [
-            'type' => $types[array_rand($types)],
-            'variant_id' => $this->attachToVariant(),
-            'closet_id' => $this->getClosetId(),
-            'warehouse_id' => $this->attachToWarehouse(),
+            'type' => $type,
+            'variant_id' => $variant->id,
+            'closet_id' => $closet->id,
+            'warehouse_id' => $warehouse->id,
         ];
     }
 
-    private function getClosetId(): string
+    public function configure(): StockMoveFactory
     {
-        $company = CompanyModelController::RandomFirst()
-            ?: Company::factory()->create();
+        return $this->afterCreating(function (StockMove $stock_move) {
+            $inventory = InventoryModelController::getByStockMove($stock_move);
+            if (is_null($inventory)) {
+                $inventory = InventoryModelController::createForVariant($stock_move->variant, $stock_move->closet);
+            }
 
-        $closet = $company->generalCloset();
-
-        return $closet->id;
+            InventoryModelController::updateInventoryQuantity($inventory, $stock_move);
+        });
     }
 
-    private function attachToWarehouse(): string
+    private function getClosetBy(Warehouse $warehouse): Closet
     {
-        $warehouse = warehouseModelController::RandomFirst()
+        $closet = ClosetModelController::getByWarehouse($warehouse);
+
+        if (is_null($closet)) {
+            $closet = Closet::factory()->create(['warehouse_id' => $warehouse->id]);
+        }
+
+        return $closet;
+    }
+
+    private function getWarehouse(): Warehouse
+    {
+        return warehouseModelController::RandomFirst()
             ?: Warehouse::factory()->create();
-
-        return $warehouse->id;
     }
 
-    private function attachToVariant(): int
+    private function getVariant(): Variant
     {
-        $variant = VariantModelController::RandomFirst()
+        return VariantModelController::RandomFirst()
             ?: Variant::factory()->create();
-
-        return $variant->id;
     }
 }

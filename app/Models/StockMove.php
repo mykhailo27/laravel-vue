@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property Variant $variant
  * @property StockMoveType $type
+ * @property int $amount
  * @method static create(array $attributes)
  */
 class StockMove extends Model

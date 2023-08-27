@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Color\ColorModelController;
+use App\Http\Controllers\Inventory\InventoryModelController;
 use App\Http\Controllers\Size\SizeModelController;
 use App\Http\Controllers\Variant\VariantModelController;
 use App\Http\Controllers\Variation\VariationModelController;
@@ -142,6 +143,13 @@ class ProductViewController extends Controller
             'sku' => $product->sku . '-' . $size->getValue() . '-' . $color->getName(),
             'product_id' => $product->id
         ]);
+
+        /** @var User $user */
+        $user = Auth::user();
+        $company = $user->selectedCompany();
+        $closet = $user->selectedCloset($company);
+
+        InventoryModelController::createForVariant($variant, $closet);
 
         VariationModelController::createFor($variant, $size);
         VariationModelController::createFor($variant, $color);

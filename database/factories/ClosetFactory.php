@@ -37,7 +37,7 @@ class ClosetFactory extends Factory
     {
         /** @var Company $company */
         $company = Company::inRandomOrder()->first()
-            ?? Company::factory()->create();
+            ?: Company::factory()->create();
 
         return $company->id;
     }
@@ -46,7 +46,7 @@ class ClosetFactory extends Factory
     {
         /** @var Warehouse $warehouse */
         $warehouse = Warehouse::inRandomOrder()->first()
-            ?? Warehouse::factory()->create();
+            ?: Warehouse::factory()->create();
 
         return $warehouse->id;
     }

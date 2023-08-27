@@ -52,7 +52,7 @@ class CompanyFactory extends Factory
     {
         /** @var Agency $agency */
         $agency = Agency::inRandomOrder()->first()
-            ?? Agency::factory()->create();
+            ?: Agency::factory()->create();
 
         return $agency->id;
     }
@@ -61,7 +61,7 @@ class CompanyFactory extends Factory
     {
         /** @var User $user */
         $user = User::inRandomOrder()->first()
-            ?? User::factory()->create();
+            ?: User::factory()->create();
 
         return $user->id;
     }

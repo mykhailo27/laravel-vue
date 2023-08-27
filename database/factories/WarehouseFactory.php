@@ -71,7 +71,7 @@ class WarehouseFactory extends Factory
     {
         /** @var User $user */
         $user = User::inRandomOrder()->first()
-            ?? User::factory()->create();
+            ?: User::factory()->create();
 
         return $user->id;
     }
