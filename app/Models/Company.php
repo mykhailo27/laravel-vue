@@ -70,8 +70,11 @@ class Company extends Model
 
     public function generalCloset(): ?Closet
     {
-        return $this->closets()
+        /** @var Closet $closet */
+        $closet = $this->closets()
             ->where('name', '=', 'general')
             ->first();
+
+        return $closet;
     }
 }
