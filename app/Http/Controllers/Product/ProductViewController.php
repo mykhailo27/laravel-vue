@@ -69,12 +69,15 @@ class ProductViewController extends Controller
     /**
      * Display the specified resource.
      */
-    public function details(Product $product): Response
+    public function details(Product $product): RedirectResponse|Response
     {
         /** @var User $user */
         $user = Auth::user();
         $closet = $user->currentCloset();
 
+        if (!ProductModelController::hasVariantWithCloset($product, $closet)) {
+            return redirect(route('products.index'));
+        }
         $variants = VariantModelController::getByCloset($product, $closet);
 
         return Inertia::render('Product/Details', [

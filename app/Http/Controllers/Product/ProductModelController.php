@@ -33,4 +33,12 @@ class ProductModelController extends Controller
             });
         });
     }
+
+    public static function hasVariantWithCloset(Product $product, Closet $closet): bool
+    {
+        return $product->variants()
+            ->whereHas('inventories', function ($query) use ($closet) {
+                $query->where('closet_id', $closet->id);
+            })->exists();
+    }
 }
