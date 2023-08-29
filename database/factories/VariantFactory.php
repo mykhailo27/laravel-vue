@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Http\Controllers\Color\ColorModelController;
 use App\Http\Controllers\Inventory\InventoryModelController;
-use App\Http\Controllers\Size\SizeModelController;
 use App\Http\Controllers\Variation\VariationModelController;
-use App\Models\Closet;
+use App\Http\Controllers\Color\ColorModelController;
+use App\Models\Company;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Http\Controllers\Size\SizeModelController;
 use App\Models\Product;
 use App\Models\Variant;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Throwable;
 
 /**
@@ -80,9 +80,11 @@ class VariantFactory extends Factory
 
     private function createInventory(Variant $variant): void
     {
-        /** @var Closet $closet */
-        $closet = Closet::inRandomOrder()->first()
-            ?: Closet::factory()->create();
+        /** @var Company $company */
+        $company = Company::inRandomOrder()->first()
+            ?: Company::factory()->create();
+
+        $closet = $company->generalCloset();
 
         InventoryModelController::createForVariant($variant, $closet);
     }

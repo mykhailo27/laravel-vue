@@ -67,8 +67,7 @@ class ProductApiController extends Controller
 
         /** @var User $user */
         $user = Auth::user();
-        $company = $user->selectedCompany();
-        $closet = $company->generalCloset();
+        $closet = $user->currentCloset();
 
         $attributes = array_merge($validated, [
             'closet_id' => $closet->id,

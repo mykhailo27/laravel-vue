@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Variant;
 
 use App\Http\Controllers\Controller;
+use App\Models\Closet;
+use App\Models\Product;
 use App\Models\Variant;
+use Illuminate\Database\Eloquent\Collection;
 
 class VariantModelController extends Controller
 {
@@ -25,5 +28,12 @@ class VariantModelController extends Controller
     public static function RandomFirst(): ?Variant
     {
         return Variant::inRandomOrder()->first();
+    }
+
+    public static function getByCloset(Product $product, Closet $closet): Collection
+    {
+        return $product->variantsByCloset($closet)
+            ->select('variants.*', 'inventories.in_stock', 'inventories.in_reserve', 'inventories.in_transit')
+            ->get();
     }
 }

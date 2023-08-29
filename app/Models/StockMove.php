@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\StockMoveType;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class StockMove extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = ['type', 'amount', 'variant_id', 'closet_id', 'warehouse_id'];
 

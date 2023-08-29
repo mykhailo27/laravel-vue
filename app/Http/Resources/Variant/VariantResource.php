@@ -20,6 +20,9 @@ class VariantResource extends JsonResource
         return [
             'id' => $this->id,
             'sku' => $this->sku,
+            'in_stock' => $this->whenHas('in_stock', $this->in_stock),
+            'in_reserve' => $this->whenHas('in_reserve', $this->in_reserve),
+            'in_transit' => $this->whenHas('in_transit', $this->in_transit),
             'size' => VariationModelController::getSizeFor($variant),
             'color' => VariationModelController::getColorFor($variant),
             'created_at' => $this->created_at,

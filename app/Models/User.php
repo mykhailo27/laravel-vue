@@ -99,4 +99,11 @@ class User extends Authenticatable implements MustVerifyEmail
             ->wherePivot('active', '=', true)
             ->first($columns);
     }
+
+    public function currentCloset(array $columns = ['*']): ?Closet
+    {
+        return ($company = $this->selectedCompany())
+            ? $this->selectedCloset($company, $columns)
+            : null;
+    }
 }

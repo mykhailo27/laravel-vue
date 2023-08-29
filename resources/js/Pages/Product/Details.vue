@@ -291,11 +291,18 @@ const getVariants = computed(() => {
 
                 <Content :tab="tab_attributes.variants">
 
+                    <div class="flex justify-end gap-1 text-sm">
+                        <span class="bg-green-600 text-white px-2 rounded">in stock</span>
+                        <span class="bg-gray-600 text-white px-2 rounded">in reserve</span>
+                        <span class="bg-warning-600 text-white px-2 rounded">in transit</span>
+                    </div>
+
                     <Table table_id="product-variants-table">
                         <template #columns>
                             <Th>Sku</Th>
                             <Th>Size</Th>
                             <Th>Color</Th>
+                            <Th>Quantity</Th>
                             <Th>Create At</Th>
                             <Th>Actions</Th>
                         </template>
@@ -304,6 +311,13 @@ const getVariants = computed(() => {
                                 <Td>{{ variant.sku }}</Td>
                                 <Td>{{ variant.size }}</Td>
                                 <Td>{{ variant.color }}</Td>
+                                <Td>
+                                    <div class="flex gap-1">
+                                        <span class="bg-green-600 text-white px-1 rounded">{{ variant.in_stock }}</span>
+                                        <span class="bg-gray-600 text-white px-1 rounded">{{ variant.in_reserve }}</span>
+                                        <span class="bg-warning-600 text-white px-1 rounded">{{ variant.in_transit }}</span>
+                                    </div>
+                                </Td>
                                 <Td>{{ (new Date(variant.created_at)).toLocaleDateString() }}</Td>
                                 <Td>
                                     <DangerButton title="Remove Variant" class="fa-sharp fa-solid fa-trash"

@@ -21,4 +21,11 @@ class Product extends Model
     {
         return $this->hasMany(Variant::class);
     }
+
+    public function variantsByCloset(Closet $closet): HasMany
+    {
+        return $this->variants()
+            ->join('inventories', 'variants.id', '=', 'inventories.variant_id')
+            ->where('inventories.closet_id', $closet->id);
+    }
 }

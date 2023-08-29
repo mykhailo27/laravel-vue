@@ -34,8 +34,9 @@ class ProductViewController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
+        $closet = $user->currentCloset();
 
-        $products = Product::query()
+        $products = ProductModelController::queryByCloset($closet)
             ->when($request->get('search'), static function (Builder $query, string $search) {
                 $query->where('name', 'like', "%$search%")
                     ->orWhere('sku', 'like', "%$search%");
@@ -70,9 +71,15 @@ class ProductViewController extends Controller
      */
     public function details(Product $product): Response
     {
+        /** @var User $user */
+        $user = Auth::user();
+        $closet = $user->currentCloset();
+
+        $variants = VariantModelController::getByCloset($product, $closet);
+
         return Inertia::render('Product/Details', [
             'product' => $product,
-            'product_variants' => new VariantCollection($product->variants),
+            'product_variants' => new VariantCollection($variants),
             'sizes' => Size::all(),
             'colors' => Color::all()
         ]);
@@ -146,8 +153,7 @@ class ProductViewController extends Controller
 
         /** @var User $user */
         $user = Auth::user();
-        $company = $user->selectedCompany();
-        $closet = $user->selectedCloset($company);
+        $closet = $user->currentCloset();
 
         InventoryModelController::createForVariant($variant, $closet);
 
