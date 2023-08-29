@@ -19,7 +19,7 @@ class Closet extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
-    protected $fillable = ['name', 'active'];
+    protected $fillable = ['name', 'active', 'warehouse_id'];
 
     public function company(): BelongsTo
     {

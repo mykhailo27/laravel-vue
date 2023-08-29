@@ -18,9 +18,16 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import Modal from "@/Components/Modal.vue";
 import {handleRowClick} from "@/Modules/TableClickHandler.js";
 import {filter} from "@/Modules/DataProcessing.js";
+import Select from "@/Components/Select.vue";
 
 const props = defineProps({
     closet: {
+        type: Object,
+    },
+    warehouses: {
+        type: Array,
+    },
+    warehouse: {
         type: Object,
     },
     closet_users: {
@@ -31,9 +38,17 @@ const props = defineProps({
     }
 });
 
+const getWarehouses = computed(() => {
+    return props.warehouses.reduce((warehouses, warehouse) => {
+        warehouses.push({name: warehouse.name, value: warehouse.id})
+        return warehouses;
+    }, [])
+})
+
 const closet_form = useForm({
     _method: props.closet ? 'put' : 'post',
     name: props.closet?.name ?? '',
+    warehouse_id: props.warehouse?.id ?? '',
     active: props.closet?.active ?? '',
 });
 
@@ -195,6 +210,12 @@ const handleRemoveUser = (event) => {
                                 autocomplete="name"
                             />
                             <InputError class="mt-2" :message="closet_form.errors.name"/>
+                        </div>
+
+                        <div class="mt-4">
+                            <Select v-if="warehouses" :modelValue="warehouse?.id"
+                                    @update:modelValue="value => closet_form.warehouse_id = value"
+                                    :options="getWarehouses" label="Warehouse"/>
                         </div>
 
                         <div class="flex gap-2 mt-2">

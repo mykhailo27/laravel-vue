@@ -61,4 +61,9 @@ class WarehouseModelController extends Controller
     {
         return Warehouse::inRandomOrder()->first();
     }
+
+    public static function getAll(): Collection
+    {
+        return Warehouse::all();
+    }
 }

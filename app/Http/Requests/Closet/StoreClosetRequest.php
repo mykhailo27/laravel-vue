@@ -36,6 +36,7 @@ class StoreClosetRequest extends FormRequest
                 Rule::unique(Closet::class)
                     ->where('company_id', $company->id),
             ],
+            'warehouse_id' => ['required', 'string', Rule::exists('warehouses', 'id')],
             'active' => 'numeric', Rule::in([0, 1]),
         ];
     }

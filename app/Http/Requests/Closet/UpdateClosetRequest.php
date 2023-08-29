@@ -40,6 +40,7 @@ class UpdateClosetRequest extends FormRequest
                     ->where('company_id', $company->id)
                     ->ignore($this->closet->id),
             ],
+            'warehouse_id' => ['required', 'string', Rule::exists('warehouses', 'id')],
             'active' => 'numeric', Rule::in([0, 1]),
         ];
     }

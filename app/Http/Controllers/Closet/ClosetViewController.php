@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Closet;
 
 use App\Constants\Ability;
-use App\Http\Controllers\Company\CompanyModelController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Warehouse\WarehouseModelController;
 use App\Http\Requests\Closet\StoreClosetRequest;
 use App\Http\Requests\Closet\UpdateClosetRequest;
 use App\Models\Closet;
@@ -62,6 +62,8 @@ class ClosetViewController extends Controller
     {
         return Inertia::render('Closet/Details', [
             'closet' => $closet,
+            'warehouse' => $closet->warehouse,
+            'warehouses' => WarehouseModelController::getAll(),
             'closet_users' => $closet->users,
             'non_closet_users' => ClosetModelController::nonClosetUser($closet),
         ]);
@@ -76,6 +78,8 @@ class ClosetViewController extends Controller
 
         return Inertia::render('Closet/Details', [
             'closet' => null,
+            'warehouse' => null,
+            'warehouses' => WarehouseModelController::getAll(),
             'closet_users' => null,
             'non_closet_users' => null,
         ]);
