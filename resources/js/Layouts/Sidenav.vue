@@ -221,7 +221,7 @@ onMounted(function () {
                 <li class="relative">
                     <SidenavLink route_path="/countries" name="countries">
                         <template #icon>
-                            <i class="mr-2 fa-solid fa-flag"></i>
+                            <i class="fa-solid fa-flag"></i>
                         </template>
                     </SidenavLink>
                 </li>
@@ -237,7 +237,7 @@ onMounted(function () {
                 <li class="relative">
                     <SidenavLink route_path="/product-types" name="product-types">
                         <template #icon>
-                            <i class="mr-2 fa-solid fa-socks"></i>
+                            <i class="fa-solid fa-socks"></i>
                         </template>
                     </SidenavLink>
                 </li>
@@ -245,7 +245,7 @@ onMounted(function () {
                 <li class="relative">
                     <SidenavLink route_path="/stock-moves" name="stock-moves">
                         <template #icon>
-                            <i class="mr-2 fa-solid fa-cubes"></i>
+                            <i class="fa-solid fa-cubes"></i>
                         </template>
                     </SidenavLink>
                 </li>
@@ -266,7 +266,7 @@ onMounted(function () {
                 <li class="relative">
                     <SidenavLink route_path="/variation-types" name="variation-types">
                         <template #icon>
-                            <i class="mr-2 fas fa-bolt"></i>
+                            <i class="fas fa-bolt"></i>
                         </template>
                     </SidenavLink>
                 </li>
