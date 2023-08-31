@@ -36,7 +36,7 @@ class ProductViewController extends Controller
         $user = Auth::user();
         $closet = $user->currentCloset();
 
-        $products = ProductModelController::queryByCloset($closet)
+        $products = $closet->products()
             ->when($request->get('search'), static function (Builder $query, string $search) {
                 $query->where('name', 'like', "%$search%")
                     ->orWhere('sku', 'like', "%$search%");
@@ -75,9 +75,6 @@ class ProductViewController extends Controller
         $user = Auth::user();
         $closet = $user->currentCloset();
 
-        if (!ProductModelController::hasVariantWithCloset($product, $closet)) {
-            return redirect(route('products.index'));
-        }
         $variants = VariantModelController::getByCloset($product, $closet);
 
         return Inertia::render('Product/Details', [

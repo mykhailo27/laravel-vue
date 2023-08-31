@@ -7,8 +7,10 @@ use App\Listeners\SelectCompanyListener;
 use App\Listeners\ProcessInventory;
 use App\Models\Closet;
 use App\Models\Company;
+use App\Models\Product;
 use App\Observers\CloserObserver;
 use App\Observers\CompanyObserver;
+use App\Observers\ProductObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -41,7 +43,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $observers = [
         Company::class => [CompanyObserver::class],
-        Closet::class => [CloserObserver::class]
+        Closet::class => [CloserObserver::class],
+        Product::class => [ProductObserver::class]
     ];
 
     /**

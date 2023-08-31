@@ -43,4 +43,10 @@ class Closet extends Model
     {
         return $this->belongsTo(Warehouse::class);
     }
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class)
+            ->withTimestamps();
+    }
 }
