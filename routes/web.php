@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Closet\ClosetViewController;
 use App\Http\Controllers\Company\CompanyViewController;
 use App\Http\Controllers\Country\CountryViewController;
+use App\Http\Controllers\Package\PackageViewController;
 use App\Http\Controllers\Product\ProductViewController;
 use App\Http\Controllers\Role\RoleViewController;
 use App\Http\Controllers\StockMove\StockMoveViewController;
@@ -180,6 +181,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [StockMoveViewController::class, 'store'])->name('store');
         Route::get('/{stock_move?}', [StockMoveViewController::class, 'details'])->name('details');
         Route::put('/{stock_move}', [StockMoveViewController::class, 'update'])->name('update');
+    });
+
+
+    Route::group([
+        'prefix' => 'packages',
+        'as' => 'packages.'
+    ], static function () {
+        Route::get('/', [PackageViewController::class, 'index'])->name('index');
+        Route::get('/create', [PackageViewController::class, 'create'])->name('create');
+        Route::post('/', [PackageViewController::class, 'store'])->name('store');
+        Route::get('/{package?}', [PackageViewController::class, 'details'])->name('details');
+        Route::put('/{package}', [PackageViewController::class, 'update'])->name('update');
+        Route::delete('/{package}', [PackageViewController::class, 'destroy'])->name('destroy');
     });
 });
 

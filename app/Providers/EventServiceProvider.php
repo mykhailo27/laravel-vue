@@ -2,14 +2,20 @@
 
 namespace App\Providers;
 
+use App\Events\InventoryStockUpdate;
 use App\Events\StockMoveProcessed;
 use App\Listeners\SelectCompanyListener;
 use App\Listeners\ProcessInventory;
+use App\Listeners\UpdatePackageStateOnInventoryStockUpdate;
 use App\Models\Closet;
 use App\Models\Company;
+use App\Models\Inventory;
+use App\Models\PackageVariant;
 use App\Models\Product;
-use App\Observers\CloserObserver;
+use App\Observers\ClosetObserver;
 use App\Observers\CompanyObserver;
+use App\Observers\InventoryObserver;
+use App\Observers\PackageVariantObserver;
 use App\Observers\ProductObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\PasswordReset;
@@ -33,6 +39,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         StockMoveProcessed::class => [
             ProcessInventory::class
+        ],
+        InventoryStockUpdate::class => [
+            UpdatePackageStateOnInventoryStockUpdate::class
         ]
     ];
 
@@ -43,8 +52,10 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $observers = [
         Company::class => [CompanyObserver::class],
-        Closet::class => [CloserObserver::class],
-        Product::class => [ProductObserver::class]
+        Closet::class => [ClosetObserver::class],
+        Product::class => [ProductObserver::class],
+        Inventory::class => [InventoryObserver::class],
+        PackageVariant::class => [PackageVariantObserver::class]
     ];
 
     /**

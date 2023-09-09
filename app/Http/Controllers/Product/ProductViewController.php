@@ -75,7 +75,7 @@ class ProductViewController extends Controller
         $user = Auth::user();
         $closet = $user->currentCloset();
 
-        $variants = VariantModelController::getByCloset($product, $closet);
+        $variants = ProductModelController::getByCloset($product, $closet);
 
         return Inertia::render('Product/Details', [
             'product' => $product,

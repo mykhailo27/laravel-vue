@@ -49,4 +49,9 @@ class Closet extends Model
         return $this->belongsToMany(Product::class)
             ->withTimestamps();
     }
+
+    public function packages(): HasMany
+    {
+        return $this->hasMany(Package::class);
+    }
 }

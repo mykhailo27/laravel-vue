@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             SizeSeeder::class,
             ColorSeeder::class,
             VariantSeeder::class,
+            PackageSeeder::class
         ]);
 
         $this->createAdmin();

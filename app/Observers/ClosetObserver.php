@@ -6,7 +6,7 @@ use App\Models\Closet;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class CloserObserver
+class ClosetObserver
 {
     public function creating(Closet $closet): void
     {

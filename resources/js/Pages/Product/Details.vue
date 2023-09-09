@@ -193,7 +193,7 @@ const getVariants = computed(() => {
                 </div>
 
                 <div id="secondary-actions">
-                    <PrimaryButton v-show="product_variants" class="mr-1" @click="stockMoveIntakeModelSwitch(true)">
+                    <PrimaryButton v-show="product_variants?.length" class="mr-1" @click="stockMoveIntakeModelSwitch(true)">
                         Intake
                     </PrimaryButton>
                     <PrimaryButton v-show="show_add_variant_btn" @click="show_add_variant_modal = true">

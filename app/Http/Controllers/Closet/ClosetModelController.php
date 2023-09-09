@@ -76,4 +76,9 @@ class ClosetModelController extends Controller
         return Closet::where('warehouse_id', '=', $warehouse->id)
             ->first();
     }
+
+    public static function getFirstRandom(): ?Closet
+    {
+        return Closet::inRandomOrder()->first();
+    }
 }

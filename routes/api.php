@@ -3,6 +3,7 @@
 use App\Http\Controllers\Agency\AgencyApiController;
 use App\Http\Controllers\Closet\ClosetApiController;
 use App\Http\Controllers\Company\CompanyApiController;
+use App\Http\Controllers\Package\PackageApiController;
 use App\Http\Controllers\Product\ProductApiController;
 use App\Http\Controllers\Role\RoleApiController;
 use App\Http\Controllers\StockMove\StockMoveApiController;
@@ -120,5 +121,16 @@ Route::middleware('auth:sanctum')->group(static function () {
         Route::delete('delete', [StockMoveApiController::class, 'delete'])->name('delete');
         Route::delete('delete/multiple', [StockMoveApiController::class, 'deleteMultiple'])->name('delete-multiple');
         Route::post('process/{stock_move}/{action}', [StockMoveApiController::class, 'process'])->name('process');
+    });
+
+    Route::group([
+        'prefix' => 'packages',
+        'as' => 'packages.'
+    ], static function () {
+        Route::get('{package}/variants', [PackageApiController::class, 'variants'])->name('variants');
+        Route::post('{package}/add-variant/{variant}', [PackageApiController::class, 'addVariant'])->name('add-variant');
+        Route::delete('{package}/remove-variant/{variant}', [PackageApiController::class, 'removeVariant'])->name('remove-variant');
+        Route::delete('delete', [PackageApiController::class, 'delete'])->name('delete');
+        Route::delete('delete/multiple', [PackageApiController::class, 'deleteMultiple'])->name('delete-multiple');
     });
 });
