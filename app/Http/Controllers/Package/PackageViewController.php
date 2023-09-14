@@ -65,11 +65,14 @@ class PackageViewController extends Controller
     public function create(): Response
     {
         $this->authorize(Ability::CREATE, Package::class);
+        /** @var User $user */
+        $user = Auth::user();
+        $none_package_variants = VariantModelController::getVariantsInCloset($user->currentCloset());
 
         return Inertia::render('Package/Details', [
             'package' => null,
             'package_variants' => null,
-            'non_package_variants' => new VariantCollection(VariantModelController::getAll()),
+            'non_package_variants' => new VariantCollection($none_package_variants),
         ]);
     }
 
@@ -111,16 +114,5 @@ class PackageViewController extends Controller
             ? Redirect::route('packages.details', ['package' => $package->id])
                 ->with('message', 'package-updated')
             : back()->withErrors(['error' => 'fail to update package']);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Package $package): RedirectResponse
-    {
-        $package->delete();
-
-        return Redirect::route('packages.index')
-            ->with('message', "$package->name is deleted");
     }
 }

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Variant;
 
-use App\Http\Controllers\Controller;
-use App\Models\Closet;
-use App\Models\Inventory;
-use App\Models\Variant;
 use Illuminate\Database\Eloquent\Collection;
+use App\Http\Controllers\Controller;
+use App\Models\Inventory;
+use App\Models\Shipment;
+use App\Models\Variant;
+use App\Models\Closet;
 
 class VariantModelController extends Controller
 {
@@ -50,5 +51,23 @@ class VariantModelController extends Controller
             ->first();
 
         return $inventory;
+    }
+
+    public static function getVariantsInCloset(Closet $closet, array $columns = ['*']): Collection
+    {
+        return Variant::whereHas('inventories', function ($query) use ($closet) {
+            $query->where('closet_id', $closet->id);
+        })->get($columns);
+    }
+
+    public static function getVariantsInClosetNotInShipment(Shipment $shipment, array $column = ['*']): Collection
+    {
+        $closet = $shipment->closet;
+
+        return Variant::whereHas('inventories', function ($query) use ($closet) {
+            $query->where('closet_id', $closet->id);
+        })->whereDoesntHave('shipments', function ($query) use ($shipment) {
+            $query->where('shipment_id', $shipment->id);
+        })->get($column);
     }
 }

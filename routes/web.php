@@ -9,6 +9,7 @@ use App\Http\Controllers\Country\CountryViewController;
 use App\Http\Controllers\Package\PackageViewController;
 use App\Http\Controllers\Product\ProductViewController;
 use App\Http\Controllers\Role\RoleViewController;
+use App\Http\Controllers\Shipment\ShipmentViewController;
 use App\Http\Controllers\StockMove\StockMoveViewController;
 use App\Http\Controllers\User\UserViewController;
 use App\Http\Controllers\Warehouse\WarehouseViewController;
@@ -68,7 +69,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [AgencyViewController::class, 'store'])->name('store');
         Route::get('/{agency?}', [AgencyViewController::class, 'details'])->name('details');
         Route::put('/{agency}', [AgencyViewController::class, 'update'])->name('update');
-        Route::delete('/{agency}', [AgencyViewController::class, 'destroy'])->name('destroy');
     });
 
     Route::group([
@@ -80,7 +80,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [CompanyViewController::class, 'store'])->name('store');
         Route::get('/{company?}', [CompanyViewController::class, 'details'])->name('details');
         Route::put('/{company}', [CompanyViewController::class, 'update'])->name('update');
-        Route::delete('/{company}', [CompanyViewController::class, 'destroy'])->name('destroy');
         Route::get('select/{company}', [CompanyViewController::class, 'select'])->name('select');
     });
 
@@ -102,7 +101,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [UserViewController::class, 'store'])->name('store');
         Route::get('/{user?}', [UserViewController::class, 'details'])->name('details');
         Route::put('/{user}', [UserViewController::class, 'update'])->name('update');
-        Route::delete('/{user}', [UserViewController::class, 'destroy'])->name('destroy');
     });
 
     Route::group([
@@ -114,7 +112,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [RoleViewController::class, 'store'])->name('store');
         Route::get('/{role?}', [RoleViewController::class, 'details'])->name('details');
         Route::put('/{role}', [RoleViewController::class, 'update'])->name('update');
-        Route::delete('/{role}', [RoleViewController::class, 'destroy'])->name('destroy');
     });
 
     Route::group([
@@ -134,7 +131,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [WarehouseViewController::class, 'store'])->name('store');
         Route::get('/{warehouse?}', [WarehouseViewController::class, 'details'])->name('details');
         Route::put('/{warehouse}', [WarehouseViewController::class, 'update'])->name('update');
-        Route::delete('/{warehouse}', [WarehouseViewController::class, 'destroy'])->name('destroy');
     });
 
     Route::group([
@@ -155,7 +151,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [ClosetViewController::class, 'store'])->name('store');
         Route::get('/{closet?}', [ClosetViewController::class, 'details'])->name('details');
         Route::put('/{closet}', [ClosetViewController::class, 'update'])->name('update');
-        Route::delete('/{closet}', [ClosetViewController::class, 'destroy'])->name('destroy');
         Route::get('/select/{closet}', [ClosetViewController::class, 'select'])->name('select');
     });
 
@@ -170,7 +165,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/{product}/add-variant', [ProductViewController::class, 'addVariant'])->name('add-variant');
         Route::get('/{product?}', [ProductViewController::class, 'details'])->name('details');
         Route::put('/{product}', [ProductViewController::class, 'update'])->name('update');
-        Route::delete('/{product}', [ProductViewController::class, 'destroy'])->name('destroy');
     });
 
     Route::group([
@@ -193,7 +187,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [PackageViewController::class, 'store'])->name('store');
         Route::get('/{package?}', [PackageViewController::class, 'details'])->name('details');
         Route::put('/{package}', [PackageViewController::class, 'update'])->name('update');
-        Route::delete('/{package}', [PackageViewController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group([
+        'prefix' => 'shipments',
+        'as' => 'shipments.'
+    ], static function () {
+        Route::get('/', [ShipmentViewController::class, 'index'])->name('index');
+        Route::get('/create', [ShipmentViewController::class, 'create'])->name('create');
+        Route::post('/', [ShipmentViewController::class, 'store'])->name('store');
+        Route::get('/{shipment?}', [ShipmentViewController::class, 'details'])->name('details');
+        Route::put('/{shipment}', [ShipmentViewController::class, 'update'])->name('update');
     });
 });
 

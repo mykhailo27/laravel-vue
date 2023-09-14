@@ -103,15 +103,4 @@ class AgencyViewController extends Controller
                 ->with('message', 'agency-updated')
             : back()->withErrors(['error' => 'fail to update agency']);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Agency $agency): RedirectResponse
-    {
-        $agency->delete();
-
-        return Redirect::route('agencies.index')
-            ->with('message', "$agency->name is deleted");
-    }
 }

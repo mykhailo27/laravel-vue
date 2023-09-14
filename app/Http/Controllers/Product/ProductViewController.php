@@ -113,17 +113,6 @@ class ProductViewController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Product $product): RedirectResponse
-    {
-        $product->delete();
-
-        return Redirect::route('products.index')
-            ->with('message', "$product->name is deleted");
-    }
-
-    /**
      * Update the specified resource in storage.
      * @throws AuthorizationException
      */

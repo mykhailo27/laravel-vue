@@ -15,4 +15,5 @@ class PermissionModel extends BaseConstant
     public const VARIANT = 'variant';
     public const STOCK_MOVE = 'stock_move';
     public const PACKAGE = 'package';
+    public const SHIPMENT = 'shipment';
 }

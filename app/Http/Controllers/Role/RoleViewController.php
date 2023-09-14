@@ -87,15 +87,4 @@ class RoleViewController extends Controller
             'role' => $role->id
         ])->with('message', 'role-updated');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Role $role): RedirectResponse
-    {
-        $role->delete();
-
-        return Redirect::route('roles.index')
-            ->with('message', "$role->name is deleted");
-    }
 }

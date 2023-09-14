@@ -25,7 +25,7 @@ const props = defineProps({
     package_variants: {
         type: Object,
     },
-    non_package_variants: {
+    none_package_variants: {
         type: Object,
     }
 });
@@ -33,11 +33,6 @@ const props = defineProps({
 const package_variants = computed(() => {
     return props.package_variants?.data;
 });
-
-const non_package_variants = computed(() => {
-    return props.non_package_variants?.data;
-});
-
 
 const package_form = useForm({
     _method: props.package ? 'put' : 'post',
@@ -99,7 +94,7 @@ const search_variant_input = ref('')
 
 const filtered_non_package_variants = computed(() => {
     return filter(
-        props.non_package_variants?.data,
+        props.none_package_variants?.data,
         ['sku', 'size', 'color'],
         search_variant_input.value);
 })
@@ -129,7 +124,7 @@ const handleAddVariant = (event) => {
                 props.package_variants?.data.push(variant)
             }
 
-            props.non_package_variants?.data.splice(props.non_package_variants?.data.findIndex(ob => ob.sku === variant.sku), 1);
+            props.none_package_variants?.data.splice(props.none_package_variants?.data.findIndex(ob => ob.sku === variant.sku), 1);
         })
         .catch(error => console.error(error))
 }
@@ -142,8 +137,8 @@ const handleRemoveVariant = (event) => {
         .then(res => {
             const variant = res.data.variant;
 
-            if (props.non_package_variants?.data.findIndex(ob => ob.sku === variant.sku) === -1) {
-                props.non_package_variants?.data.push(variant)
+            if (props.none_package_variants?.data.findIndex(ob => ob.sku === variant.sku) === -1) {
+                props.none_package_variants?.data.push(variant)
             }
 
             props.package_variants?.data.splice(props.package_variants?.data.findIndex(ob => ob.sku === variant.sku), 1);
@@ -284,7 +279,7 @@ const handleRemoveVariant = (event) => {
                         <Th>Actions</Th>
                     </template>
                     <template #rows>
-                        <Tr v-if="non_package_variants !== null" v-for="variant in filtered_non_package_variants">
+                        <Tr v-if="filtered_non_package_variants !== null" v-for="variant in filtered_non_package_variants">
                             <Td>{{ variant.sku }}</Td>
                             <Td>{{ variant.size }}</Td>
                             <Td>{{ variant.color }}</Td>

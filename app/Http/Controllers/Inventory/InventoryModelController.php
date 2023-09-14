@@ -28,11 +28,12 @@ class InventoryModelController extends Controller
         return $inventory;
     }
 
-    public static function createForVariant(Variant $variant, Closet $closet): Inventory
+    public static function createForVariant(Variant $variant, Closet $closet, int $quantity = 0): Inventory
     {
         return self::create([
             'closet_id' => $closet->id,
-            'variant_id' => $variant->id
+            'variant_id' => $variant->id,
+            'in_stock' => $quantity
         ]);
     }
 

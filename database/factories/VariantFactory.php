@@ -6,6 +6,7 @@ use App\Http\Controllers\Inventory\InventoryModelController;
 use App\Http\Controllers\Variation\VariationModelController;
 use App\Http\Controllers\Color\ColorModelController;
 use App\Models\Company;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Http\Controllers\Size\SizeModelController;
 use App\Models\Product;
@@ -86,6 +87,12 @@ class VariantFactory extends Factory
 
         $closet = $company->generalCloset();
 
-        InventoryModelController::createForVariant($variant, $closet);
+        try {
+            $quantity = random_int(1, 5);
+        } catch (Exception $e) {
+            $quantity = 1;
+        }
+
+        InventoryModelController::createForVariant($variant, $closet, $quantity);
     }
 }

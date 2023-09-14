@@ -148,7 +148,7 @@ onMounted(function () {
                 </li>
 
                 <li class="relative">
-                    <SidenavLink route_path="/shipment" name="shipment">
+                    <SidenavLink route_path="/shipments" name="shipment">
                         <template #icon>
                             <i class="fa-solid fa-truck-arrow-right"></i>
                         </template>

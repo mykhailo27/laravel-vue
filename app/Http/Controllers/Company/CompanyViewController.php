@@ -127,17 +127,6 @@ class CompanyViewController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Company $company): RedirectResponse
-    {
-        $company->delete();
-
-        return Redirect::route('companies.index')
-            ->with('message', "$company->name is deleted");
-    }
-
     public function select(Company $company): RedirectResponse
     {
         /** @var User $user */

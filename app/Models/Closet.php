@@ -54,4 +54,9 @@ class Closet extends Model
     {
         return $this->hasMany(Package::class);
     }
+
+    public function shipments(): HasMany
+    {
+        return $this->hasMany(Shipment::class);
+    }
 }

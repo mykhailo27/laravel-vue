@@ -26,4 +26,8 @@ class UserModelController extends Controller
         $user->notify($notification);
     }
 
+    public static function getFirstRandom(): ?User
+    {
+        return User::inRandomOrder()->first();
+    }
 }

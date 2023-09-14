@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property Product $product
+ */
 class Variant extends Model
 {
     use HasFactory, SoftDeletes;
@@ -34,6 +37,14 @@ class Variant extends Model
     {
         return $this->belongsToMany(Package::class)
             ->using(PackageVariant::class)
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
+
+    public function shipments(): BelongsToMany
+    {
+        return $this->belongsToMany(Shipment::class)
+            ->using(ShipmentVariant::class)
             ->withPivot('quantity')
             ->withTimestamps();
     }

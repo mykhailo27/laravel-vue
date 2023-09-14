@@ -101,14 +101,6 @@ class WarehouseViewController extends Controller
         ]);
     }
 
-    public function destroy(Warehouse $warehouse): RedirectResponse
-    {
-        $warehouse->delete();
-
-        return Redirect::route('roles.index')
-            ->with('message', "$warehouse->name is deleted");
-    }
-
     public function update(UpdateWarehouseRequest $request, Warehouse $warehouse): RedirectResponse
     {
         $warehouse->update($request->validated());
